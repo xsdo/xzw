@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,6 +50,23 @@ public class CCollectServiceImpl implements CCollectService {
     @Override
     public List<CCollect>queryAll(CCollect cCollect){
         return this.cCollectDao.queryAll(cCollect);
+    }
+    @Override
+    public List<CCollect>queryByUserId(Long userId){
+        CCollect cCollect =new CCollect();
+        cCollect.setIsused(0);
+        cCollect.setUserId(userId);
+        List<CCollect> list = this.queryAll(cCollect);
+        if (list.size() == 0||list==null) {
+            cCollect.setCreateTime(new Date());
+            cCollect.setUpdateTime(new Date());
+            cCollect.setCName("默认收藏夹");
+            this.insert(cCollect);
+        }
+        CCollect cc =new CCollect();
+        cc.setIsused(0);
+        cc.setUserId(userId);
+        return this.queryAll(cc);
     }
 
     /**

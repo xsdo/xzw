@@ -1,9 +1,11 @@
 package cn.zealon.readingcloud.account.service.impl;
 
 import cn.zealon.readingcloud.account.common.config.SmsConfig;
+import cn.zealon.readingcloud.account.common.utils.HttpRequest;
 import cn.zealon.readingcloud.account.common.utils.JwtUtil;
 import cn.zealon.readingcloud.account.common.utils.SmsCodeUtil;
 import cn.zealon.readingcloud.account.dao.UAttributeDao;
+import cn.zealon.readingcloud.account.service.UVipService;
 import cn.zealon.readingcloud.account.vo.AuthXzwVO;
 import cn.zealon.readingcloud.account.vo.XzwUserVO;
 import cn.zealon.readingcloud.common.cache.RedisService;
@@ -17,6 +19,7 @@ import cn.zealon.readingcloud.common.result.Result;
 import cn.zealon.readingcloud.common.result.ResultUtil;
 import cn.zealon.readingcloud.common.utils.FileUtil;
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +28,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -56,6 +60,8 @@ public class XzwUserServiceImpl implements XzwUserService {
     @Resource
     private SmsConfig smsConfig;
 
+    @Resource
+    private UVipService uVipService;
 
     /**
      * 通过ID查询单条数据
@@ -78,31 +84,6 @@ public class XzwUserServiceImpl implements XzwUserService {
             return xzwUserList.get(0);
         }
     }
-
-    /*@Override
-    @Transactional(rollbackFor = Exception.class)
-    public Map<String, String> updateAvatar(MultipartFile multipartFile,XzwUser xzwUser) {
-        // 文件大小验证
-        FileUtil.checkSize(properties.getAvatarMaxSize(), multipartFile.getSize());
-        // 验证文件上传的格式
-        String image = "gif jpg png jpeg";
-        String fileType = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
-        if(fileType != null && !image.contains(fileType)){
-            throw new BadRequestException("文件格式错误！, 仅支持 " + image +" 格式");
-        }
-        UAttribute uAttribute=uAttributeDao.queryById(xzwUser.getAttributeid());
-        String oldPath=uAttribute.getPortrait();
-        File file = FileUtil.upload(multipartFile, properties.getPath().getAvatar());
-        uAttribute.setPortrait(Objects.requireNonNull(file).getPath());
-        uAttributeDao.update(uAttribute);
-        if (StringUtils.isNotBlank(oldPath)) {
-            FileUtil.del(oldPath);
-        }
-        return new HashMap<String, String>(1) {{
-            put("avatar", file.getName());
-        }};
-    }
-*/
 
     @Override
     public XzwUser queryByOpenId(String openId) {
@@ -143,6 +124,144 @@ public class XzwUserServiceImpl implements XzwUserService {
         }
         return ResponseEntity.ok(result);
     }
+
+    @Override
+    public Result loginByPhoneNumber(String phoneNumber,String validateCode){
+        // 获取redis的验证码
+        String code =this.redisService.getCache(phoneNumber);
+        // 判断三项信息是否为空
+        if(phoneNumber != null && code != null && validateCode != null && code.equals(validateCode)){
+            // 验证码正确
+            XzwUser xzwUser =this.queryByPhoneNumber(phoneNumber);
+            if (xzwUser==null){
+                xzwUser = new XzwUser();
+                xzwUser.setPhoneNumber(phoneNumber);
+                xzwUser.setCreateTime(new Date());
+                xzwUser.setUpdateTime(new Date());
+                xzwUser.setIsused(0);
+                // 不是会员，自动完成会员注册
+                xzwUserDao.insert(xzwUser);
+                XzwUser xzwUser1=this.queryByPhoneNumber(phoneNumber);
+                if (xzwUser1 != null) {
+                    //自动注册会员信息
+                    UAttribute uAttribute= new UAttribute();
+                    uAttribute.setId(xzwUser1.getId());
+                    uAttribute.setIsused(0);
+                    uAttribute.setSex(0);
+                    uAttribute.setCreateTime(new Date());
+                    uAttribute.setUpdateTime(new Date());
+                    uAttribute.setQqnum("用户"+phoneNumber);
+                    uAttribute.setIsAuth(0);
+                    uAttribute.setSign("个性签名");
+                    uAttribute.setIsgoodcommons(0);
+                    uAttribute.setIntegral(0);
+                    uAttributeDao.insert(uAttribute);
+
+                    //新用户自动充值一个月会员
+                    uVipService.toVipFirst(xzwUser1.getId());
+
+                    xzwUser1.setAttributeid(uAttribute.getId());
+                    xzwUserDao.update(xzwUser1);
+                }
+            }
+            XzwUser xzwUser2 =this.queryByPhoneNumber(phoneNumber);
+            //保存会员信息到Redis中
+            // Redis是不能直接保存java对象的的，需要转换对象
+            String json = JSON.toJSON(xzwUser2).toString();
+            redisService.setExpireCache(phoneNumber,json,MINUTE_THIRTY);
+            // 登录成功，返回用户信息
+            AuthXzwVO vo=new AuthXzwVO();
+            XzwUserVO xzwUserVO = new XzwUserVO();
+            BeanUtils.copyProperties(xzwUser2,xzwUserVO);
+            vo.setToken(JwtUtil.buildJwtXzw(this.getLoginExpre(),xzwUserVO));
+            vo.setXzwUser(xzwUserVO);
+            return ResultUtil.success(vo);
+        }else if (!code.equals(validateCode)){
+            return ResultUtil.fail().buildMessage("验证码错误！请重新验证。 ");
+        }else {
+            return ResultUtil.fail().buildMessage("登录失败！请重试。 ");
+        }
+    }
+
+    @Override
+    public String getOpeId(JSONObject js_code) {
+        String code = js_code.getString("js_code");
+        // 小程序唯一标识 (在微信小程序管理后台获取)
+        String appid = smsConfig.getWechatAppId();
+        // 小程序的 app secret (在微信小程序管理后台获取)
+        String secret = smsConfig.getWechatSecret();
+        // 授权（必填）
+        String grant_type = "authorization_code";
+        // 向微信服务器 使用登录凭证 code 获取 session_key 和 openid
+        // 请求参数
+        String params = "appid=" + appid + "&secret=" + secret + "&js_code=" + code + "&grant_type=" + grant_type;
+        // 发送请求
+        String sr = HttpRequest.sendGet("https://api.weixin.qq.com/sns/jscode2session", params);
+        // 解析相应内容（转换成json对象）
+        System.out.println(sr);
+        JSONObject json = JSONObject.parseObject(sr);
+        // 获取会话密钥（session_key）
+//        String session_key = json.get("session_key").toString();
+        // 用户的唯一标识（openid）
+        String openid = (String) json.get("openid");
+        return openid;
+    }
+
+    @Override
+    public Result loginByOpenId(String openId ,String nickName, String avatarUrl ){
+        //判断openId是否为空
+        if (openId!=null) {
+            XzwUser xzwUser =this.queryByOpenId(openId);
+            if (xzwUser == null) {
+                xzwUser = new XzwUser();
+                xzwUser.setOpenId(openId);
+                xzwUser.setCreateTime(new Date());
+                xzwUser.setUpdateTime(new Date());
+                xzwUser.setIsused(0);
+                // 不是会员，自动完成会员注册
+                xzwUserDao.insert(xzwUser);
+                XzwUser xzwUser1=this.queryByOpenId(openId);
+                if (xzwUser1 != null) {
+                    //自动注册会员信息
+                    UAttribute uAttribute = new UAttribute();
+                    uAttribute.setId(xzwUser1.getId());
+                    uAttribute.setIsused(0);
+                    uAttribute.setSex(0);
+                    uAttribute.setCreateTime(new Date());
+                    uAttribute.setUpdateTime(new Date());
+                    uAttribute.setQqnum(nickName);
+                    uAttribute.setIsAuth(0);
+                    uAttribute.setSign("个性签名");
+                    uAttribute.setIsgoodcommons(0);
+                    uAttribute.setIntegral(0);
+                    uAttribute.setPortrait(avatarUrl);
+                    uAttributeDao.insert(uAttribute);
+
+                    //新用户自动充值一个月会员
+                    uVipService.toVipFirst(xzwUser1.getId());
+
+                    xzwUser1.setAttributeid(uAttribute.getId());
+                    xzwUserDao.update(xzwUser1);
+                }
+            }
+            XzwUser xzwUser2 =this.queryByOpenId(openId);
+            //保存会员信息到Redis中
+            // Redis是不能直接保存java对象的的，需要转换对象
+            String json = JSON.toJSON(xzwUser2).toString();
+            redisService.setExpireCache(openId,json,MINUTE_THIRTY);
+            // 登录成功，返回用户信息
+            AuthXzwVO vo=new AuthXzwVO();
+            XzwUserVO xzwUserVO = new XzwUserVO();
+            BeanUtils.copyProperties(xzwUser2,xzwUserVO);
+            vo.setToken(JwtUtil.buildJwtXzw(this.getLoginExpre(),xzwUserVO));
+            vo.setXzwUser(xzwUserVO);
+            return ResultUtil.success(vo);
+        }else {
+            return ResultUtil.fail().buildMessage("登录失败！请重试。 ");
+        }
+    }
+
+
 
     @Override
     public Result login(String phoneNumber){
@@ -190,112 +309,6 @@ public class XzwUserServiceImpl implements XzwUserService {
             return ResultUtil.fail().buildMessage("登录失败！请重试。 ");
         }
     }
-
-    @Override
-    public Result loginByPhoneNumber(String phoneNumber,String validateCode){
-        // 获取redis的验证码
-        String code =this.redisService.getCache(phoneNumber);
-        // 判断三项信息是否为空
-        if(phoneNumber != null && code != null && validateCode != null && code.equals(validateCode)){
-            // 验证码正确
-            XzwUser xzwUser =this.queryByPhoneNumber(phoneNumber);
-            if (xzwUser==null){
-                xzwUser = new XzwUser();
-                xzwUser.setPhoneNumber(phoneNumber);
-                xzwUser.setCreateTime(new Date());
-                xzwUser.setUpdateTime(new Date());
-                xzwUser.setIsused(0);
-                // 不是会员，自动完成会员注册
-                xzwUserDao.insert(xzwUser);
-                XzwUser xzwUser1=this.queryByPhoneNumber(phoneNumber);
-                if (xzwUser1 != null) {
-                    //自动注册会员信息
-                    UAttribute uAttribute= new UAttribute();
-                    uAttribute.setId(xzwUser1.getId());
-                    uAttribute.setIsused(0);
-                    uAttribute.setSex(0);
-                    uAttribute.setCreateTime(new Date());
-                    uAttribute.setUpdateTime(new Date());
-                    uAttribute.setQqnum("用户"+phoneNumber);
-                    uAttribute.setIsAuth(0);
-                    uAttribute.setSign("个性签名");
-                    uAttribute.setIsgoodcommons(0);
-                    uAttribute.setIntegral(0);
-                    uAttributeDao.insert(uAttribute);
-                    xzwUser1.setAttributeid(uAttribute.getId());
-                    xzwUserDao.update(xzwUser1);
-                }
-            }
-            XzwUser xzwUser2 =this.queryByPhoneNumber(phoneNumber);
-            //保存会员信息到Redis中
-            // Redis是不能直接保存java对象的的，需要转换对象
-            String json = JSON.toJSON(xzwUser2).toString();
-            redisService.setExpireCache(phoneNumber,json,MINUTE_THIRTY);
-            // 登录成功，返回用户信息
-            AuthXzwVO vo=new AuthXzwVO();
-            XzwUserVO xzwUserVO = new XzwUserVO();
-            BeanUtils.copyProperties(xzwUser2,xzwUserVO);
-            vo.setToken(JwtUtil.buildJwtXzw(this.getLoginExpre(),xzwUserVO));
-            vo.setXzwUser(xzwUserVO);
-            return ResultUtil.success(vo);
-        }else if (!code.equals(validateCode)){
-            return ResultUtil.fail().buildMessage("验证码错误！请重新验证。 ");
-        }else {
-            return ResultUtil.fail().buildMessage("登录失败！请重试。 ");
-        }
-    }
-
-    @Override
-    public Result loginByOpenId(String openId ,String nickName, String avatarUrl ){
-        //判断openId是否为空
-        if (openId!=null) {
-            XzwUser xzwUser =this.queryByOpenId(openId);
-            if (xzwUser == null) {
-                xzwUser = new XzwUser();
-                xzwUser.setOpenId(openId);
-                xzwUser.setCreateTime(new Date());
-                xzwUser.setUpdateTime(new Date());
-                xzwUser.setIsused(0);
-                // 不是会员，自动完成会员注册
-                xzwUserDao.insert(xzwUser);
-                XzwUser xzwUser1=this.queryByOpenId(openId);
-                if (xzwUser1 != null) {
-                    //自动注册会员信息
-                    UAttribute uAttribute = new UAttribute();
-                    uAttribute.setId(xzwUser1.getId());
-                    uAttribute.setIsused(0);
-                    uAttribute.setSex(0);
-                    uAttribute.setCreateTime(new Date());
-                    uAttribute.setUpdateTime(new Date());
-                    uAttribute.setQqnum(nickName);
-                    uAttribute.setIsAuth(0);
-                    uAttribute.setSign("个性签名");
-                    uAttribute.setIsgoodcommons(0);
-                    uAttribute.setIntegral(0);
-                    uAttribute.setPortrait(avatarUrl);
-                    uAttributeDao.insert(uAttribute);
-                    xzwUser1.setAttributeid(uAttribute.getId());
-                    xzwUserDao.update(xzwUser1);
-                }
-            }
-            XzwUser xzwUser2 =this.queryByOpenId(openId);
-            //保存会员信息到Redis中
-            // Redis是不能直接保存java对象的的，需要转换对象
-            String json = JSON.toJSON(xzwUser2).toString();
-            redisService.setExpireCache(openId,json,MINUTE_THIRTY);
-            // 登录成功，返回用户信息
-            AuthXzwVO vo=new AuthXzwVO();
-            XzwUserVO xzwUserVO = new XzwUserVO();
-            BeanUtils.copyProperties(xzwUser2,xzwUserVO);
-            vo.setToken(JwtUtil.buildJwtXzw(this.getLoginExpre(),xzwUserVO));
-            vo.setXzwUser(xzwUserVO);
-            return ResultUtil.success(vo);
-        }else {
-            return ResultUtil.fail().buildMessage("登录失败！请重试。 ");
-        }
-    }
-
-
 
 
     /**

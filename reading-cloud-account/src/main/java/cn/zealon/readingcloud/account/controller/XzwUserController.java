@@ -67,26 +67,7 @@ public class XzwUserController {
      * **/
     @PostMapping("/getOpenId")//获取openId
     public String getOpeId(@RequestBody JSONObject js_code) {
-        String code = js_code.getString("js_code");
-        // 小程序唯一标识 (在微信小程序管理后台获取)
-        String appid = smsConfig.getWechatAppId();
-        // 小程序的 app secret (在微信小程序管理后台获取)
-        String secret = smsConfig.getWechatSecret();
-        // 授权（必填）
-        String grant_type = "authorization_code";
-        // 向微信服务器 使用登录凭证 code 获取 session_key 和 openid
-        // 请求参数
-        String params = "appid=" + appid + "&secret=" + secret + "&js_code=" + code + "&grant_type=" + grant_type;
-        // 发送请求
-        String sr = HttpRequest.sendGet("https://api.weixin.qq.com/sns/jscode2session", params);
-        // 解析相应内容（转换成json对象）
-        System.out.println(sr);
-        JSONObject json = JSONObject.parseObject(sr);
-        // 获取会话密钥（session_key）
-//        String session_key = json.get("session_key").toString();
-        // 用户的唯一标识（openid）
-        String openid = (String) json.get("openid");
-        return openid;
+        return this.xzwUserService.getOpeId(js_code);
     }
     @GetMapping("/weChatLogin")
     public Result weChatLogin(String openId,String nickName, String avatarUrl ) {
@@ -120,16 +101,6 @@ public class XzwUserController {
         JSONObject phone_info = JSONObject.parseObject(sr3);
         return phone_info;
     }
-
-
-
-//    @ApiOperation("修改头像")
-//    @PostMapping(value = "/updateAvatar")
-    /*public ResponseEntity<Object> updateUserAvatar(MultipartFile avatar, XzwUser user){
-
-        return new ResponseEntity<>(xzwUserService.updateAvatar(avatar,user), HttpStatus.OK);
-    }*/
-
 
 
 

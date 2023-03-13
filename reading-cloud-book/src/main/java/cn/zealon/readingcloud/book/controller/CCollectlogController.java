@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -43,6 +44,14 @@ public class CCollectlogController {
     public List<CCollectlog>queryAll(CCollectlog cCollectlog){
         return this.cCollectlogService.queryAll(cCollectlog);
     }
+    @GetMapping("queryByCollectId")
+    public List<CCollectlog>queryByCollectId(Long collectId){
+        CCollectlog cCollectlog=new CCollectlog();
+        cCollectlog.setIsused(0);
+        cCollectlog.setCollectId(collectId);
+        return this.cCollectlogService.queryAll(cCollectlog);
+    }
+
     /**
      * 通过主键查询单条数据
      *
@@ -54,6 +63,21 @@ public class CCollectlogController {
         return ResponseEntity.ok(this.cCollectlogService.queryById(id));
     }
 
+
+    @GetMapping("addCollectlog")
+    public ResponseEntity<CCollectlog> addCollectlog(Long collectId,String cName ,String cImage, Long compositionId, int type) {
+        CCollectlog cCollectlog = new CCollectlog();
+        cCollectlog.setIsused(0);
+        cCollectlog.setCreateTime(new Date());
+        cCollectlog.setUpdateTime(new Date());
+        cCollectlog.setCollectId(collectId);
+        cCollectlog.setCName(cName);
+        cCollectlog.setCImage(cImage);
+        cCollectlog.setCompositionId(compositionId);
+        cCollectlog.setCType(type);
+        return ResponseEntity.ok(this.cCollectlogService.insert(cCollectlog));
+    }
+
     /**
      * 新增数据
      *
@@ -62,6 +86,9 @@ public class CCollectlogController {
      */
     @PostMapping
     public ResponseEntity<CCollectlog> add(CCollectlog cCollectlog) {
+        cCollectlog.setIsused(0);
+        cCollectlog.setCreateTime(new Date());
+        cCollectlog.setUpdateTime(new Date());
         return ResponseEntity.ok(this.cCollectlogService.insert(cCollectlog));
     }
 

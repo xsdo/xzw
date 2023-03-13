@@ -107,6 +107,40 @@ public class UVipServiceImpl implements UVipService {
         }
     }
 
+    @Override
+    public JSONObject toVip(Long userId,int vipType,int month){
+        JSONObject result = new JSONObject();
+        Map<String, Object> data = new HashMap<>();
+        try{
+            UVip u= new UVip();
+            u.setUserId(userId);
+            List<UVip> uVipList=this.uVipDao.queryAll(u);
+            if (uVipList!=null&&uVipList.size() > 0){
+                UVip uVip=uVipList.get(0);
+                Date dateNow = new Date();
+                Date endDate=uVip.getVEndtime();
+                if (dateNow.after(endDate)){//会员过期
+                    uVip.setVBegintime(new Date());
+                    uVip.setVEndtime(this.getMonthDate(new Date(),month));
+                    uVip.setVipType(vipType);
+                    uVipDao.update(uVip);
+                    data.put("vip",uVip);
+                }else {
+                    uVip.setVEndtime(this.getMonthDate(uVip.getVEndtime(),month));
+                    uVip.setVipType(vipType);
+                    uVipDao.update(uVip);
+                    data.put("vip",uVip);
+                }
+            }
+            result.put("sign",00);
+            data.put("data","续费成功");
+        }catch (Exception e) {
+            e.printStackTrace();
+            result.put("sign",-1);
+            result.put("data","服务器错误");
+        }
+        return result;
+    }
 
     public  Date getMonthDate(Date startDate,int month){
         LocalDateTime localDateTime = startDate.toInstant()

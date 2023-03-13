@@ -54,6 +54,11 @@ public class UVipController {
     public void toVipFirst(Long userId){
         this.uVipService.toVipFirst(userId);
     }
+
+    @GetMapping("toVip")
+    public JSONObject toVip(Long userId,int vipType,int month){
+        return this.uVipService.toVip(userId, vipType, month);
+    }
     /**
      * 通过主键查询单条数据
      *

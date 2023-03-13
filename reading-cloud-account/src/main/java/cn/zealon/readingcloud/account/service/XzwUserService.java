@@ -2,8 +2,10 @@ package cn.zealon.readingcloud.account.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwusers.XzwUser;
 import cn.zealon.readingcloud.common.result.Result;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Map;
@@ -32,11 +34,15 @@ public interface XzwUserService {
     Result loginByPhoneNumber(String phoneNumber, String validateCode);
 
 
-    Result login(String phoneNumber);
+
+    XzwUser queryByOpenId(String openId);
+
+    String getOpeId(@RequestBody JSONObject js_code);
 
     Result loginByOpenId(String openId ,String nickName, String avatarUrl  );
 
-    XzwUser queryByOpenId(String openId);
+
+    Result login(String phoneNumber);
 
     /**
      * 修改头像

@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -44,6 +45,13 @@ public class CCollectController {
         return this.cCollectService.queryAll(cCollect);
     }
 
+    @GetMapping("queryByUserId")
+    public List<CCollect>queryByUserId(Long userId){
+        return this.cCollectService.queryByUserId(userId);
+    }
+
+
+
     /**
      * 通过主键查询单条数据
      *
@@ -55,6 +63,17 @@ public class CCollectController {
         return ResponseEntity.ok(this.cCollectService.queryById(id));
     }
 
+    @GetMapping("addCollect")
+    public ResponseEntity<CCollect> addCollect(Long userId,String cName) {
+        CCollect cCollect=new CCollect();
+        cCollect.setIsused(0);
+        cCollect.setCreateTime(new Date());
+        cCollect.setUpdateTime(new Date());
+        cCollect.setUserId(userId);
+        cCollect.setCName(cName);
+        return ResponseEntity.ok(this.cCollectService.insert(cCollect));
+    }
+
     /**
      * 新增数据
      *
@@ -63,6 +82,9 @@ public class CCollectController {
      */
     @PostMapping
     public ResponseEntity<CCollect> add(CCollect cCollect) {
+        cCollect.setIsused(0);
+        cCollect.setCreateTime(new Date());
+        cCollect.setUpdateTime(new Date());
         return ResponseEntity.ok(this.cCollectService.insert(cCollect));
     }
 

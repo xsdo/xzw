@@ -32,6 +32,8 @@ public interface CCollectService {
     Page<CCollect> queryByPage(CCollect cCollect, PageRequest pageRequest);
 
     List<CCollect> queryAll(CCollect cCollect);
+
+    List<CCollect> queryByUserId(Long userId);
     /**
      * 新增数据
      *

@@ -1,12 +1,16 @@
 package cn.zealon.readingcloud.account.common.utils;
 
 
+import cn.zealon.readingcloud.common.config.FileProperties;
 import com.aliyun.dysmsapi20170525.Client;
 import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
 
+import javax.annotation.Resource;
 import java.util.Random;
 
 public class SmsCodeUtil {
+    @Resource
+    private FileProperties properties;
 
     //生成验证码
     public static String codeFen(){

@@ -35,6 +35,7 @@ public class SmsCodeUtil {
     }
 
     public static void sendSmsCode (String phoneNumber,String code)throws Exception{
+        Client client=SmsCodeUtil.createClient("","");
         SendSmsRequest sendSmsRequest = new SendSmsRequest()
                 .setPhoneNumbers(phoneNumber)
                 .setSignName("新作文杂志社")

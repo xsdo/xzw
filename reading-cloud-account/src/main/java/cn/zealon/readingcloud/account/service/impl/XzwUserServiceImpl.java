@@ -1,5 +1,6 @@
 package cn.zealon.readingcloud.account.service.impl;
 
+import cn.zealon.readingcloud.account.common.config.SmsConfig;
 import cn.zealon.readingcloud.account.common.utils.JwtUtil;
 import cn.zealon.readingcloud.account.common.utils.SmsCodeUtil;
 import cn.zealon.readingcloud.account.dao.UAttributeDao;
@@ -53,7 +54,8 @@ public class XzwUserServiceImpl implements XzwUserService {
     private UAttributeDao uAttributeDao;
 
     @Resource
-    private FileProperties properties;
+    private SmsConfig smsConfig;
+
 
     /**
      * 通过ID查询单条数据
@@ -134,7 +136,7 @@ public class XzwUserServiceImpl implements XzwUserService {
     public ResponseEntity<String> sendSms(String phoneNumber, String code){
         String result="";
         try {
-            SmsCodeUtil.sendSmsCode(phoneNumber,code);
+            SmsCodeUtil.sendSmsCode(phoneNumber,code,smsConfig.getSmsKey(),smsConfig.getSmsSecret());
             result=phoneNumber+"发送成功，验证码："+code;
         }catch (Exception e) {
             result = phoneNumber+"验证码发送失败";

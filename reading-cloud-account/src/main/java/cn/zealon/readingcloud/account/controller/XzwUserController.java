@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.account.controller;
 
 
+import cn.zealon.readingcloud.account.common.config.SmsConfig;
 import cn.zealon.readingcloud.account.common.utils.HttpRequest;
 import cn.zealon.readingcloud.common.cache.RedisService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.XzwUser;
@@ -41,6 +42,8 @@ public class XzwUserController {
     @Resource
     private RedisService redisService;
 
+    @Resource
+    private SmsConfig smsConfig;
     /**
      * 手机验证码登录
      * @param phoneNumber
@@ -66,9 +69,9 @@ public class XzwUserController {
     public String getOpeId(@RequestBody JSONObject js_code) {
         String code = js_code.getString("js_code");
         // 小程序唯一标识 (在微信小程序管理后台获取)
-        String appid = "";
+        String appid = smsConfig.getWechatAppId();
         // 小程序的 app secret (在微信小程序管理后台获取)
-        String secret = "";
+        String secret = smsConfig.getWechatSecret();
         // 授权（必填）
         String grant_type = "authorization_code";
         // 向微信服务器 使用登录凭证 code 获取 session_key 和 openid
@@ -95,9 +98,9 @@ public class XzwUserController {
     public Object getPhoneNum(@RequestBody JSONObject js_code){
         // 获取token
         // 小程序唯一标识 (在微信小程序管理后台获取)
-        String appid = "";
+        String appid = smsConfig.getWechatAppId();
         // 小程序的 app secret (在微信小程序管理后台获取)
-        String secret = "";
+        String secret = smsConfig.getWechatSecret();
         // 授权（必填）
         String grant_type = "client_credential";
         //向微信服务器 使用登录凭证 code 获取 session_key 和 openid

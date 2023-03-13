@@ -7,14 +7,20 @@ server:
 # 文件存储路径
 file:
   mac:
-    path: ~/file/
+    path: ~/News/
     avatar: ~/avatar/
+    voice: ~/Voice/
+    videos: ~/TongbuVoice/
   linux:
-    path: /home/eladmin/file/
-    avatar: /home/eladmin/avatar/
+    path: /home/Resource/News/
+    avatar: /home/Resource/avatar/
+    voice: /home/Resource/Voice/
+    videos: /home/Resource/TongbuVoice/
   windows:
-    path: C:\eladmin\file\
-    avatar: C:\eladmin\avatar\
+    path: F:\Resource\News\
+    avatar: F:\Resource\avatar\
+    voice: F:\Resource\Voice\
+    videos: F:\Resource\TongbuVoice\
   # 文件大小 /M
   maxSize: 100
   avatarMaxSize: 5

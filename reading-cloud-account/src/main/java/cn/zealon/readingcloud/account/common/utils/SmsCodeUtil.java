@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.account.common.utils;
 
 
+import cn.zealon.readingcloud.account.common.config.SmsConfig;
 import cn.zealon.readingcloud.common.config.FileProperties;
 import com.aliyun.dysmsapi20170525.Client;
 import com.aliyun.dysmsapi20170525.models.SendSmsRequest;
@@ -10,7 +11,8 @@ import java.util.Random;
 
 public class SmsCodeUtil {
     @Resource
-    private FileProperties properties;
+    private SmsConfig smsConfig;
+
 
     //生成验证码
     public static String codeFen(){
@@ -38,8 +40,8 @@ public class SmsCodeUtil {
         return stringBuilder.toString();
     }
 
-    public static void sendSmsCode (String phoneNumber,String code)throws Exception{
-        Client client=SmsCodeUtil.createClient("","");
+    public static void sendSmsCode (String phoneNumber,String code ,String smsKey ,String smsSecret)throws Exception{
+        Client client=SmsCodeUtil.createClient(smsKey,smsSecret);
         SendSmsRequest sendSmsRequest = new SendSmsRequest()
                 .setPhoneNumbers(phoneNumber)
                 .setSignName("新作文杂志社")

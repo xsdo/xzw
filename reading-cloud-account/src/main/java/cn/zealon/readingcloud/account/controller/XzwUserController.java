@@ -95,9 +95,9 @@ public class XzwUserController {
     public Object getPhoneNum(@RequestBody JSONObject js_code){
         // 获取token
         // 小程序唯一标识 (在微信小程序管理后台获取)
-        String appid = "wx3ea6fed2d4bf5383";
+        String appid = "";
         // 小程序的 app secret (在微信小程序管理后台获取)
-        String secret = "deb9acce58dc33fbd5103a0f481e465f";
+        String secret = "";
         // 授权（必填）
         String grant_type = "client_credential";
         //向微信服务器 使用登录凭证 code 获取 session_key 和 openid

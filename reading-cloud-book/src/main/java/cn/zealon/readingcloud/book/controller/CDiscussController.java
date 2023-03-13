@@ -46,6 +46,7 @@ public class CDiscussController {
     public List<CDiscuss>queryAll(CDiscuss cDiscuss){
         return this.cDiscussService.queryAll(cDiscuss);
     }
+    
 
     @PostMapping("doDiscuss")
     public JSONObject doDiscuss(Long userId,String discuss,Long compositionId,Integer type){

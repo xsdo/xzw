@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.CSchoolDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.CSchool" id="CSchoolMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="compositionId" column="composition_id" jdbcType="INTEGER"/>
+        <result property="sImage" column="s_image" jdbcType="VARCHAR"/>
+        <result property="sVoice" column="s_voice" jdbcType="INTEGER"/>
+        <result property="sLikes" column="s_likes" jdbcType="INTEGER"/>
+        <result property="sDiscuss" column="s_discuss" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CSchoolMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, composition_id, s_image, s_voice, s_likes, s_discuss
+                from c_school
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="CSchoolMap">
+        select
+        id, isUsed, create_time, update_time, remarks, composition_id, s_image, s_voice, s_likes, s_discuss
+        from c_school
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+            <if test="sImage != null and sImage != ''">
+                and s_image = #{sImage}
+            </if>
+            <if test="sVoice != null">
+                and s_voice = #{sVoice}
+            </if>
+            <if test="sLikes != null">
+                and s_likes = #{sLikes}
+            </if>
+            <if test="sDiscuss != null">
+                and s_discuss = #{sDiscuss}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CSchoolMap">
+        select
+        id, isUsed, create_time, update_time, remarks, composition_id, s_image, s_voice, s_likes, s_discuss
+        from c_school
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+            <if test="sImage != null and sImage != ''">
+                and s_image = #{sImage}
+            </if>
+            <if test="sVoice != null">
+                and s_voice = #{sVoice}
+            </if>
+            <if test="sLikes != null">
+                and s_likes = #{sLikes}
+            </if>
+            <if test="sDiscuss != null">
+                and s_discuss = #{sDiscuss}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from c_school
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+            <if test="sImage != null and sImage != ''">
+                and s_image = #{sImage}
+            </if>
+            <if test="sVoice != null">
+                and s_voice = #{sVoice}
+            </if>
+            <if test="sLikes != null">
+                and s_likes = #{sLikes}
+            </if>
+            <if test="sDiscuss != null">
+                and s_discuss = #{sDiscuss}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into c_school(isUsed, create_time, update_time, remarks, composition_id, s_image, s_voice, s_likes, s_discuss)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{compositionId}, #{sImage}, #{sVoice}, #{sLikes}, #{sDiscuss})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into c_school(isUsed, create_time, update_time, remarks, composition_id, s_image, s_voice, s_likes,
+        s_discuss)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.compositionId},
+            #{entity.sImage}, #{entity.sVoice}, #{entity.sLikes}, #{entity.sDiscuss})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into c_school(isUsed, create_time, update_time, remarks, composition_id, s_image, s_voice, s_likes,
+        s_discuss)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.compositionId},
+            #{entity.sImage}, #{entity.sVoice}, #{entity.sLikes}, #{entity.sDiscuss})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        composition_id = values(composition_id),
+        s_image = values(s_image),
+        s_voice = values(s_voice),
+        s_likes = values(s_likes),
+        s_discuss = values(s_discuss)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update c_school
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="compositionId != null">
+                composition_id = #{compositionId},
+            </if>
+            <if test="sImage != null and sImage != ''">
+                s_image = #{sImage},
+            </if>
+            <if test="sVoice != null">
+                s_voice = #{sVoice},
+            </if>
+            <if test="sLikes != null">
+                s_likes = #{sLikes},
+            </if>
+            <if test="sDiscuss != null">
+                s_discuss = #{sDiscuss},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from c_school where id = #{id}
+
+    </delete>
+</mapper>
+

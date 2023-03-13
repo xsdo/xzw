@@ -1,0 +1,402 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.account.dao.UTeacherDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwusers.UTeacher" id="UTeacherMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="tName" column="t_name" jdbcType="VARCHAR"/>
+        <result property="tSchoolid" column="t_schoolid" jdbcType="INTEGER"/>
+        <result property="tGrade" column="t_grade" jdbcType="VARCHAR"/>
+        <result property="tTerm" column="t_term" jdbcType="VARCHAR"/>
+        <result property="qrCode" column="qr_code" jdbcType="VARCHAR"/>
+        <result property="tStudent" column="t_student" jdbcType="INTEGER"/>
+        <result property="tFlowers" column="t_flowers" jdbcType="INTEGER"/>
+        <result property="tImage" column="t_image" jdbcType="VARCHAR"/>
+        <result property="teaName" column="tea_name" jdbcType="VARCHAR"/>
+        <result property="teaImage" column="tea_image" jdbcType="VARCHAR"/>
+        <result property="teaSign" column="tea_sign" jdbcType="VARCHAR"/>
+        <result property="tSlogan" column="t_slogan" jdbcType="VARCHAR"/>
+        <result property="writes" column="writes" jdbcType="INTEGER"/>
+        <result property="readings" column="readings" jdbcType="INTEGER"/>
+        <result property="readalouds" column="readalouds" jdbcType="INTEGER"/>
+        <result property="tOpen" column="t_open" jdbcType="INTEGER"/>
+        <result property="rankings" column="rankings" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UTeacherMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code, t_student, t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings
+                from u_teacher
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="UTeacherMap">
+        select
+        id, isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code, t_student,
+        t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings
+        from u_teacher
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="tName != null and tName != ''">
+                and t_name = #{tName}
+            </if>
+            <if test="tSchoolid != null">
+                and t_schoolid = #{tSchoolid}
+            </if>
+            <if test="tGrade != null and tGrade != ''">
+                and t_grade = #{tGrade}
+            </if>
+            <if test="tTerm != null and tTerm != ''">
+                and t_term = #{tTerm}
+            </if>
+            <if test="qrCode != null and qrCode != ''">
+                and qr_code = #{qrCode}
+            </if>
+            <if test="tStudent != null">
+                and t_student = #{tStudent}
+            </if>
+            <if test="tFlowers != null">
+                and t_flowers = #{tFlowers}
+            </if>
+            <if test="tImage != null and tImage != ''">
+                and t_image = #{tImage}
+            </if>
+            <if test="teaName != null and teaName != ''">
+                and tea_name = #{teaName}
+            </if>
+            <if test="teaImage != null and teaImage != ''">
+                and tea_image = #{teaImage}
+            </if>
+            <if test="teaSign != null and teaSign != ''">
+                and tea_sign = #{teaSign}
+            </if>
+            <if test="tSlogan != null and tSlogan != ''">
+                and t_slogan = #{tSlogan}
+            </if>
+            <if test="writes != null">
+                and writes = #{writes}
+            </if>
+            <if test="readings != null">
+                and readings = #{readings}
+            </if>
+            <if test="readalouds != null">
+                and readalouds = #{readalouds}
+            </if>
+            <if test="tOpen != null">
+                and t_open = #{tOpen}
+            </if>
+            <if test="rankings != null">
+                and rankings = #{rankings}
+            </if>
+        </where>
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UTeacherMap">
+        select
+        id, isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code, t_student,
+        t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings
+        from u_teacher
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="tName != null and tName != ''">
+                and t_name = #{tName}
+            </if>
+            <if test="tSchoolid != null">
+                and t_schoolid = #{tSchoolid}
+            </if>
+            <if test="tGrade != null and tGrade != ''">
+                and t_grade = #{tGrade}
+            </if>
+            <if test="tTerm != null and tTerm != ''">
+                and t_term = #{tTerm}
+            </if>
+            <if test="qrCode != null and qrCode != ''">
+                and qr_code = #{qrCode}
+            </if>
+            <if test="tStudent != null">
+                and t_student = #{tStudent}
+            </if>
+            <if test="tFlowers != null">
+                and t_flowers = #{tFlowers}
+            </if>
+            <if test="tImage != null and tImage != ''">
+                and t_image = #{tImage}
+            </if>
+            <if test="teaName != null and teaName != ''">
+                and tea_name = #{teaName}
+            </if>
+            <if test="teaImage != null and teaImage != ''">
+                and tea_image = #{teaImage}
+            </if>
+            <if test="teaSign != null and teaSign != ''">
+                and tea_sign = #{teaSign}
+            </if>
+            <if test="tSlogan != null and tSlogan != ''">
+                and t_slogan = #{tSlogan}
+            </if>
+            <if test="writes != null">
+                and writes = #{writes}
+            </if>
+            <if test="readings != null">
+                and readings = #{readings}
+            </if>
+            <if test="readalouds != null">
+                and readalouds = #{readalouds}
+            </if>
+            <if test="tOpen != null">
+                and t_open = #{tOpen}
+            </if>
+            <if test="rankings != null">
+                and rankings = #{rankings}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from u_teacher
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="tName != null and tName != ''">
+                and t_name = #{tName}
+            </if>
+            <if test="tSchoolid != null">
+                and t_schoolid = #{tSchoolid}
+            </if>
+            <if test="tGrade != null and tGrade != ''">
+                and t_grade = #{tGrade}
+            </if>
+            <if test="tTerm != null and tTerm != ''">
+                and t_term = #{tTerm}
+            </if>
+            <if test="qrCode != null and qrCode != ''">
+                and qr_code = #{qrCode}
+            </if>
+            <if test="tStudent != null">
+                and t_student = #{tStudent}
+            </if>
+            <if test="tFlowers != null">
+                and t_flowers = #{tFlowers}
+            </if>
+            <if test="tImage != null and tImage != ''">
+                and t_image = #{tImage}
+            </if>
+            <if test="teaName != null and teaName != ''">
+                and tea_name = #{teaName}
+            </if>
+            <if test="teaImage != null and teaImage != ''">
+                and tea_image = #{teaImage}
+            </if>
+            <if test="teaSign != null and teaSign != ''">
+                and tea_sign = #{teaSign}
+            </if>
+            <if test="tSlogan != null and tSlogan != ''">
+                and t_slogan = #{tSlogan}
+            </if>
+            <if test="writes != null">
+                and writes = #{writes}
+            </if>
+            <if test="readings != null">
+                and readings = #{readings}
+            </if>
+            <if test="readalouds != null">
+                and readalouds = #{readalouds}
+            </if>
+            <if test="tOpen != null">
+                and t_open = #{tOpen}
+            </if>
+            <if test="rankings != null">
+                and rankings = #{rankings}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into u_teacher(isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code, t_student, t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{tName}, #{tSchoolid}, #{tGrade}, #{tTerm}, #{qrCode}, #{tStudent}, #{tFlowers}, #{tImage}, #{teaName}, #{teaImage}, #{teaSign}, #{tSlogan}, #{writes}, #{readings}, #{readalouds}, #{tOpen}, #{rankings})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_teacher(isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code,
+        t_student, t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open,
+        rankings)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.tName},
+            #{entity.tSchoolid}, #{entity.tGrade}, #{entity.tTerm}, #{entity.qrCode}, #{entity.tStudent},
+            #{entity.tFlowers}, #{entity.tImage}, #{entity.teaName}, #{entity.teaImage}, #{entity.teaSign},
+            #{entity.tSlogan}, #{entity.writes}, #{entity.readings}, #{entity.readalouds}, #{entity.tOpen},
+            #{entity.rankings})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_teacher(isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code,
+        t_student, t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open,
+        rankings)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.tName},
+            #{entity.tSchoolid}, #{entity.tGrade}, #{entity.tTerm}, #{entity.qrCode}, #{entity.tStudent},
+            #{entity.tFlowers}, #{entity.tImage}, #{entity.teaName}, #{entity.teaImage}, #{entity.teaSign},
+            #{entity.tSlogan}, #{entity.writes}, #{entity.readings}, #{entity.readalouds}, #{entity.tOpen},
+            #{entity.rankings})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        t_name = values(t_name),
+        t_schoolid = values(t_schoolid),
+        t_grade = values(t_grade),
+        t_term = values(t_term),
+        qr_code = values(qr_code),
+        t_student = values(t_student),
+        t_flowers = values(t_flowers),
+        t_image = values(t_image),
+        tea_name = values(tea_name),
+        tea_image = values(tea_image),
+        tea_sign = values(tea_sign),
+        t_slogan = values(t_slogan),
+        writes = values(writes),
+        readings = values(readings),
+        readalouds = values(readalouds),
+        t_open = values(t_open),
+        rankings = values(rankings)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update u_teacher
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="tName != null and tName != ''">
+                t_name = #{tName},
+            </if>
+            <if test="tSchoolid != null">
+                t_schoolid = #{tSchoolid},
+            </if>
+            <if test="tGrade != null and tGrade != ''">
+                t_grade = #{tGrade},
+            </if>
+            <if test="tTerm != null and tTerm != ''">
+                t_term = #{tTerm},
+            </if>
+            <if test="qrCode != null and qrCode != ''">
+                qr_code = #{qrCode},
+            </if>
+            <if test="tStudent != null">
+                t_student = #{tStudent},
+            </if>
+            <if test="tFlowers != null">
+                t_flowers = #{tFlowers},
+            </if>
+            <if test="tImage != null and tImage != ''">
+                t_image = #{tImage},
+            </if>
+            <if test="teaName != null and teaName != ''">
+                tea_name = #{teaName},
+            </if>
+            <if test="teaImage != null and teaImage != ''">
+                tea_image = #{teaImage},
+            </if>
+            <if test="teaSign != null and teaSign != ''">
+                tea_sign = #{teaSign},
+            </if>
+            <if test="tSlogan != null and tSlogan != ''">
+                t_slogan = #{tSlogan},
+            </if>
+            <if test="writes != null">
+                writes = #{writes},
+            </if>
+            <if test="readings != null">
+                readings = #{readings},
+            </if>
+            <if test="readalouds != null">
+                readalouds = #{readalouds},
+            </if>
+            <if test="tOpen != null">
+                t_open = #{tOpen},
+            </if>
+            <if test="rankings != null">
+                rankings = #{rankings},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from u_teacher where id = #{id}
+
+    </delete>
+</mapper>
+

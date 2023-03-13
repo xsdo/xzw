@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.account.dao.UTableDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwusers.UTable" id="UTableMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="uTableName" column="u_table_name" jdbcType="VARCHAR"/>
+        <result property="uTablePattern" column="u_table_pattern" jdbcType="VARCHAR"/>
+        <result property="uTableType" column="u_table_type" jdbcType="INTEGER"/>
+        <result property="uTableSource" column="u_table_source" jdbcType="VARCHAR"/>
+        <result property="uTableDescribe" column="u_table_describe" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UTableMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, u_table_name, u_table_pattern, u_table_type, u_table_source, u_table_describe
+                from u_table
+                where id = #{id}
+
+    </select>
+
+
+    <select id="queryByIds" resultMap="UTableMap">
+
+        select
+            id, isUsed, create_time, update_time, remarks, u_table_name, u_table_pattern, u_table_type, u_table_source, u_table_describe
+        from u_table
+        where isUsed =0
+        <if test="ids != null and ids.size() > 0 ">
+            and id in
+            <foreach collection="ids" close=")" open="(" item="item" separator=",">
+                '${item}'
+            </foreach>
+        </if>
+
+    </select>
+
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="UTableMap">
+        select
+        id, isUsed, create_time, update_time, remarks, u_table_name, u_table_pattern, u_table_type, u_table_source,
+        u_table_describe
+        from u_table
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="uTableName != null and uTableName != ''">
+                and u_table_name = #{uTableName}
+            </if>
+            <if test="uTablePattern != null and uTablePattern != ''">
+                and u_table_pattern = #{uTablePattern}
+            </if>
+            <if test="uTableType != null">
+                and u_table_type = #{uTableType}
+            </if>
+            <if test="uTableSource != null and uTableSource != ''">
+                and u_table_source = #{uTableSource}
+            </if>
+            <if test="uTableDescribe != null and uTableDescribe != ''">
+                and u_table_describe = #{uTableDescribe}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UTableMap">
+        select
+        id, isUsed, create_time, update_time, remarks, u_table_name, u_table_pattern, u_table_type, u_table_source,
+        u_table_describe
+        from u_table
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="uTableName != null and uTableName != ''">
+                and u_table_name = #{uTableName}
+            </if>
+            <if test="uTablePattern != null and uTablePattern != ''">
+                and u_table_pattern = #{uTablePattern}
+            </if>
+            <if test="uTableType != null">
+                and u_table_type = #{uTableType}
+            </if>
+            <if test="uTableSource != null and uTableSource != ''">
+                and u_table_source = #{uTableSource}
+            </if>
+            <if test="uTableDescribe != null and uTableDescribe != ''">
+                and u_table_describe = #{uTableDescribe}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from u_table
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="uTableName != null and uTableName != ''">
+                and u_table_name = #{uTableName}
+            </if>
+            <if test="uTablePattern != null and uTablePattern != ''">
+                and u_table_pattern = #{uTablePattern}
+            </if>
+            <if test="uTableType != null">
+                and u_table_type = #{uTableType}
+            </if>
+            <if test="uTableSource != null and uTableSource != ''">
+                and u_table_source = #{uTableSource}
+            </if>
+            <if test="uTableDescribe != null and uTableDescribe != ''">
+                and u_table_describe = #{uTableDescribe}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into u_table(isUsed, create_time, update_time, remarks, u_table_name, u_table_pattern, u_table_type, u_table_source, u_table_describe)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{uTableName}, #{uTablePattern}, #{uTableType}, #{uTableSource}, #{uTableDescribe})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_table(isUsed, create_time, update_time, remarks, u_table_name, u_table_pattern, u_table_type,
+        u_table_source, u_table_describe)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.uTableName},
+            #{entity.uTablePattern}, #{entity.uTableType}, #{entity.uTableSource}, #{entity.uTableDescribe})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_table(isUsed, create_time, update_time, remarks, u_table_name, u_table_pattern, u_table_type,
+        u_table_source, u_table_describe)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.uTableName},
+            #{entity.uTablePattern}, #{entity.uTableType}, #{entity.uTableSource}, #{entity.uTableDescribe})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        u_table_name = values(u_table_name),
+        u_table_pattern = values(u_table_pattern),
+        u_table_type = values(u_table_type),
+        u_table_source = values(u_table_source),
+        u_table_describe = values(u_table_describe)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update u_table
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="uTableName != null and uTableName != ''">
+                u_table_name = #{uTableName},
+            </if>
+            <if test="uTablePattern != null and uTablePattern != ''">
+                u_table_pattern = #{uTablePattern},
+            </if>
+            <if test="uTableType != null">
+                u_table_type = #{uTableType},
+            </if>
+            <if test="uTableSource != null and uTableSource != ''">
+                u_table_source = #{uTableSource},
+            </if>
+            <if test="uTableDescribe != null and uTableDescribe != ''">
+                u_table_describe = #{uTableDescribe},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from u_table where id = #{id}
+
+    </delete>
+</mapper>
+

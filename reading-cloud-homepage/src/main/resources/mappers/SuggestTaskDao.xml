@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.homepage.dao.SuggestTaskDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwtasks.SuggestTask" id="SuggestTaskMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="compositionId" column="composition_id" jdbcType="INTEGER"/>
+        <result property="compositionType" column="composition_type" jdbcType="VARCHAR"/>
+        <result property="comName" column="com_name" jdbcType="VARCHAR"/>
+        <result property="comImage" column="com_image" jdbcType="VARCHAR"/>
+        <result property="comLikes" column="com_likes" jdbcType="INTEGER"/>
+        <result property="comDiscuss" column="com_discuss" jdbcType="INTEGER"/>
+        <result property="tTop" column="t_top" jdbcType="INTEGER"/>
+        <result property="tEndtime" column="t_endtime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SuggestTaskMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, composition_id, composition_type, com_name, com_image, com_likes, com_discuss, t_top, t_endtime
+                from suggest_task
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="SuggestTaskMap">
+        select
+        id, isUsed, create_time, update_time, remarks, composition_id, composition_type, com_name, com_image, com_likes,
+        com_discuss, t_top, t_endtime
+        from suggest_task
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+            <if test="compositionType != null and compositionType != ''">
+                and composition_type = #{compositionType}
+            </if>
+            <if test="comName != null and comName != ''">
+                and com_name = #{comName}
+            </if>
+            <if test="comImage != null and comImage != ''">
+                and com_image = #{comImage}
+            </if>
+            <if test="comLikes != null">
+                and com_likes = #{comLikes}
+            </if>
+            <if test="comDiscuss != null">
+                and com_discuss = #{comDiscuss}
+            </if>
+            <if test="tTop != null">
+                and t_top = #{tTop}
+            </if>
+            <if test="tEndtime != null">
+                and t_endtime = #{tEndtime}
+            </if>
+        </where>
+    </select>
+
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SuggestTaskMap">
+        select
+        id, isUsed, create_time, update_time, remarks, composition_id, composition_type, com_name, com_image, com_likes,
+        com_discuss, t_top, t_endtime
+        from suggest_task
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+            <if test="compositionType != null and compositionType != ''">
+                and composition_type = #{compositionType}
+            </if>
+            <if test="comName != null and comName != ''">
+                and com_name = #{comName}
+            </if>
+            <if test="comImage != null and comImage != ''">
+                and com_image = #{comImage}
+            </if>
+            <if test="comLikes != null">
+                and com_likes = #{comLikes}
+            </if>
+            <if test="comDiscuss != null">
+                and com_discuss = #{comDiscuss}
+            </if>
+            <if test="tTop != null">
+                and t_top = #{tTop}
+            </if>
+            <if test="tEndtime != null">
+                and t_endtime = #{tEndtime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from suggest_task
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+            <if test="compositionType != null and compositionType != ''">
+                and composition_type = #{compositionType}
+            </if>
+            <if test="comName != null and comName != ''">
+                and com_name = #{comName}
+            </if>
+            <if test="comImage != null and comImage != ''">
+                and com_image = #{comImage}
+            </if>
+            <if test="comLikes != null">
+                and com_likes = #{comLikes}
+            </if>
+            <if test="comDiscuss != null">
+                and com_discuss = #{comDiscuss}
+            </if>
+            <if test="tTop != null">
+                and t_top = #{tTop}
+            </if>
+            <if test="tEndtime != null">
+                and t_endtime = #{tEndtime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into suggest_task(isUsed, create_time, update_time, remarks, composition_id, composition_type, com_name, com_image, com_likes, com_discuss, t_top, t_endtime)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{compositionId}, #{compositionType}, #{comName}, #{comImage}, #{comLikes}, #{comDiscuss}, #{tTop}, #{tEndtime})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into suggest_task(isUsed, create_time, update_time, remarks, composition_id, composition_type, com_name,
+        com_image, com_likes, com_discuss, t_top, t_endtime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.compositionId},
+            #{entity.compositionType}, #{entity.comName}, #{entity.comImage}, #{entity.comLikes}, #{entity.comDiscuss},
+            #{entity.tTop}, #{entity.tEndtime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into suggest_task(isUsed, create_time, update_time, remarks, composition_id, composition_type, com_name,
+        com_image, com_likes, com_discuss, t_top, t_endtime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.compositionId},
+            #{entity.compositionType}, #{entity.comName}, #{entity.comImage}, #{entity.comLikes}, #{entity.comDiscuss},
+            #{entity.tTop}, #{entity.tEndtime})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        composition_id = values(composition_id),
+        composition_type = values(composition_type),
+        com_name = values(com_name),
+        com_image = values(com_image),
+        com_likes = values(com_likes),
+        com_discuss = values(com_discuss),
+        t_top = values(t_top),
+        t_endtime = values(t_endtime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update suggest_task
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="compositionId != null">
+                composition_id = #{compositionId},
+            </if>
+            <if test="compositionType != null and compositionType != ''">
+                composition_type = #{compositionType},
+            </if>
+            <if test="comName != null and comName != ''">
+                com_name = #{comName},
+            </if>
+            <if test="comImage != null and comImage != ''">
+                com_image = #{comImage},
+            </if>
+            <if test="comLikes != null">
+                com_likes = #{comLikes},
+            </if>
+            <if test="comDiscuss != null">
+                com_discuss = #{comDiscuss},
+            </if>
+            <if test="tTop != null">
+                t_top = #{tTop},
+            </if>
+            <if test="tEndtime != null">
+                t_endtime = #{tEndtime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from suggest_task where id = #{id}
+
+    </delete>
+</mapper>
+

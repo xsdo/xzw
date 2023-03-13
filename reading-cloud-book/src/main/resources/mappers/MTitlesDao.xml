@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.MTitlesDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.MTitles" id="MTitlesMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="mTitle" column="m_title" jdbcType="VARCHAR"/>
+        <result property="pid" column="pid" jdbcType="INTEGER"/>
+        <result property="mAuthor" column="m_author" jdbcType="VARCHAR"/>
+        <result property="mSchool" column="m_school" jdbcType="VARCHAR"/>
+        <result property="mTry" column="m_try" jdbcType="INTEGER"/>
+        <result property="mImage" column="m_image" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MTitlesMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, m_title, pid, m_author, m_school, m_try, m_image
+                from m_titles
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="MTitlesMap">
+        select
+        id, isUsed, create_time, update_time, remarks, m_title, pid, m_author, m_school, m_try, m_image
+        from m_titles
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="mTitle != null and mTitle != ''">
+                and m_title = #{mTitle}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="mAuthor != null and mAuthor != ''">
+                and m_author = #{mAuthor}
+            </if>
+            <if test="mSchool != null and mSchool != ''">
+                and m_school = #{mSchool}
+            </if>
+            <if test="mTry != null">
+                and m_try = #{mTry}
+            </if>
+            <if test="mImage != null and mImage != ''">
+                and m_image = #{mImage}
+            </if>
+        </where>
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MTitlesMap">
+        select
+        id, isUsed, create_time, update_time, remarks, m_title, pid, m_author, m_school, m_try, m_image
+        from m_titles
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="mTitle != null and mTitle != ''">
+                and m_title = #{mTitle}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="mAuthor != null and mAuthor != ''">
+                and m_author = #{mAuthor}
+            </if>
+            <if test="mSchool != null and mSchool != ''">
+                and m_school = #{mSchool}
+            </if>
+            <if test="mTry != null">
+                and m_try = #{mTry}
+            </if>
+            <if test="mImage != null and mImage != ''">
+                and m_image = #{mImage}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from m_titles
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="mTitle != null and mTitle != ''">
+                and m_title = #{mTitle}
+            </if>
+            <if test="pid != null">
+                and pid = #{pid}
+            </if>
+            <if test="mAuthor != null and mAuthor != ''">
+                and m_author = #{mAuthor}
+            </if>
+            <if test="mSchool != null and mSchool != ''">
+                and m_school = #{mSchool}
+            </if>
+            <if test="mTry != null">
+                and m_try = #{mTry}
+            </if>
+            <if test="mImage != null and mImage != ''">
+                and m_image = #{mImage}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into m_titles(isUsed, create_time, update_time, remarks, m_title, pid, m_author, m_school, m_try, m_image)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{mTitle}, #{pid}, #{mAuthor}, #{mSchool}, #{mTry}, #{mImage})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into m_titles(isUsed, create_time, update_time, remarks, m_title, pid, m_author, m_school, m_try,
+        m_image)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.mTitle},
+            #{entity.pid}, #{entity.mAuthor}, #{entity.mSchool}, #{entity.mTry}, #{entity.mImage})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into m_titles(isUsed, create_time, update_time, remarks, m_title, pid, m_author, m_school, m_try,
+        m_image)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.mTitle},
+            #{entity.pid}, #{entity.mAuthor}, #{entity.mSchool}, #{entity.mTry}, #{entity.mImage})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        m_title = values(m_title),
+        pid = values(pid),
+        m_author = values(m_author),
+        m_school = values(m_school),
+        m_try = values(m_try),
+        m_image = values(m_image)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update m_titles
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="mTitle != null and mTitle != ''">
+                m_title = #{mTitle},
+            </if>
+            <if test="pid != null">
+                pid = #{pid},
+            </if>
+            <if test="mAuthor != null and mAuthor != ''">
+                m_author = #{mAuthor},
+            </if>
+            <if test="mSchool != null and mSchool != ''">
+                m_school = #{mSchool},
+            </if>
+            <if test="mTry != null">
+                m_try = #{mTry},
+            </if>
+            <if test="mImage != null and mImage != ''">
+                m_image = #{mImage},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from m_titles where id = #{id}
+
+    </delete>
+</mapper>
+

@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.account.dao.UActivationDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwusers.UActivation" id="UActivationMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="vipType" column="vip_type" jdbcType="INTEGER"/>
+        <result property="vCreatetime" column="v_createtime" jdbcType="TIMESTAMP"/>
+        <result property="vEndtime" column="v_endtime" jdbcType="TIMESTAMP"/>
+        <result property="activationCode" column="activation_code" jdbcType="VARCHAR"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="vUsetime" column="v_usetime" jdbcType="TIMESTAMP"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="createUser" column="create_user" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UActivationMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, vip_type, v_createtime, v_endtime, activation_code, status, v_usetime, user_id, create_user
+                from u_activation
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="UActivationMap">
+        select
+        id, isUsed, create_time, update_time, remarks, vip_type, v_createtime, v_endtime, activation_code, status,
+        v_usetime, user_id, create_user
+        from u_activation
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="vipType != null">
+                and vip_type = #{vipType}
+            </if>
+            <if test="vCreatetime != null">
+                and v_createtime = #{vCreatetime}
+            </if>
+            <if test="vEndtime != null">
+                and v_endtime = #{vEndtime}
+            </if>
+            <if test="activationCode != null and activationCode != ''">
+                and activation_code = #{activationCode}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="vUsetime != null">
+                and v_usetime = #{vUsetime}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="createUser != null and createUser != ''">
+                and create_user = #{createUser}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UActivationMap">
+        select
+        id, isUsed, create_time, update_time, remarks, vip_type, v_createtime, v_endtime, activation_code, status,
+        v_usetime, user_id, create_user
+        from u_activation
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="vipType != null">
+                and vip_type = #{vipType}
+            </if>
+            <if test="vCreatetime != null">
+                and v_createtime = #{vCreatetime}
+            </if>
+            <if test="vEndtime != null">
+                and v_endtime = #{vEndtime}
+            </if>
+            <if test="activationCode != null and activationCode != ''">
+                and activation_code = #{activationCode}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="vUsetime != null">
+                and v_usetime = #{vUsetime}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="createUser != null and createUser != ''">
+                and create_user = #{createUser}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from u_activation
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="vipType != null">
+                and vip_type = #{vipType}
+            </if>
+            <if test="vCreatetime != null">
+                and v_createtime = #{vCreatetime}
+            </if>
+            <if test="vEndtime != null">
+                and v_endtime = #{vEndtime}
+            </if>
+            <if test="activationCode != null and activationCode != ''">
+                and activation_code = #{activationCode}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="vUsetime != null">
+                and v_usetime = #{vUsetime}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="createUser != null and createUser != ''">
+                and create_user = #{createUser}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into u_activation(isUsed, create_time, update_time, remarks, vip_type, v_createtime, v_endtime, activation_code, status, v_usetime, user_id, create_user)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{vipType}, #{vCreatetime}, #{vEndtime}, #{activationCode}, #{status}, #{vUsetime}, #{userId}, #{createUser})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_activation(isUsed, create_time, update_time, remarks, vip_type, v_createtime, v_endtime,
+        activation_code, status, v_usetime, user_id, create_user)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.vipType},
+            #{entity.vCreatetime}, #{entity.vEndtime}, #{entity.activationCode}, #{entity.status}, #{entity.vUsetime},
+            #{entity.userId}, #{entity.createUser})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_activation(isUsed, create_time, update_time, remarks, vip_type, v_createtime, v_endtime,
+        activation_code, status, v_usetime, user_id, create_user)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.vipType},
+            #{entity.vCreatetime}, #{entity.vEndtime}, #{entity.activationCode}, #{entity.status}, #{entity.vUsetime},
+            #{entity.userId}, #{entity.createUser})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        vip_type = values(vip_type),
+        v_createtime = values(v_createtime),
+        v_endtime = values(v_endtime),
+        activation_code = values(activation_code),
+        status = values(status),
+        v_usetime = values(v_usetime),
+        user_id = values(user_id),
+        create_user = values(create_user)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update u_activation
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="vipType != null">
+                vip_type = #{vipType},
+            </if>
+            <if test="vCreatetime != null">
+                v_createtime = #{vCreatetime},
+            </if>
+            <if test="vEndtime != null">
+                v_endtime = #{vEndtime},
+            </if>
+            <if test="activationCode != null and activationCode != ''">
+                activation_code = #{activationCode},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="vUsetime != null">
+                v_usetime = #{vUsetime},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="createUser != null and createUser != ''">
+                create_user = #{createUser},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from u_activation where id = #{id}
+
+    </delete>
+</mapper>
+

@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.account.dao.UAttributeDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute" id="UAttributeMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="sex" column="sex" jdbcType="INTEGER"/>
+        <result property="birthday" column="birthday" jdbcType="TIMESTAMP"/>
+        <result property="portrait" column="portrait" jdbcType="VARCHAR"/>
+        <result property="qqnum" column="qqnum" jdbcType="VARCHAR"/>
+        <result property="wechatnum" column="wechatnum" jdbcType="VARCHAR"/>
+        <result property="email" column="email" jdbcType="VARCHAR"/>
+        <result property="uType" column="u_type" jdbcType="INTEGER"/>
+        <result property="uTableuse" column="u_tableUse" jdbcType="INTEGER"/>
+        <result property="uTableids" column="u_tableIds" jdbcType="VARCHAR"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="area" column="area" jdbcType="VARCHAR"/>
+        <result property="school" column="school" jdbcType="VARCHAR"/>
+        <result property="isAuth" column="is_auth" jdbcType="INTEGER"/>
+        <result property="sign" column="sign" jdbcType="VARCHAR"/>
+        <result property="background" column="background" jdbcType="VARCHAR"/>
+        <result property="teacherid" column="teacherid" jdbcType="INTEGER"/>
+        <result property="isgoodcommons" column="isgoodcommons" jdbcType="INTEGER"/>
+        <result property="integral" column="integral" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UAttributeMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, sex, birthday, portrait, qqnum, wechatnum, email, u_type, u_tableUse, u_tableIds, province, city, area, school, is_auth, sign, background, teacherid, isgoodcommons, integral
+                from u_attribute
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="UAttributeMap">
+        select
+        id, isUsed, create_time, update_time, remarks, sex, birthday, portrait, qqnum, wechatnum, email, u_type,
+        u_tableUse, u_tableIds, province, city, area, school, is_auth, sign, background, teacherid, isgoodcommons,
+        integral
+        from u_attribute
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="portrait != null and portrait != ''">
+                and portrait = #{portrait}
+            </if>
+            <if test="qqnum != null and qqnum != ''">
+                and qqnum = #{qqnum}
+            </if>
+            <if test="wechatnum != null and wechatnum != ''">
+                and wechatnum = #{wechatnum}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="uType != null">
+                and u_type = #{uType}
+            </if>
+            <if test="uTableuse != null">
+                and u_tableUse = #{uTableuse}
+            </if>
+            <if test="uTableids != null and uTableids != ''">
+                and u_tableIds = #{uTableids}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="school != null and school != ''">
+                and school = #{school}
+            </if>
+            <if test="isAuth != null">
+                and is_auth = #{isAuth}
+            </if>
+            <if test="sign != null and sign != ''">
+                and sign = #{sign}
+            </if>
+            <if test="background != null and background != ''">
+                and background = #{background}
+            </if>
+            <if test="teacherid != null">
+                and teacherid = #{teacherid}
+            </if>
+            <if test="isgoodcommons != null">
+                and isgoodcommons = #{isgoodcommons}
+            </if>
+            <if test="integral != null">
+                and integral = #{integral}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UAttributeMap">
+        select
+        id, isUsed, create_time, update_time, remarks, sex, birthday, portrait, qqnum, wechatnum, email, u_type,
+        u_tableUse, u_tableIds, province, city, area, school, is_auth, sign, background, teacherid, isgoodcommons,
+        integral
+        from u_attribute
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="portrait != null and portrait != ''">
+                and portrait = #{portrait}
+            </if>
+            <if test="qqnum != null and qqnum != ''">
+                and qqnum = #{qqnum}
+            </if>
+            <if test="wechatnum != null and wechatnum != ''">
+                and wechatnum = #{wechatnum}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="uType != null">
+                and u_type = #{uType}
+            </if>
+            <if test="uTableuse != null">
+                and u_tableUse = #{uTableuse}
+            </if>
+            <if test="uTableids != null and uTableids != ''">
+                and u_tableIds = #{uTableids}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="school != null and school != ''">
+                and school = #{school}
+            </if>
+            <if test="isAuth != null">
+                and is_auth = #{isAuth}
+            </if>
+            <if test="sign != null and sign != ''">
+                and sign = #{sign}
+            </if>
+            <if test="background != null and background != ''">
+                and background = #{background}
+            </if>
+            <if test="teacherid != null">
+                and teacherid = #{teacherid}
+            </if>
+            <if test="isgoodcommons != null">
+                and isgoodcommons = #{isgoodcommons}
+            </if>
+            <if test="integral != null">
+                and integral = #{integral}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from u_attribute
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="sex != null">
+                and sex = #{sex}
+            </if>
+            <if test="birthday != null">
+                and birthday = #{birthday}
+            </if>
+            <if test="portrait != null and portrait != ''">
+                and portrait = #{portrait}
+            </if>
+            <if test="qqnum != null and qqnum != ''">
+                and qqnum = #{qqnum}
+            </if>
+            <if test="wechatnum != null and wechatnum != ''">
+                and wechatnum = #{wechatnum}
+            </if>
+            <if test="email != null and email != ''">
+                and email = #{email}
+            </if>
+            <if test="uType != null">
+                and u_type = #{uType}
+            </if>
+            <if test="uTableuse != null">
+                and u_tableUse = #{uTableuse}
+            </if>
+            <if test="uTableids != null and uTableids != ''">
+                and u_tableIds = #{uTableids}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="school != null and school != ''">
+                and school = #{school}
+            </if>
+            <if test="isAuth != null">
+                and is_auth = #{isAuth}
+            </if>
+            <if test="sign != null and sign != ''">
+                and sign = #{sign}
+            </if>
+            <if test="background != null and background != ''">
+                and background = #{background}
+            </if>
+            <if test="teacherid != null">
+                and teacherid = #{teacherid}
+            </if>
+            <if test="isgoodcommons != null">
+                and isgoodcommons = #{isgoodcommons}
+            </if>
+            <if test="integral != null">
+                and integral = #{integral}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into u_attribute(id,isUsed, create_time, update_time, remarks, sex, birthday, portrait, qqnum, wechatnum, email, u_type, u_tableUse, u_tableIds, province, city, area, school, is_auth, sign, background, teacherid, isgoodcommons, integral)
+                values (#{id},#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{sex}, #{birthday}, #{portrait}, #{qqnum}, #{wechatnum}, #{email}, #{uType}, #{uTableuse}, #{uTableids}, #{province}, #{city}, #{area}, #{school}, #{isAuth}, #{sign}, #{background}, #{teacherid}, #{isgoodcommons}, #{integral})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_attribute(isUsed, create_time, update_time, remarks, sex, birthday, portrait, qqnum, wechatnum,
+        email, u_type, u_tableUse, u_tableIds, province, city, area, school, is_auth, sign, background, teacherid,
+        isgoodcommons, integral)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.sex},
+            #{entity.birthday}, #{entity.portrait}, #{entity.qqnum}, #{entity.wechatnum}, #{entity.email},
+            #{entity.uType}, #{entity.uTableuse}, #{entity.uTableids}, #{entity.province}, #{entity.city},
+            #{entity.area}, #{entity.school}, #{entity.isAuth}, #{entity.sign}, #{entity.background},
+            #{entity.teacherid}, #{entity.isgoodcommons}, #{entity.integral})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_attribute(isUsed, create_time, update_time, remarks, sex, birthday, portrait, qqnum, wechatnum,
+        email, u_type, u_tableUse, u_tableIds, province, city, area, school, is_auth, sign, background, teacherid,
+        isgoodcommons, integral)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.sex},
+            #{entity.birthday}, #{entity.portrait}, #{entity.qqnum}, #{entity.wechatnum}, #{entity.email},
+            #{entity.uType}, #{entity.uTableuse}, #{entity.uTableids}, #{entity.province}, #{entity.city},
+            #{entity.area}, #{entity.school}, #{entity.isAuth}, #{entity.sign}, #{entity.background},
+            #{entity.teacherid}, #{entity.isgoodcommons}, #{entity.integral})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        sex = values(sex),
+        birthday = values(birthday),
+        portrait = values(portrait),
+        qqnum = values(qqnum),
+        wechatnum = values(wechatnum),
+        email = values(email),
+        u_type = values(u_type),
+        u_tableUse = values(u_tableUse),
+        u_tableIds = values(u_tableIds),
+        province = values(province),
+        city = values(city),
+        area = values(area),
+        school = values(school),
+        is_auth = values(is_auth),
+        sign = values(sign),
+        background = values(background),
+        teacherid = values(teacherid),
+        isgoodcommons = values(isgoodcommons),
+        integral = values(integral)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update u_attribute
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="birthday != null">
+                birthday = #{birthday},
+            </if>
+            <if test="portrait != null and portrait != ''">
+                portrait = #{portrait},
+            </if>
+            <if test="qqnum != null and qqnum != ''">
+                qqnum = #{qqnum},
+            </if>
+            <if test="wechatnum != null and wechatnum != ''">
+                wechatnum = #{wechatnum},
+            </if>
+            <if test="email != null and email != ''">
+                email = #{email},
+            </if>
+            <if test="uType != null">
+                u_type = #{uType},
+            </if>
+            <if test="uTableuse != null">
+                u_tableUse = #{uTableuse},
+            </if>
+            <if test="uTableids != null and uTableids != ''">
+                u_tableIds = #{uTableids},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="area != null and area != ''">
+                area = #{area},
+            </if>
+            <if test="school != null and school != ''">
+                school = #{school},
+            </if>
+            <if test="isAuth != null">
+                is_auth = #{isAuth},
+            </if>
+            <if test="sign != null and sign != ''">
+                sign = #{sign},
+            </if>
+            <if test="background != null and background != ''">
+                background = #{background},
+            </if>
+            <if test="teacherid != null">
+                teacherid = #{teacherid},
+            </if>
+            <if test="isgoodcommons != null">
+                isgoodcommons = #{isgoodcommons},
+            </if>
+            <if test="integral != null">
+                integral = #{integral},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from u_attribute where id = #{id}
+
+    </delete>
+</mapper>
+

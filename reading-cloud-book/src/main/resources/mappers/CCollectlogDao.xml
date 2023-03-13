@@ -1,0 +1,225 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.CCollectlogDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.CCollectlog" id="CCollectlogMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="collectId" column="collect_id" jdbcType="INTEGER"/>
+        <result property="cName" column="c_name" jdbcType="VARCHAR"/>
+        <result property="cImage" column="c_image" jdbcType="VARCHAR"/>
+        <result property="compositionId" column="composition_id" jdbcType="INTEGER"/>
+        <result property="cType" column="c_type" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CCollectlogMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, collect_id, c_name, c_image, composition_id, c_type
+                from c_collectlog
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="CCollectlogMap">
+        select
+        id, isUsed, create_time, update_time, remarks, collect_id, c_name, c_image, composition_id, c_type
+        from c_collectlog
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="collectId != null">
+                and collect_id = #{collectId}
+            </if>
+            <if test="cName != null and cName != ''">
+                and c_name = #{cName}
+            </if>
+            <if test="cImage != null and cImage != ''">
+                and c_image = #{cImage}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+            <if test="cType != null">
+                and c_type = #{cType}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CCollectlogMap">
+        select
+        id, isUsed, create_time, update_time, remarks, collect_id, c_name, c_image, composition_id, c_type
+        from c_collectlog
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="collectId != null">
+                and collect_id = #{collectId}
+            </if>
+            <if test="cName != null and cName != ''">
+                and c_name = #{cName}
+            </if>
+            <if test="cImage != null and cImage != ''">
+                and c_image = #{cImage}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+            <if test="cType != null">
+                and c_type = #{cType}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from c_collectlog
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="collectId != null">
+                and collect_id = #{collectId}
+            </if>
+            <if test="cName != null and cName != ''">
+                and c_name = #{cName}
+            </if>
+            <if test="cImage != null and cImage != ''">
+                and c_image = #{cImage}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+            <if test="cType != null">
+                and c_type = #{cType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into c_collectlog(isUsed, create_time, update_time, remarks, collect_id, c_name, c_image, composition_id, c_type)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{collectId}, #{cName}, #{cImage}, #{compositionId}, #{cType})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into c_collectlog(isUsed, create_time, update_time, remarks, collect_id, c_name, c_image, composition_id,
+        c_type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.collectId},
+            #{entity.cName}, #{entity.cImage}, #{entity.compositionId}, #{entity.cType})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into c_collectlog(isUsed, create_time, update_time, remarks, collect_id, c_name, c_image, composition_id,
+        c_type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.collectId},
+            #{entity.cName}, #{entity.cImage}, #{entity.compositionId}, #{entity.cType})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        collect_id = values(collect_id),
+        c_name = values(c_name),
+        c_image = values(c_image),
+        composition_id = values(composition_id),
+        c_type = values(c_type)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update c_collectlog
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="collectId != null">
+                collect_id = #{collectId},
+            </if>
+            <if test="cName != null and cName != ''">
+                c_name = #{cName},
+            </if>
+            <if test="cImage != null and cImage != ''">
+                c_image = #{cImage},
+            </if>
+            <if test="compositionId != null">
+                composition_id = #{compositionId},
+            </if>
+            <if test="cType != null">
+                c_type = #{cType},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from c_collectlog where id = #{id}
+
+    </delete>
+</mapper>
+

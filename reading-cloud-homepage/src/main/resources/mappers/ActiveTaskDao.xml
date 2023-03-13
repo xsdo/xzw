@@ -1,0 +1,298 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.homepage.dao.ActiveTaskDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwtasks.ActiveTask" id="ActiveTaskMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="acName" column="ac_name" jdbcType="VARCHAR"/>
+        <result property="acSynopsis" column="ac_synopsis" jdbcType="VARCHAR"/>
+        <result property="acStatus" column="ac_status" jdbcType="INTEGER"/>
+        <result property="acType" column="ac_type" jdbcType="INTEGER"/>
+        <result property="acAward" column="ac_award" jdbcType="VARCHAR"/>
+        <result property="acImage" column="ac_image" jdbcType="VARCHAR"/>
+        <result property="acBegintime" column="ac_begintime" jdbcType="TIMESTAMP"/>
+        <result property="acEndtime" column="ac_endtime" jdbcType="TIMESTAMP"/>
+        <result property="acIspay" column="ac_ispay" jdbcType="INTEGER"/>
+        <result property="acPaperwork" column="ac_paperwork" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ActiveTaskMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type, ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork
+                from active_task
+                where id = #{id}
+
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="ActiveTaskMap">
+        select
+        id, isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type, ac_award, ac_image,
+        ac_begintime, ac_endtime, ac_ispay, ac_paperwork
+        from active_task
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="acName != null and acName != ''">
+                and ac_name = #{acName}
+            </if>
+            <if test="acSynopsis != null and acSynopsis != ''">
+                and ac_synopsis = #{acSynopsis}
+            </if>
+            <if test="acStatus != null">
+                and ac_status = #{acStatus}
+            </if>
+            <if test="acType != null">
+                and ac_type = #{acType}
+            </if>
+            <if test="acAward != null and acAward != ''">
+                and ac_award = #{acAward}
+            </if>
+            <if test="acImage != null and acImage != ''">
+                and ac_image = #{acImage}
+            </if>
+            <if test="acBegintime != null">
+                and ac_begintime = #{acBegintime}
+            </if>
+            <if test="acEndtime != null">
+                and ac_endtime = #{acEndtime}
+            </if>
+            <if test="acIspay != null">
+                and ac_ispay = #{acIspay}
+            </if>
+            <if test="acPaperwork != null and acPaperwork != ''">
+                and ac_paperwork = #{acPaperwork}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ActiveTaskMap">
+        select
+        id, isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type, ac_award, ac_image,
+        ac_begintime, ac_endtime, ac_ispay, ac_paperwork
+        from active_task
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="acName != null and acName != ''">
+                and ac_name = #{acName}
+            </if>
+            <if test="acSynopsis != null and acSynopsis != ''">
+                and ac_synopsis = #{acSynopsis}
+            </if>
+            <if test="acStatus != null">
+                and ac_status = #{acStatus}
+            </if>
+            <if test="acType != null">
+                and ac_type = #{acType}
+            </if>
+            <if test="acAward != null and acAward != ''">
+                and ac_award = #{acAward}
+            </if>
+            <if test="acImage != null and acImage != ''">
+                and ac_image = #{acImage}
+            </if>
+            <if test="acBegintime != null">
+                and ac_begintime = #{acBegintime}
+            </if>
+            <if test="acEndtime != null">
+                and ac_endtime = #{acEndtime}
+            </if>
+            <if test="acIspay != null">
+                and ac_ispay = #{acIspay}
+            </if>
+            <if test="acPaperwork != null and acPaperwork != ''">
+                and ac_paperwork = #{acPaperwork}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from active_task
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="acName != null and acName != ''">
+                and ac_name = #{acName}
+            </if>
+            <if test="acSynopsis != null and acSynopsis != ''">
+                and ac_synopsis = #{acSynopsis}
+            </if>
+            <if test="acStatus != null">
+                and ac_status = #{acStatus}
+            </if>
+            <if test="acType != null">
+                and ac_type = #{acType}
+            </if>
+            <if test="acAward != null and acAward != ''">
+                and ac_award = #{acAward}
+            </if>
+            <if test="acImage != null and acImage != ''">
+                and ac_image = #{acImage}
+            </if>
+            <if test="acBegintime != null">
+                and ac_begintime = #{acBegintime}
+            </if>
+            <if test="acEndtime != null">
+                and ac_endtime = #{acEndtime}
+            </if>
+            <if test="acIspay != null">
+                and ac_ispay = #{acIspay}
+            </if>
+            <if test="acPaperwork != null and acPaperwork != ''">
+                and ac_paperwork = #{acPaperwork}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into active_task(isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type, ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{acName}, #{acSynopsis}, #{acStatus}, #{acType}, #{acAward}, #{acImage}, #{acBegintime}, #{acEndtime}, #{acIspay}, #{acPaperwork})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into active_task(isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type,
+        ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.acName},
+            #{entity.acSynopsis}, #{entity.acStatus}, #{entity.acType}, #{entity.acAward}, #{entity.acImage},
+            #{entity.acBegintime}, #{entity.acEndtime}, #{entity.acIspay}, #{entity.acPaperwork})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into active_task(isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type,
+        ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.acName},
+            #{entity.acSynopsis}, #{entity.acStatus}, #{entity.acType}, #{entity.acAward}, #{entity.acImage},
+            #{entity.acBegintime}, #{entity.acEndtime}, #{entity.acIspay}, #{entity.acPaperwork})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        ac_name = values(ac_name),
+        ac_synopsis = values(ac_synopsis),
+        ac_status = values(ac_status),
+        ac_type = values(ac_type),
+        ac_award = values(ac_award),
+        ac_image = values(ac_image),
+        ac_begintime = values(ac_begintime),
+        ac_endtime = values(ac_endtime),
+        ac_ispay = values(ac_ispay),
+        ac_paperwork = values(ac_paperwork)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update active_task
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="acName != null and acName != ''">
+                ac_name = #{acName},
+            </if>
+            <if test="acSynopsis != null and acSynopsis != ''">
+                ac_synopsis = #{acSynopsis},
+            </if>
+            <if test="acStatus != null">
+                ac_status = #{acStatus},
+            </if>
+            <if test="acType != null">
+                ac_type = #{acType},
+            </if>
+            <if test="acAward != null and acAward != ''">
+                ac_award = #{acAward},
+            </if>
+            <if test="acImage != null and acImage != ''">
+                ac_image = #{acImage},
+            </if>
+            <if test="acBegintime != null">
+                ac_begintime = #{acBegintime},
+            </if>
+            <if test="acEndtime != null">
+                ac_endtime = #{acEndtime},
+            </if>
+            <if test="acIspay != null">
+                ac_ispay = #{acIspay},
+            </if>
+            <if test="acPaperwork != null and acPaperwork != ''">
+                ac_paperwork = #{acPaperwork},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from active_task where id = #{id}
+
+    </delete>
+</mapper>
+

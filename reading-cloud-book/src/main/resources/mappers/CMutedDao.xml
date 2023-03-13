@@ -1,0 +1,238 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.CMutedDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.CMuted" id="CMutedMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="mutetime" column="mutetime" jdbcType="TIMESTAMP"/>
+        <result property="endtime" column="endtime" jdbcType="TIMESTAMP"/>
+        <result property="mutehour" column="mutehour" jdbcType="INTEGER"/>
+        <result property="cause" column="cause" jdbcType="VARCHAR"/>
+        <result property="mutenumber" column="mutenumber" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CMutedMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, user_id, mutetime, endtime, mutehour, cause, mutenumber
+                from c_muted
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="CMutedMap">
+        select
+        id, isUsed, create_time, update_time, remarks, user_id, mutetime, endtime, mutehour, cause, mutenumber
+        from c_muted
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="mutetime != null">
+                and mutetime = #{mutetime}
+            </if>
+            <if test="endtime != null">
+                and endtime = #{endtime}
+            </if>
+            <if test="mutehour != null">
+                and mutehour = #{mutehour}
+            </if>
+            <if test="cause != null and cause != ''">
+                and cause = #{cause}
+            </if>
+            <if test="mutenumber != null">
+                and mutenumber = #{mutenumber}
+            </if>
+        </where>
+        order by id desc
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CMutedMap">
+        select
+        id, isUsed, create_time, update_time, remarks, user_id, mutetime, endtime, mutehour, cause, mutenumber
+        from c_muted
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="mutetime != null">
+                and mutetime = #{mutetime}
+            </if>
+            <if test="endtime != null">
+                and endtime = #{endtime}
+            </if>
+            <if test="mutehour != null">
+                and mutehour = #{mutehour}
+            </if>
+            <if test="cause != null and cause != ''">
+                and cause = #{cause}
+            </if>
+            <if test="mutenumber != null">
+                and mutenumber = #{mutenumber}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from c_muted
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="mutetime != null">
+                and mutetime = #{mutetime}
+            </if>
+            <if test="endtime != null">
+                and endtime = #{endtime}
+            </if>
+            <if test="mutehour != null">
+                and mutehour = #{mutehour}
+            </if>
+            <if test="cause != null and cause != ''">
+                and cause = #{cause}
+            </if>
+            <if test="mutenumber != null">
+                and mutenumber = #{mutenumber}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into c_muted(isUsed, create_time, update_time, remarks, user_id, mutetime, endtime, mutehour, cause, mutenumber)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{userId}, #{mutetime}, #{endtime}, #{mutehour}, #{cause}, #{mutenumber})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into c_muted(isUsed, create_time, update_time, remarks, user_id, mutetime, endtime, mutehour, cause,
+        mutenumber)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.userId},
+            #{entity.mutetime}, #{entity.endtime}, #{entity.mutehour}, #{entity.cause}, #{entity.mutenumber})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into c_muted(isUsed, create_time, update_time, remarks, user_id, mutetime, endtime, mutehour, cause,
+        mutenumber)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.userId},
+            #{entity.mutetime}, #{entity.endtime}, #{entity.mutehour}, #{entity.cause}, #{entity.mutenumber})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        user_id = values(user_id),
+        mutetime = values(mutetime),
+        endtime = values(endtime),
+        mutehour = values(mutehour),
+        cause = values(cause),
+        mutenumber = values(mutenumber)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update c_muted
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="mutetime != null">
+                mutetime = #{mutetime},
+            </if>
+            <if test="endtime != null">
+                endtime = #{endtime},
+            </if>
+            <if test="mutehour != null">
+                mutehour = #{mutehour},
+            </if>
+            <if test="cause != null and cause != ''">
+                cause = #{cause},
+            </if>
+            <if test="mutenumber != null">
+                mutenumber = #{mutenumber},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from c_muted where id = #{id}
+
+    </delete>
+</mapper>
+

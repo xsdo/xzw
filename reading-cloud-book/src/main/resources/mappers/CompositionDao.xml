@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.CompositionDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.Composition" id="CompositionMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="cTitle" column="c_title" jdbcType="VARCHAR"/>
+        <result property="cAuthorid" column="c_authorId" jdbcType="INTEGER"/>
+        <result property="cSynopsis" column="c_synopsis" jdbcType="VARCHAR"/>
+        <result property="cArticle" column="c_article" jdbcType="VARCHAR"/>
+        <result property="cImageb" column="c_imageB" jdbcType="VARCHAR"/>
+        <result property="cImages" column="c_imageS" jdbcType="VARCHAR"/>
+        <result property="cVoice" column="c_voice" jdbcType="INTEGER"/>
+        <result property="cVideos" column="c_videos" jdbcType="INTEGER"/>
+        <result property="cVip" column="c_vip" jdbcType="INTEGER"/>
+        <result property="cGrade" column="c_grade" jdbcType="VARCHAR"/>
+        <result property="cGatetype" column="c_gatetype" jdbcType="VARCHAR"/>
+        <result property="cWords" column="c_words" jdbcType="INTEGER"/>
+        <result property="cStatus" column="c_status" jdbcType="INTEGER"/>
+        <result property="cLikes" column="c_likes" jdbcType="INTEGER"/>
+        <result property="cDiscuss" column="c_discuss" jdbcType="INTEGER"/>
+        <result property="cReadtimes" column="c_readtimes" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CompositionMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, c_title, c_authorId, c_synopsis, c_article, c_imageB, c_imageS, c_voice, c_videos, c_vip, c_grade, c_gatetype, c_words, c_status, c_likes, c_discuss, c_readtimes
+                from composition
+                where id = #{id}
+
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="CompositionMap">
+        select
+        id, isUsed, create_time, update_time, remarks, c_title, c_authorId, c_synopsis, c_article, c_imageB, c_imageS,
+        c_voice, c_videos, c_vip, c_grade, c_gatetype, c_words, c_status, c_likes, c_discuss, c_readtimes
+        from composition
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="cTitle != null and cTitle != ''">
+                and c_title = #{cTitle}
+            </if>
+            <if test="cAuthorid != null">
+                and c_authorId = #{cAuthorid}
+            </if>
+            <if test="cSynopsis != null and cSynopsis != ''">
+                and c_synopsis = #{cSynopsis}
+            </if>
+            <if test="cArticle != null and cArticle != ''">
+                and c_article = #{cArticle}
+            </if>
+            <if test="cImageb != null and cImageb != ''">
+                and c_imageB = #{cImageb}
+            </if>
+            <if test="cImages != null and cImages != ''">
+                and c_imageS = #{cImages}
+            </if>
+            <if test="cVoice != null">
+                and c_voice = #{cVoice}
+            </if>
+            <if test="cVideos != null">
+                and c_videos = #{cVideos}
+            </if>
+            <if test="cVip != null">
+                and c_vip = #{cVip}
+            </if>
+            <if test="cGrade != null and cGrade != ''">
+                and c_grade = #{cGrade}
+            </if>
+            <if test="cGatetype != null and cGatetype != ''">
+                and c_gatetype = #{cGatetype}
+            </if>
+            <if test="cWords != null">
+                and c_words = #{cWords}
+            </if>
+            <if test="cStatus != null">
+                and c_status = #{cStatus}
+            </if>
+            <if test="cLikes != null">
+                and c_likes = #{cLikes}
+            </if>
+            <if test="cDiscuss != null">
+                and c_discuss = #{cDiscuss}
+            </if>
+            <if test="cReadtimes != null">
+                and c_readtimes = #{cReadtimes}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CompositionMap">
+        select
+        id, isUsed, create_time, update_time, remarks, c_title, c_authorId, c_synopsis, c_article, c_imageB, c_imageS,
+        c_voice, c_videos, c_vip, c_grade, c_gatetype, c_words, c_status, c_likes, c_discuss, c_readtimes
+        from composition
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="cTitle != null and cTitle != ''">
+                and c_title = #{cTitle}
+            </if>
+            <if test="cAuthorid != null">
+                and c_authorId = #{cAuthorid}
+            </if>
+            <if test="cSynopsis != null and cSynopsis != ''">
+                and c_synopsis = #{cSynopsis}
+            </if>
+            <if test="cArticle != null and cArticle != ''">
+                and c_article = #{cArticle}
+            </if>
+            <if test="cImageb != null and cImageb != ''">
+                and c_imageB = #{cImageb}
+            </if>
+            <if test="cImages != null and cImages != ''">
+                and c_imageS = #{cImages}
+            </if>
+            <if test="cVoice != null">
+                and c_voice = #{cVoice}
+            </if>
+            <if test="cVideos != null">
+                and c_videos = #{cVideos}
+            </if>
+            <if test="cVip != null">
+                and c_vip = #{cVip}
+            </if>
+            <if test="cGrade != null and cGrade != ''">
+                and c_grade = #{cGrade}
+            </if>
+            <if test="cGatetype != null and cGatetype != ''">
+                and c_gatetype = #{cGatetype}
+            </if>
+            <if test="cWords != null">
+                and c_words = #{cWords}
+            </if>
+            <if test="cStatus != null">
+                and c_status = #{cStatus}
+            </if>
+            <if test="cLikes != null">
+                and c_likes = #{cLikes}
+            </if>
+            <if test="cDiscuss != null">
+                and c_discuss = #{cDiscuss}
+            </if>
+            <if test="cReadtimes != null">
+                and c_readtimes = #{cReadtimes}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from composition
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="cTitle != null and cTitle != ''">
+                and c_title = #{cTitle}
+            </if>
+            <if test="cAuthorid != null">
+                and c_authorId = #{cAuthorid}
+            </if>
+            <if test="cSynopsis != null and cSynopsis != ''">
+                and c_synopsis = #{cSynopsis}
+            </if>
+            <if test="cArticle != null and cArticle != ''">
+                and c_article = #{cArticle}
+            </if>
+            <if test="cImageb != null and cImageb != ''">
+                and c_imageB = #{cImageb}
+            </if>
+            <if test="cImages != null and cImages != ''">
+                and c_imageS = #{cImages}
+            </if>
+            <if test="cVoice != null">
+                and c_voice = #{cVoice}
+            </if>
+            <if test="cVideos != null">
+                and c_videos = #{cVideos}
+            </if>
+            <if test="cVip != null">
+                and c_vip = #{cVip}
+            </if>
+            <if test="cGrade != null and cGrade != ''">
+                and c_grade = #{cGrade}
+            </if>
+            <if test="cGatetype != null and cGatetype != ''">
+                and c_gatetype = #{cGatetype}
+            </if>
+            <if test="cWords != null">
+                and c_words = #{cWords}
+            </if>
+            <if test="cStatus != null">
+                and c_status = #{cStatus}
+            </if>
+            <if test="cLikes != null">
+                and c_likes = #{cLikes}
+            </if>
+            <if test="cDiscuss != null">
+                and c_discuss = #{cDiscuss}
+            </if>
+            <if test="cReadtimes != null">
+                and c_readtimes = #{cReadtimes}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into composition(isUsed, create_time, update_time, remarks, c_title, c_authorId, c_synopsis, c_article, c_imageB, c_imageS, c_voice, c_videos, c_vip, c_grade, c_gatetype, c_words, c_status, c_likes, c_discuss, c_readtimes)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{cTitle}, #{cAuthorid}, #{cSynopsis}, #{cArticle}, #{cImageb}, #{cImages}, #{cVoice}, #{cVideos}, #{cVip}, #{cGrade}, #{cGatetype}, #{cWords}, #{cStatus}, #{cLikes}, #{cDiscuss}, #{cReadtimes})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into composition(isUsed, create_time, update_time, remarks, c_title, c_authorId, c_synopsis, c_article,
+        c_imageB, c_imageS, c_voice, c_videos, c_vip, c_grade, c_gatetype, c_words, c_status, c_likes, c_discuss,
+        c_readtimes)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.cTitle},
+            #{entity.cAuthorid}, #{entity.cSynopsis}, #{entity.cArticle}, #{entity.cImageb}, #{entity.cImages},
+            #{entity.cVoice}, #{entity.cVideos}, #{entity.cVip}, #{entity.cGrade}, #{entity.cGatetype},
+            #{entity.cWords}, #{entity.cStatus}, #{entity.cLikes}, #{entity.cDiscuss}, #{entity.cReadtimes})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into composition(isUsed, create_time, update_time, remarks, c_title, c_authorId, c_synopsis, c_article,
+        c_imageB, c_imageS, c_voice, c_videos, c_vip, c_grade, c_gatetype, c_words, c_status, c_likes, c_discuss,
+        c_readtimes)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.cTitle},
+            #{entity.cAuthorid}, #{entity.cSynopsis}, #{entity.cArticle}, #{entity.cImageb}, #{entity.cImages},
+            #{entity.cVoice}, #{entity.cVideos}, #{entity.cVip}, #{entity.cGrade}, #{entity.cGatetype},
+            #{entity.cWords}, #{entity.cStatus}, #{entity.cLikes}, #{entity.cDiscuss}, #{entity.cReadtimes})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        c_title = values(c_title),
+        c_authorId = values(c_authorId),
+        c_synopsis = values(c_synopsis),
+        c_article = values(c_article),
+        c_imageB = values(c_imageB),
+        c_imageS = values(c_imageS),
+        c_voice = values(c_voice),
+        c_videos = values(c_videos),
+        c_vip = values(c_vip),
+        c_grade = values(c_grade),
+        c_gatetype = values(c_gatetype),
+        c_words = values(c_words),
+        c_status = values(c_status),
+        c_likes = values(c_likes),
+        c_discuss = values(c_discuss),
+        c_readtimes = values(c_readtimes)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update composition
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="cTitle != null and cTitle != ''">
+                c_title = #{cTitle},
+            </if>
+            <if test="cAuthorid != null">
+                c_authorId = #{cAuthorid},
+            </if>
+            <if test="cSynopsis != null and cSynopsis != ''">
+                c_synopsis = #{cSynopsis},
+            </if>
+            <if test="cArticle != null and cArticle != ''">
+                c_article = #{cArticle},
+            </if>
+            <if test="cImageb != null and cImageb != ''">
+                c_imageB = #{cImageb},
+            </if>
+            <if test="cImages != null and cImages != ''">
+                c_imageS = #{cImages},
+            </if>
+            <if test="cVoice != null">
+                c_voice = #{cVoice},
+            </if>
+            <if test="cVideos != null">
+                c_videos = #{cVideos},
+            </if>
+            <if test="cVip != null">
+                c_vip = #{cVip},
+            </if>
+            <if test="cGrade != null and cGrade != ''">
+                c_grade = #{cGrade},
+            </if>
+            <if test="cGatetype != null and cGatetype != ''">
+                c_gatetype = #{cGatetype},
+            </if>
+            <if test="cWords != null">
+                c_words = #{cWords},
+            </if>
+            <if test="cStatus != null">
+                c_status = #{cStatus},
+            </if>
+            <if test="cLikes != null">
+                c_likes = #{cLikes},
+            </if>
+            <if test="cDiscuss != null">
+                c_discuss = #{cDiscuss},
+            </if>
+            <if test="cReadtimes != null">
+                c_readtimes = #{cReadtimes},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from composition where id = #{id}
+
+    </delete>
+</mapper>
+

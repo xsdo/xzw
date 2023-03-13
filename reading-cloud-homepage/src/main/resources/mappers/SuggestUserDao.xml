@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.homepage.dao.SuggestUserDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwtasks.SuggestUser" id="SuggestUserMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="userName" column="user_name" jdbcType="VARCHAR"/>
+        <result property="userHead" column="user_head" jdbcType="VARCHAR"/>
+        <result property="userTable" column="user_table" jdbcType="INTEGER"/>
+        <result property="userType" column="user_type" jdbcType="INTEGER"/>
+        <result property="userFans" column="user_fans" jdbcType="INTEGER"/>
+        <result property="uTop" column="u_top" jdbcType="INTEGER"/>
+        <result property="uEndtime" column="u_endtime" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="SuggestUserMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, user_id, user_name, user_head, user_table, user_type, user_fans, u_top, u_endtime
+                from suggest_user
+                where id = #{id}
+
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="SuggestUserMap">
+        select
+        id, isUsed, create_time, update_time, remarks, user_id, user_name, user_head, user_table, user_type, user_fans,
+        u_top, u_endtime
+        from suggest_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="userHead != null and userHead != ''">
+                and user_head = #{userHead}
+            </if>
+            <if test="userTable != null">
+                and user_table = #{userTable}
+            </if>
+            <if test="userType != null">
+                and user_type = #{userType}
+            </if>
+            <if test="userFans != null">
+                and user_fans = #{userFans}
+            </if>
+            <if test="uTop != null">
+                and u_top = #{uTop}
+            </if>
+            <if test="uEndtime != null">
+                and u_endtime = #{uEndtime}
+            </if>
+        </where>
+    </select>
+
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="SuggestUserMap">
+        select
+        id, isUsed, create_time, update_time, remarks, user_id, user_name, user_head, user_table, user_type, user_fans,
+        u_top, u_endtime
+        from suggest_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="userHead != null and userHead != ''">
+                and user_head = #{userHead}
+            </if>
+            <if test="userTable != null">
+                and user_table = #{userTable}
+            </if>
+            <if test="userType != null">
+                and user_type = #{userType}
+            </if>
+            <if test="userFans != null">
+                and user_fans = #{userFans}
+            </if>
+            <if test="uTop != null">
+                and u_top = #{uTop}
+            </if>
+            <if test="uEndtime != null">
+                and u_endtime = #{uEndtime}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from suggest_user
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="userName != null and userName != ''">
+                and user_name = #{userName}
+            </if>
+            <if test="userHead != null and userHead != ''">
+                and user_head = #{userHead}
+            </if>
+            <if test="userTable != null">
+                and user_table = #{userTable}
+            </if>
+            <if test="userType != null">
+                and user_type = #{userType}
+            </if>
+            <if test="userFans != null">
+                and user_fans = #{userFans}
+            </if>
+            <if test="uTop != null">
+                and u_top = #{uTop}
+            </if>
+            <if test="uEndtime != null">
+                and u_endtime = #{uEndtime}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into suggest_user(isUsed, create_time, update_time, remarks, user_id, user_name, user_head, user_table, user_type, user_fans, u_top, u_endtime)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{userId}, #{userName}, #{userHead}, #{userTable}, #{userType}, #{userFans}, #{uTop}, #{uEndtime})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into suggest_user(isUsed, create_time, update_time, remarks, user_id, user_name, user_head, user_table,
+        user_type, user_fans, u_top, u_endtime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.userId},
+            #{entity.userName}, #{entity.userHead}, #{entity.userTable}, #{entity.userType}, #{entity.userFans},
+            #{entity.uTop}, #{entity.uEndtime})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into suggest_user(isUsed, create_time, update_time, remarks, user_id, user_name, user_head, user_table,
+        user_type, user_fans, u_top, u_endtime)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.userId},
+            #{entity.userName}, #{entity.userHead}, #{entity.userTable}, #{entity.userType}, #{entity.userFans},
+            #{entity.uTop}, #{entity.uEndtime})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        user_id = values(user_id),
+        user_name = values(user_name),
+        user_head = values(user_head),
+        user_table = values(user_table),
+        user_type = values(user_type),
+        user_fans = values(user_fans),
+        u_top = values(u_top),
+        u_endtime = values(u_endtime)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update suggest_user
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="userName != null and userName != ''">
+                user_name = #{userName},
+            </if>
+            <if test="userHead != null and userHead != ''">
+                user_head = #{userHead},
+            </if>
+            <if test="userTable != null">
+                user_table = #{userTable},
+            </if>
+            <if test="userType != null">
+                user_type = #{userType},
+            </if>
+            <if test="userFans != null">
+                user_fans = #{userFans},
+            </if>
+            <if test="uTop != null">
+                u_top = #{uTop},
+            </if>
+            <if test="uEndtime != null">
+                u_endtime = #{uEndtime},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from suggest_user where id = #{id}
+
+    </delete>
+</mapper>
+

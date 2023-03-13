@@ -1,0 +1,226 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.account.dao.UBindingDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwusers.UBinding" id="UBindingMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="teacherId" column="teacher_id" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="scantime" column="scantime" jdbcType="TIMESTAMP"/>
+        <result property="bindtime" column="bindtime" jdbcType="TIMESTAMP"/>
+        <result property="bStatus" column="b_status" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UBindingMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, teacher_id, user_id, scantime, bindtime, b_status
+                from u_binding
+                where id = #{id}
+
+    </select>
+
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="UBindingMap">
+        select
+        id, isUsed, create_time, update_time, remarks, teacher_id, user_id, scantime, bindtime, b_status
+        from u_binding
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="teacherId != null">
+                and teacher_id = #{teacherId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="scantime != null">
+                and scantime = #{scantime}
+            </if>
+            <if test="bindtime != null">
+                and bindtime = #{bindtime}
+            </if>
+            <if test="bStatus != null">
+                and b_status = #{bStatus}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UBindingMap">
+        select
+        id, isUsed, create_time, update_time, remarks, teacher_id, user_id, scantime, bindtime, b_status
+        from u_binding
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="teacherId != null">
+                and teacher_id = #{teacherId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="scantime != null">
+                and scantime = #{scantime}
+            </if>
+            <if test="bindtime != null">
+                and bindtime = #{bindtime}
+            </if>
+            <if test="bStatus != null">
+                and b_status = #{bStatus}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from u_binding
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="teacherId != null">
+                and teacher_id = #{teacherId}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="scantime != null">
+                and scantime = #{scantime}
+            </if>
+            <if test="bindtime != null">
+                and bindtime = #{bindtime}
+            </if>
+            <if test="bStatus != null">
+                and b_status = #{bStatus}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into u_binding(isUsed, create_time, update_time, remarks, teacher_id, user_id, scantime, bindtime, b_status)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{teacherId}, #{userId}, #{scantime}, #{bindtime}, #{bStatus})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_binding(isUsed, create_time, update_time, remarks, teacher_id, user_id, scantime, bindtime,
+        b_status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.teacherId},
+            #{entity.userId}, #{entity.scantime}, #{entity.bindtime}, #{entity.bStatus})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into u_binding(isUsed, create_time, update_time, remarks, teacher_id, user_id, scantime, bindtime,
+        b_status)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.teacherId},
+            #{entity.userId}, #{entity.scantime}, #{entity.bindtime}, #{entity.bStatus})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        teacher_id = values(teacher_id),
+        user_id = values(user_id),
+        scantime = values(scantime),
+        bindtime = values(bindtime),
+        b_status = values(b_status)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update u_binding
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="teacherId != null">
+                teacher_id = #{teacherId},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="scantime != null">
+                scantime = #{scantime},
+            </if>
+            <if test="bindtime != null">
+                bindtime = #{bindtime},
+            </if>
+            <if test="bStatus != null">
+                b_status = #{bStatus},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from u_binding where id = #{id}
+
+    </delete>
+</mapper>
+

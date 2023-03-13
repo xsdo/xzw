@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.MagazinesDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.Magazines" id="MagazinesMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="mMag" column="m_mag" jdbcType="VARCHAR"/>
+        <result property="mImage" column="m_image" jdbcType="VARCHAR"/>
+        <result property="mType" column="m_type" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="MagazinesMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, m_mag, m_image, m_type
+                from magazines
+                where id = #{id}
+
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="MagazinesMap">
+        select
+        id, isUsed, create_time, update_time, remarks, m_mag, m_image, m_type
+        from magazines
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="mMag != null and mMag != ''">
+                and m_mag = #{mMag}
+            </if>
+            <if test="mImage != null and mImage != ''">
+                and m_image = #{mImage}
+            </if>
+            <if test="mType != null and mType != ''">
+                and m_type = #{mType}
+            </if>
+        </where>
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="MagazinesMap">
+        select
+        id, isUsed, create_time, update_time, remarks, m_mag, m_image, m_type
+        from magazines
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="mMag != null and mMag != ''">
+                and m_mag = #{mMag}
+            </if>
+            <if test="mImage != null and mImage != ''">
+                and m_image = #{mImage}
+            </if>
+            <if test="mType != null and mType != ''">
+                and m_type = #{mType}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from magazines
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="mMag != null and mMag != ''">
+                and m_mag = #{mMag}
+            </if>
+            <if test="mImage != null and mImage != ''">
+                and m_image = #{mImage}
+            </if>
+            <if test="mType != null and mType != ''">
+                and m_type = #{mType}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into magazines(isUsed, create_time, update_time, remarks, m_mag, m_image, m_type)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{mMag}, #{mImage}, #{mType})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into magazines(isUsed, create_time, update_time, remarks, m_mag, m_image, m_type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.mMag},
+            #{entity.mImage}, #{entity.mType})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into magazines(isUsed, create_time, update_time, remarks, m_mag, m_image, m_type)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.mMag},
+            #{entity.mImage}, #{entity.mType})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        m_mag = values(m_mag),
+        m_image = values(m_image),
+        m_type = values(m_type)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update magazines
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="mMag != null and mMag != ''">
+                m_mag = #{mMag},
+            </if>
+            <if test="mImage != null and mImage != ''">
+                m_image = #{mImage},
+            </if>
+            <if test="mType != null and mType != ''">
+                m_type = #{mType},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from magazines where id = #{id}
+
+    </delete>
+</mapper>
+

@@ -1,0 +1,91 @@
+package cn.zealon.readingcloud.book.controller;
+
+import cn.zealon.readingcloud.common.pojo.xzwresources.CCollectlog;
+import cn.zealon.readingcloud.book.service.CCollectlogService;
+import io.swagger.annotations.Api;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+import java.util.List;
+
+/**
+ * 收藏夹文件表(CCollectlog)表控制层
+ *
+ * @author makejava
+ * @since 2023-03-10 17:51:36
+ */
+@Api(description = "收藏文件接口")
+@RestController
+@RequestMapping("book/cCollectlog")
+public class CCollectlogController {
+    /**
+     * 服务对象
+     */
+    @Resource
+    private CCollectlogService cCollectlogService;
+
+    /**
+     * 分页查询
+     *
+     * @param cCollectlog 筛选条件
+     * @param pageRequest 分页对象
+     * @return 查询结果
+     */
+    @GetMapping
+    public ResponseEntity<Page<CCollectlog>> queryByPage(CCollectlog cCollectlog, PageRequest pageRequest) {
+        return ResponseEntity.ok(this.cCollectlogService.queryByPage(cCollectlog, pageRequest));
+    }
+
+    @GetMapping("queryAll")
+    public List<CCollectlog>queryAll(CCollectlog cCollectlog){
+        return this.cCollectlogService.queryAll(cCollectlog);
+    }
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    @GetMapping("{id}")
+    public ResponseEntity<CCollectlog> queryById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(this.cCollectlogService.queryById(id));
+    }
+
+    /**
+     * 新增数据
+     *
+     * @param cCollectlog 实体
+     * @return 新增结果
+     */
+    @PostMapping
+    public ResponseEntity<CCollectlog> add(CCollectlog cCollectlog) {
+        return ResponseEntity.ok(this.cCollectlogService.insert(cCollectlog));
+    }
+
+    /**
+     * 编辑数据
+     *
+     * @param cCollectlog 实体
+     * @return 编辑结果
+     */
+    @PutMapping
+    public ResponseEntity<CCollectlog> edit(CCollectlog cCollectlog) {
+        return ResponseEntity.ok(this.cCollectlogService.update(cCollectlog));
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param id 主键
+     * @return 删除是否成功
+     */
+    @DeleteMapping
+    public ResponseEntity<Boolean> deleteById(Long id) {
+        return ResponseEntity.ok(this.cCollectlogService.deleteById(id));
+    }
+
+}
+

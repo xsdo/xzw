@@ -1,0 +1,253 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.CAuthorsDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.CAuthors" id="CAuthorsMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="aName" column="a_name" jdbcType="VARCHAR"/>
+        <result property="aHead" column="a_head" jdbcType="VARCHAR"/>
+        <result property="aType" column="a_type" jdbcType="INTEGER"/>
+        <result property="province" column="province" jdbcType="VARCHAR"/>
+        <result property="city" column="city" jdbcType="VARCHAR"/>
+        <result property="area" column="area" jdbcType="VARCHAR"/>
+        <result property="school" column="school" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="CAuthorsMap">
+
+                select
+                  id, isUsed, create_time, update_time, remarks, a_name, a_head, a_type, province, city, area, school
+                from c_authors
+                where id = #{id}
+
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="CAuthorsMap">
+        select
+        id, isUsed, create_time, update_time, remarks, a_name, a_head, a_type, province, city, area, school
+        from c_authors
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="aName != null and aName != ''">
+                and a_name = #{aName}
+            </if>
+            <if test="aHead != null and aHead != ''">
+                and a_head = #{aHead}
+            </if>
+            <if test="aType != null">
+                and a_type = #{aType}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="school != null and school != ''">
+                and school = #{school}
+            </if>
+        </where>
+        order by id desc
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="CAuthorsMap">
+        select
+        id, isUsed, create_time, update_time, remarks, a_name, a_head, a_type, province, city, area, school
+        from c_authors
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="aName != null and aName != ''">
+                and a_name = #{aName}
+            </if>
+            <if test="aHead != null and aHead != ''">
+                and a_head = #{aHead}
+            </if>
+            <if test="aType != null">
+                and a_type = #{aType}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="school != null and school != ''">
+                and school = #{school}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from c_authors
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="aName != null and aName != ''">
+                and a_name = #{aName}
+            </if>
+            <if test="aHead != null and aHead != ''">
+                and a_head = #{aHead}
+            </if>
+            <if test="aType != null">
+                and a_type = #{aType}
+            </if>
+            <if test="province != null and province != ''">
+                and province = #{province}
+            </if>
+            <if test="city != null and city != ''">
+                and city = #{city}
+            </if>
+            <if test="area != null and area != ''">
+                and area = #{area}
+            </if>
+            <if test="school != null and school != ''">
+                and school = #{school}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+
+                insert into c_authors(isUsed, create_time, update_time, remarks, a_name, a_head, a_type, province, city, area, school)
+                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{aName}, #{aHead}, #{aType}, #{province}, #{city}, #{area}, #{school})
+
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into c_authors(isUsed, create_time, update_time, remarks, a_name, a_head, a_type, province, city, area,
+        school)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.aName},
+            #{entity.aHead}, #{entity.aType}, #{entity.province}, #{entity.city}, #{entity.area}, #{entity.school})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into c_authors(isUsed, create_time, update_time, remarks, a_name, a_head, a_type, province, city, area,
+        school)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.aName},
+            #{entity.aHead}, #{entity.aType}, #{entity.province}, #{entity.city}, #{entity.area}, #{entity.school})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        a_name = values(a_name),
+        a_head = values(a_head),
+        a_type = values(a_type),
+        province = values(province),
+        city = values(city),
+        area = values(area),
+        school = values(school)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update c_authors
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="aName != null and aName != ''">
+                a_name = #{aName},
+            </if>
+            <if test="aHead != null and aHead != ''">
+                a_head = #{aHead},
+            </if>
+            <if test="aType != null">
+                a_type = #{aType},
+            </if>
+            <if test="province != null and province != ''">
+                province = #{province},
+            </if>
+            <if test="city != null and city != ''">
+                city = #{city},
+            </if>
+            <if test="area != null and area != ''">
+                area = #{area},
+            </if>
+            <if test="school != null and school != ''">
+                school = #{school},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+
+                delete from c_authors where id = #{id}
+
+    </delete>
+</mapper>
+

@@ -33,7 +33,6 @@ public class UAttributeController {
     private UAttributeService uAttributeService;
 
 
-
     @ApiOperation("上传头像")
     @PostMapping(value = "/updateHead")
     public ResponseEntity<Object> updateHead(MultipartFile avatar){

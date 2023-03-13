@@ -66,9 +66,9 @@ public class XzwUserController {
     public String getOpeId(@RequestBody JSONObject js_code) {
         String code = js_code.getString("js_code");
         // 小程序唯一标识 (在微信小程序管理后台获取)
-        String appid = "wx3ea6fed2d4bf5383";
+        String appid = "";
         // 小程序的 app secret (在微信小程序管理后台获取)
-        String secret = "deb9acce58dc33fbd5103a0f481e465f";
+        String secret = "";
         // 授权（必填）
         String grant_type = "authorization_code";
         // 向微信服务器 使用登录凭证 code 获取 session_key 和 openid

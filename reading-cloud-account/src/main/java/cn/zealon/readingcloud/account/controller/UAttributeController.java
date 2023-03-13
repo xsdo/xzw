@@ -43,7 +43,6 @@ public class UAttributeController {
     public ResponseEntity<Object> change(UAttribute uAttribute){
         return new ResponseEntity<>(uAttributeService.update(uAttribute), HttpStatus.OK);
     }
-
     /**
      * 分页查询
      *

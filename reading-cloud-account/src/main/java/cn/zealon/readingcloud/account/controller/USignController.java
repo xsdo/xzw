@@ -102,29 +102,8 @@ public class USignController {
                     }
 
                 }
-                XzwUser xzwUser=xzwUserService.queryById(userId);
-                if (xzwUser != null) {
-//                    System.out.println("xzwUser != null");
-                    UAttribute uAttribute=uAttributeService.queryById(xzwUser.getAttributeid());
-                    if (uAttribute != null){
-//                        System.out.println("uAttribute != null");
-                        //签到成功+2分
-
-                        uAttribute.setIntegral(uAttribute.getIntegral()+2);
-                        uAttribute.setUpdateTime(new Date());
-                        uAttributeService.update(uAttribute);
-
-
-                        //添加积分明细
-                        UFlowers uFlowers =new UFlowers();
-                        uFlowers.setIsused(0);
-                        uFlowers.setUserId(userId);
-                        uFlowers.setFlowers(2);
-                        uFlowers.setCreateTime(new Date());
-                        uFlowers.setRemarks("签到");
-                        uFlowersService.insert(uFlowers);
-                    }
-                }
+                //签到成功+添加积分
+                uFlowersService.addFlowers(userId,2,"签到");
 
                 result.put("sign",00);
                 data.put("data","签到成功");

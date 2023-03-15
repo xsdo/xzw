@@ -5,6 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
+import java.util.List;
+
 /**
  * 用户点赞表(CLikes)表服务接口
  *
@@ -30,11 +32,14 @@ public interface CLikesService {
      */
     Page<CLikes> queryByPage(CLikes cLikes, PageRequest pageRequest);
 
+    List<CLikes> queryAll(Long userId);
 
     Integer checkLikes (Long userId ,Long likesId);
 
 
     JSONObject toLikes(Long userId , Long likesId, Integer type);
+
+    void setRedisTask(Long userId,Long taskId);
     /**
      * 新增数据
      *

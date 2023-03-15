@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.book.controller;
 
 import cn.zealon.readingcloud.common.pojo.xzwresources.CTips;
 import cn.zealon.readingcloud.book.service.CTipsService;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -55,6 +56,10 @@ public class CTipsController {
         return ResponseEntity.ok(this.cTipsService.queryById(id));
     }
 
+    @GetMapping("toTips")
+    public JSONObject toTips(Long discussId,Long discussUserId,Long tipsUserId,String cause){
+        return this.cTipsService.toTips(discussId, discussUserId,tipsUserId, cause);
+    }
     /**
      * 新增数据
      *

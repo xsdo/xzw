@@ -1,15 +1,22 @@
 package cn.zealon.readingcloud.homepage.controller;
 
+import cn.zealon.readingcloud.common.cache.RedisService;
 import cn.zealon.readingcloud.common.pojo.xzwtasks.AuthTasklog;
 import cn.zealon.readingcloud.homepage.service.AuthTasklogService;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
+import org.springframework.boot.autoconfigure.cache.CacheProperties;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
+
+import static cn.zealon.readingcloud.common.cache.RedisExpire.DAY;
 
 /**
  * 认证用户记录表(AuthTasklog)表控制层
@@ -27,6 +34,8 @@ public class AuthTasklogController {
     @Resource
     private AuthTasklogService authTasklogService;
 
+    @Resource
+    private RedisService redisService;
     /**
      * 分页查询
      *
@@ -43,6 +52,17 @@ public class AuthTasklogController {
     public List<AuthTasklog>queryAll(AuthTasklog authTasklog){
         return this.authTasklogService.queryAll(authTasklog);
     }
+    @GetMapping("queryByUserId")
+    public List<AuthTasklog>queryByUserId(Long userId){
+        return this.authTasklogService.queryByUserId(userId);
+    }
+
+    @GetMapping("toAuthTasklog")
+    public JSONObject toAuthTasklog(Long authTasklogId){
+        return this.authTasklogService.toAuthTasklog(authTasklogId);
+    }
+
+
     /**
      * 通过主键查询单条数据
      *

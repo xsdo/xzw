@@ -1,5 +1,6 @@
 package cn.zealon.readingcloud.book.controller;
 
+import cn.zealon.readingcloud.book.service.CLikesService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CSubmit;
 import cn.zealon.readingcloud.book.service.CSubmitService;
 import io.swagger.annotations.Api;
@@ -9,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -27,6 +29,8 @@ public class CSubmitController {
     @Resource
     private CSubmitService cSubmitService;
 
+    @Resource
+    private CLikesService clikesService;
     /**
      * 分页查询
      *
@@ -43,6 +47,13 @@ public class CSubmitController {
         return this.cSubmitService.queryAll(cSubmit);
     }
 
+    @GetMapping("queryByUserId")
+    public List<CSubmit>queryByUserId(Long userId){
+        CSubmit cSubmit = new CSubmit();
+        cSubmit.setIsused(0);
+        cSubmit.setUserId(userId);
+        return this.cSubmitService.queryAll(cSubmit);
+    }
     /**
      * 通过主键查询单条数据
      *
@@ -54,6 +65,20 @@ public class CSubmitController {
         return ResponseEntity.ok(this.cSubmitService.queryById(id));
     }
 
+    @GetMapping("addSubmit")
+    public ResponseEntity<CSubmit> add(Long userId,String name,String content) {
+        //redis
+        this.clikesService.setRedisTask(userId,new Long(7));
+        CSubmit cSubmit=new CSubmit();
+        cSubmit.setIsused(0);
+        cSubmit.setCreateTime(new Date());
+        cSubmit.setUpdateTime(new Date());
+        cSubmit.setUserId(userId);
+        cSubmit.setSName(name);
+        cSubmit.setSContent(content);
+        return ResponseEntity.ok(this.cSubmitService.insert(cSubmit));
+
+    }
     /**
      * 新增数据
      *
@@ -61,7 +86,7 @@ public class CSubmitController {
      * @return 新增结果
      */
     @PostMapping
-    public ResponseEntity<CSubmit> add(CSubmit cSubmit) {
+    public ResponseEntity<CSubmit> add(@RequestBody CSubmit cSubmit) {
         return ResponseEntity.ok(this.cSubmitService.insert(cSubmit));
     }
 

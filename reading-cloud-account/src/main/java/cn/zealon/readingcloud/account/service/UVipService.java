@@ -39,6 +39,8 @@ public interface UVipService {
     void toVipFirst(Long userId);
 
     JSONObject toVip(Long userId,int vipType,int month);
+
+    JSONObject toVipByCode(Long userId,int vipType,int month,String code);
     /**
      * 新增数据
      *

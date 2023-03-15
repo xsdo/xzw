@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.homepage.controller;
 
 import cn.zealon.readingcloud.common.pojo.xzwtasks.ReadTasklog;
 import cn.zealon.readingcloud.homepage.service.ReadTasklogService;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -42,6 +43,11 @@ public class ReadTasklogController {
     @GetMapping("queryAllByUserId")
     public List<ReadTasklog>queryAllByUserId(Long userId){
         return this.readTasklogService.queryAllByUserId(userId);
+    }
+
+    @GetMapping("doReadTask")
+    public JSONObject doReadTasklog(Long readTasklogId, int taskNum){
+        return this.readTasklogService.doReadTasklog(readTasklogId,taskNum);
     }
     /**
      * 通过主键查询单条数据

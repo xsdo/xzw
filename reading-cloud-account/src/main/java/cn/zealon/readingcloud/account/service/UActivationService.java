@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.account.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwusers.UActivation;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -31,6 +32,10 @@ public interface UActivationService {
      */
     Page<UActivation> queryByPage(UActivation uActivation, PageRequest pageRequest);
     List<UActivation> queryAll(UActivation uActivation);
+
+    JSONObject createActivationCode(String createUser, Long vipType, int sum, int month);
+
+    JSONObject useActivationCode(Long userId,String activationCode);
     /**
      * 新增数据
      *

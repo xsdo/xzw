@@ -2,6 +2,8 @@ package cn.zealon.readingcloud.book.controller;
 
 import cn.zealon.readingcloud.account.feign.client.UserAttributeClient;
 import cn.zealon.readingcloud.book.service.CDiscussService;
+import cn.zealon.readingcloud.book.vo.DiscussComVO;
+import cn.zealon.readingcloud.book.vo.DiscussUserVO;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CDiscuss;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
@@ -46,7 +48,16 @@ public class CDiscussController {
     public List<CDiscuss>queryAll(CDiscuss cDiscuss){
         return this.cDiscussService.queryAll(cDiscuss);
     }
-    
+
+
+    @GetMapping("queryByUserId")
+    public List<DiscussComVO>queryByUserId(Long userId){
+        return this.cDiscussService.queryByUserId(userId);
+    }
+    @GetMapping("queryByCompositionId")
+    public List<DiscussUserVO>queryByCompositionId(Long compositionId,String remarks){
+        return this.cDiscussService.queryByCompositionId(compositionId,remarks);
+    }
 
     @PostMapping("doDiscuss")
     public JSONObject doDiscuss(Long userId,String discuss,Long compositionId,Integer type){

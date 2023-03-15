@@ -43,6 +43,14 @@ public class CReadlogController {
     public List<CReadlog>queryAll(CReadlog cReadlog){
         return this.cReadlogService.queryAll(cReadlog);
     }
+
+    @GetMapping("queryByUserId")
+    public List<CReadlog>queryByUserId(Long userId){
+        CReadlog cReadlog =new CReadlog();
+        cReadlog.setIsused(0);
+        cReadlog.setUserId(userId);
+        return this.cReadlogService.queryAll(cReadlog);
+    }
     /**
      * 通过主键查询单条数据
      *

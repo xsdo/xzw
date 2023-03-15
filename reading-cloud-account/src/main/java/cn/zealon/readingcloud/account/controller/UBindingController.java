@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.account.controller;
 
 import cn.zealon.readingcloud.common.pojo.xzwusers.UBinding;
 import cn.zealon.readingcloud.account.service.UBindingService;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -47,6 +48,11 @@ public class UBindingController {
     @GetMapping("queryByTeacherId")
     public List<UBinding> queryByTeacherId(Long teacherId) {
         return this.uBindingService.queryByTeacherId(teacherId);
+    }
+
+    @GetMapping("doBanding")
+    public JSONObject doBinding(Long userId, Long teacherId){
+        return this.uBindingService.doBinding(userId, teacherId);
     }
 
 

@@ -3,13 +3,17 @@ package cn.zealon.readingcloud.account.service.impl;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UBinding;
 import cn.zealon.readingcloud.account.dao.UBindingDao;
 import cn.zealon.readingcloud.account.service.UBindingService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 绑定班级表(UBinding)表服务实现类
@@ -59,6 +63,50 @@ public class UBindingServiceImpl implements UBindingService {
         return this.uBindingDao.queryAll(uBinding);
     }
 
+    @Override//绑定班级
+    public JSONObject doBinding(Long userId,Long teacherId){
+        JSONObject result = new JSONObject();
+        Map<String, Object> data = new HashMap<>();
+        try{
+            UBinding ubinding = new UBinding();
+            ubinding.setIsused(0);
+            ubinding.setUserId(userId);
+            ubinding.setTeacherId(teacherId);
+            List<UBinding>uBindingList=this.uBindingDao.queryAll(ubinding);
+            if (uBindingList.size() > 0) {
+                UBinding u=uBindingList.get(0);
+                if (u!=null){
+                    if (u.getBStatus() == 1){
+                        result.put("sign", 00);
+                        data.put("data", "您已经是该班级成员");
+                    }else  {
+                        u.setBStatus(0);
+                        u.setUpdateTime(new Date());
+                        u.setScantime(new Date());
+                        this.uBindingDao.update(u);
+                        result.put("sign", 00);
+                        data.put("data", "申请成功，快让班主任同意进班吧");
+                    }
+                }
+            }else {
+                ubinding.setCreateTime(new Date());
+                ubinding.setUpdateTime(new Date());
+                ubinding.setScantime(new Date());
+                ubinding.setBStatus(0);
+                this.uBindingDao.insert(ubinding);
+                result.put("sign", 00);
+                data.put("data", "申请成功，快让班主任同意进班吧");
+            }
+
+
+            result.put("data",data);
+        }catch (Exception e) {
+            e.printStackTrace();
+            result.put("sign",-1);
+            result.put("data","服务器错误");
+        }
+        return result;
+    }
 
     /**
      * 新增数据

@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.book.service.impl;
 
 import cn.zealon.readingcloud.book.service.*;
+import cn.zealon.readingcloud.common.cache.RedisService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.*;
 import cn.zealon.readingcloud.book.dao.CLikesDao;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UFollow;
@@ -11,10 +12,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static cn.zealon.readingcloud.common.cache.RedisExpire.DAY;
 
 /**
  * 用户点赞表(CLikes)表服务实现类
@@ -38,6 +42,9 @@ public class CLikesServiceImpl implements CLikesService {
 
     @Resource
     private CDiscussService cDiscussService;
+
+    @Resource
+    private RedisService redisService;
     /**
      * 通过ID查询单条数据
      *
@@ -62,12 +69,26 @@ public class CLikesServiceImpl implements CLikesService {
         return new PageImpl<>(this.cLikesDao.queryAllByLimit(cLikes, pageRequest), pageRequest, total);
     }
 
+    @Override
+    public List<CLikes>queryAll(Long userId){
+        CLikes likes =new CLikes();
+        likes.setIsused(0);
+        likes.setUserId(userId);
+        List<CLikes>likesList=this.cLikesDao.queryAll(likes);
+        if (likesList.size() > 0) {
+            return likesList;
+        }else {
+            return null;
+        }
+    }
+
+
+
     public CLikes queryByUserId(Long userId,Long likesId){
         CLikes likes =new CLikes();
         likes.setIsused(0);
         likes.setUserId(userId);
         likes.setLikesId(likesId);
-        UFollow uFollow=new UFollow();
         List<CLikes>likesList=this.cLikesDao.queryAll(likes);
         if (likesList.size() > 0) {
             return likesList.get(0);
@@ -109,6 +130,8 @@ public class CLikesServiceImpl implements CLikesService {
                     clikes.setUpdateTime(new Date());
                     this.update(clikes);
                     this.likesCount(likesId, type, 1);
+                    //redis
+                    this.setRedisTask(userId,new Long(5));
                     result.put("sign",00);
                     data.put("data","点赞成功");
                 }
@@ -122,7 +145,10 @@ public class CLikesServiceImpl implements CLikesService {
                 c.setCreateTime(new Date());
                 c.setUpdateTime(new Date());
                 this.insert(c);
+
                 this.likesCount(likesId, type, 1);
+                //redis
+                this.setRedisTask(userId,new Long(5));
                 result.put("sign",00);
                 data.put("data","点赞成功");
             }
@@ -162,11 +188,22 @@ public class CLikesServiceImpl implements CLikesService {
                 this.cDiscussService.update(cDiscuss);
             }
         }
-
-
-
     }
 
+
+    @Override
+    public  void setRedisTask(Long userId,Long taskId){
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = new Date();
+        String format = simpleDateFormat.format(date);
+        String key = format+":user"+userId+":task"+taskId;
+        String taskCount=redisService.getCache(key);
+        if (taskCount==null){
+            redisService.setExpireCache(key,1,DAY);
+        }else {
+            redisService.setExpireCache(key,taskCount+1,DAY);
+        }
+    }
     /**
      * 新增数据
      *

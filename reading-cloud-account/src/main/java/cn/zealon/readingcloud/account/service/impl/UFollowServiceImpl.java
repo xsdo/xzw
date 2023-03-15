@@ -13,10 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 用户关注表(UFollow)表服务实现类
@@ -144,12 +141,14 @@ public class UFollowServiceImpl implements UFollowService {
         try {
             List<UFollow>uFollowList=this.queryFollow(userId);
             if (uFollowList!=null){
+                List<UAttribute>u=new ArrayList<>();
                 for (UFollow uFollow: uFollowList) {
                     UAttribute uAttribute=this.uAttributeService.queryById(uFollow.getFollowedUser());
-                    data.put("followUser"+uFollow.getFollowedUser(),uAttribute);
+                    u.add(uAttribute);
                 }
                 result.put("sign",00);
                 result.put("count",uFollowList.size());
+                result.put("follower",u);
                 data.put("data","查询成功");
             }else {
                 result.put("sign",00);
@@ -173,12 +172,14 @@ public class UFollowServiceImpl implements UFollowService {
         try {
             List<UFollow>uFollowList=this.queryFans(followId);
             if (uFollowList!=null){
+                List<UAttribute>u=new ArrayList<>();
                 for (UFollow uFollow: uFollowList) {
                     UAttribute uAttribute=this.uAttributeService.queryById(uFollow.getUserId());
-                    data.put("fans"+uFollow.getUserId(),uAttribute);
+                    u.add(uAttribute);
                 }
                 result.put("sign",00);
                 result.put("count",uFollowList.size());
+                result.put("follower",u);
                 data.put("data","查询成功");
             }else {
                 result.put("sign",00);

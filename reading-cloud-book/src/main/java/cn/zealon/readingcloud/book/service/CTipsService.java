@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.book.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwresources.CTips;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -31,7 +32,7 @@ public interface CTipsService {
      */
     Page<CTips> queryByPage(CTips cTips, PageRequest pageRequest);
     List<CTips> queryAll(CTips cTips);
-
+    JSONObject toTips(Long discussId, Long discussUserId, Long tipsUserId, String cause);
     /**
      * 新增数据
      *

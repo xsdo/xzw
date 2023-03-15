@@ -1,5 +1,7 @@
 package cn.zealon.readingcloud.book.service;
 
+import cn.zealon.readingcloud.book.vo.DiscussComVO;
+import cn.zealon.readingcloud.book.vo.DiscussUserVO;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CDiscuss;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
@@ -33,7 +35,9 @@ public interface CDiscussService {
     Page<CDiscuss> queryByPage(CDiscuss cDiscuss, PageRequest pageRequest);
 
     List<CDiscuss> queryAll(CDiscuss cDiscuss);
+    List<DiscussComVO>queryByUserId(Long userId);
 
+    List<DiscussUserVO>queryByCompositionId(Long compositionId,String remarks);
 
     JSONObject doDiscuss(Long userId, String discuss, Long compositionId,Integer type);
     /**

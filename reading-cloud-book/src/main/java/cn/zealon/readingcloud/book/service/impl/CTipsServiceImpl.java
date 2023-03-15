@@ -1,15 +1,21 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.book.service.CDiscussService;
+import cn.zealon.readingcloud.common.pojo.xzwresources.CDiscuss;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CTips;
 import cn.zealon.readingcloud.book.dao.CTipsDao;
 import cn.zealon.readingcloud.book.service.CTipsService;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 举报表(CTips)表服务实现类
@@ -22,6 +28,8 @@ public class CTipsServiceImpl implements CTipsService {
     @Resource
     private CTipsDao cTipsDao;
 
+    @Resource
+    private CDiscussService cDiscussService;
     /**
      * 通过ID查询单条数据
      *
@@ -49,6 +57,41 @@ public class CTipsServiceImpl implements CTipsService {
     @Override
     public List<CTips>queryAll(CTips cTips){
         return this.cTipsDao.queryAll(cTips);
+    }
+    @Override
+    public JSONObject toTips(Long discussId, Long discussUserId, Long tipsUserId, String cause){
+        JSONObject result = new JSONObject();
+        Map<String, Object> data = new HashMap<>();
+        try {
+            CDiscuss cDiscuss=cDiscussService.queryById(discussId);
+            if (cDiscuss != null) {
+                if (cDiscuss.getStatus()==5){
+                    result.put("sign",-1);
+                    data.put("data","该评论已审核");
+                }else {
+                    cDiscuss.setStatus(2);
+                    this.cDiscussService.update(cDiscuss);
+                    CTips cTips=new CTips();
+                    cTips.setIsused(0);
+                    cTips.setCreateTime(new Date());
+                    cTips.setUpdateTime(new Date());
+                    cTips.setDiscussId(discussId);
+                    cTips.setDiscussUserId(discussUserId);
+                    cTips.setTipsUserId(tipsUserId);
+                    cTips.setCause(cause);
+                    cTips.setStatus(0);
+                    this.cTipsDao.insert(cTips);
+                    result.put("sign",00);
+                    data.put("data","举报成功");
+                }
+            }
+            result.put("data",data);
+        }catch (Exception e) {
+            e.printStackTrace();
+            result.put("sign",-1);
+            result.put("data","服务器错误");
+        }
+        return result;
     }
     /**
      * 新增数据

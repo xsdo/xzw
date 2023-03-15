@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.account.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwusers.UBinding;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -34,6 +35,8 @@ public interface UBindingService {
     List<UBinding> queryAll(UBinding uBinding);
 
     List<UBinding> queryByTeacherId(Long teacherId);
+
+    JSONObject doBinding(Long userId, Long teacherId);
     /**
      * 新增数据
      *

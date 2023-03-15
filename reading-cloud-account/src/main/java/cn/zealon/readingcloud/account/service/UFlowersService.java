@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.account.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwusers.UFlowers;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -36,6 +37,10 @@ public interface UFlowersService {
     List<UFlowers>queryByUserId(Long userId);
 
     List<UFlowers>queryByTeacherId(Long teacherId);
+
+    JSONObject giveFlowers(Long userId,Long teacherId, int flowers);
+
+    JSONObject addFlowers(Long userId, int flowers, String remarks);
 
     /**
      * 新增数据

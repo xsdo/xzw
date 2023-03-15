@@ -74,6 +74,16 @@ public class CCollectController {
         return ResponseEntity.ok(this.cCollectService.insert(cCollect));
     }
 
+    @PostMapping("editConllect")
+    public ResponseEntity<CCollect> editConllect(Long id,Long userId,String cName) {
+        CCollect cCollect=new CCollect();
+        cCollect.setId(id);
+        cCollect.setIsused(0);
+        cCollect.setUpdateTime(new Date());
+        cCollect.setUserId(userId);
+        cCollect.setCName(cName);
+        return ResponseEntity.ok(this.cCollectService.update(cCollect));
+    }
     /**
      * 新增数据
      *

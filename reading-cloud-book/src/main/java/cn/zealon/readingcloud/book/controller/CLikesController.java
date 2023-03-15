@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 用户点赞表(CLikes)表控制层
@@ -49,6 +50,12 @@ public class CLikesController {
     public JSONObject toLikes (Long userId ,Long likesId,Integer type){
         return this.cLikesService.toLikes(userId, likesId, type);
     }
+    //全部点赞
+    @GetMapping("queryAllLikes")
+    public List<CLikes> queryAll(Long userId){
+        return this.cLikesService.queryAll(userId);
+    }
+
     /**
      * 通过主键查询单条数据
      *

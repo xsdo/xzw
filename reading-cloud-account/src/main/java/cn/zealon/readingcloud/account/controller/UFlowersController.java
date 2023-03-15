@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.account.controller;
 
 import cn.zealon.readingcloud.common.pojo.xzwusers.UFlowers;
 import cn.zealon.readingcloud.account.service.UFlowersService;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -51,8 +52,19 @@ public class UFlowersController {
 
     @GetMapping("queryByTeacherId")
     public List<UFlowers>queryByTeacherId(Long teacherId){
-        return this.uFlowersService.queryByUserId(teacherId);
+        return this.uFlowersService.queryByTeacherId(teacherId);
     }
+
+    @GetMapping("giveFlowers")
+    public JSONObject giveFlowers(Long userId,Long teacherId, int flowers){
+        return this.uFlowersService.giveFlowers(userId, teacherId, flowers);
+    }
+    @GetMapping("addFlowers")
+    public JSONObject addFlowers(Long userId, int flowers, String remarks){
+        return this.uFlowersService.addFlowers(userId,flowers,remarks);
+    }
+
+
 
     /**
      * 通过主键查询单条数据

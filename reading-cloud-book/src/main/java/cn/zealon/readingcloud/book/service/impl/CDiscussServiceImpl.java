@@ -1,11 +1,10 @@
 package cn.zealon.readingcloud.book.service.impl;
 
 import cn.zealon.readingcloud.account.feign.client.UserAttributeClient;
-import cn.zealon.readingcloud.book.service.CNoteService;
-import cn.zealon.readingcloud.book.service.CircleService;
-import cn.zealon.readingcloud.book.service.CompositionService;
+import cn.zealon.readingcloud.book.service.*;
 import cn.zealon.readingcloud.book.dao.CDiscussDao;
-import cn.zealon.readingcloud.book.service.CDiscussService;
+import cn.zealon.readingcloud.book.vo.DiscussComVO;
+import cn.zealon.readingcloud.book.vo.DiscussUserVO;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CDiscuss;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CNote;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Circle;
@@ -18,10 +17,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 评论表(CDiscuss)表服务实现类
@@ -45,6 +41,11 @@ public class CDiscussServiceImpl implements CDiscussService {
 
     @Resource
     private CNoteService cNoteService;
+
+    @Resource
+    private CLikesService clikesService;
+
+
     /**
      * 通过ID查询单条数据
      *
@@ -73,6 +74,48 @@ public class CDiscussServiceImpl implements CDiscussService {
     public List<CDiscuss>queryAll(CDiscuss cDiscuss){
         cDiscuss.setIsused(0);
         return this.cDiscussDao.queryAll(cDiscuss);
+    }
+
+    @Override
+    public List<DiscussComVO>queryByUserId(Long userId){
+        List<DiscussComVO> diso=new ArrayList<>();
+        CDiscuss cDiscuss=new CDiscuss();
+        cDiscuss.setIsused(0);
+        cDiscuss.setUserId(userId);
+        List<CDiscuss> cDiscussList = this.cDiscussDao.queryAll(cDiscuss);
+        if(cDiscussList!=null&&cDiscussList.size() > 0){
+            for (CDiscuss cd: cDiscussList) {
+                DiscussComVO discussComVO = new DiscussComVO();
+                discussComVO.setCDiscuss(cd);
+                if (cd.getRemarks().equals("0")){
+                    discussComVO.setComposition(this.compositionService.queryById(cd.getCompositionId()));
+                }else if (cd.getRemarks().equals("1")) {
+                    discussComVO.setNote(this.cNoteService.queryById(cd.getCompositionId()));
+                }else if (cd.getRemarks().equals("2")){
+                    discussComVO.setCircle(this.circleService.queryById(cd.getCompositionId()));
+                }
+                diso.add(discussComVO);
+            }
+        }
+        return diso;
+    }
+    @Override
+    public List<DiscussUserVO>queryByCompositionId(Long compositionId,String remarks){
+        List<DiscussUserVO>diso=new ArrayList<>();
+        CDiscuss cDiscuss=new CDiscuss();
+        cDiscuss.setIsused(0);
+        cDiscuss.setRemarks(remarks);
+        cDiscuss.setCompositionId(compositionId);
+        List<CDiscuss> cDiscussList = this.cDiscussDao.queryAll(cDiscuss);
+        if(cDiscussList!=null&&cDiscussList.size() > 0){
+            for (CDiscuss cd: cDiscussList) {
+                DiscussUserVO discussUserVO = new DiscussUserVO();
+                discussUserVO.setCDiscuss(cd);
+                discussUserVO.setUAttribute(this.userAttributeClient.queryByUserId(cd.getUserId()));
+                diso.add(discussUserVO);
+            }
+        }
+        return diso;
     }
     @Override
     public JSONObject doDiscuss(Long userId, String discuss, Long compositionId,Integer type){
@@ -117,6 +160,8 @@ public class CDiscussServiceImpl implements CDiscussService {
                     }
                 }
 
+                //redis
+                this.clikesService.setRedisTask(userId,new Long(4));
 
                 data.put("discuss",cDiscuss);
                 result.put("sign",00);

@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.homepage.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwtasks.ReadTasklog;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -22,6 +23,7 @@ public interface ReadTasklogService {
      */
     ReadTasklog queryById(Long id);
 
+    List<ReadTasklog>queryAll(ReadTasklog readTasklog);
     /**
      * 分页查询
      *
@@ -30,6 +32,8 @@ public interface ReadTasklogService {
      * @return 查询结果
      */
     Page<ReadTasklog> queryByPage(ReadTasklog readTasklog, PageRequest pageRequest);
+
+    JSONObject doReadTasklog(Long readTasklogId, int taskNum);
 
     List<ReadTasklog> queryAllByUserId(Long userId);
     /**

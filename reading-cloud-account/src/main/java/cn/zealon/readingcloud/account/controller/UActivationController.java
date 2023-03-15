@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.account.controller;
 
 import cn.zealon.readingcloud.common.pojo.xzwusers.UActivation;
 import cn.zealon.readingcloud.account.service.UActivationService;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -43,6 +44,16 @@ public class UActivationController {
     public List<UActivation>queryAll(UActivation uActivation){
         return this.uActivationService.queryAll(uActivation);
     }
+
+    @GetMapping("createActivationCode")
+    public JSONObject createActivationCode(String createUser, Long vipType, int sum, int month){
+        return this.uActivationService.createActivationCode(createUser, vipType, sum, month);
+    }
+    @GetMapping("useActivationCode")
+    public JSONObject useActivationCode(Long userId,String activationCode){
+        return this.uActivationService.useActivationCode(userId, activationCode);
+    }
+
     /**
      * 通过主键查询单条数据
      *

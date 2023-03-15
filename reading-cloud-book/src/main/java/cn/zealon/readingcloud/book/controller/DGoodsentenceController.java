@@ -44,6 +44,7 @@ public class DGoodsentenceController {
         return this.dGoodsentenceService.queryAll(dGoodsentence);
     }
 
+
     /**
      * 通过主键查询单条数据
      *

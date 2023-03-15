@@ -72,12 +72,6 @@ public class CompositionController {
         return ResponseEntity.ok(this.compositionService.queryById(id));
     }
 
-
-
-    @GetMapping("/test")
-    public Composition test(Long id) {
-        return compositionService.queryById(id);
-    }
     /**
      * 新增数据
      *

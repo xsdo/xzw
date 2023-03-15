@@ -61,7 +61,6 @@
                 and a_award = #{aAward}
             </if>
         </where>
-        order by id desc
     </select>
 
     <!--查询指定行数据-->

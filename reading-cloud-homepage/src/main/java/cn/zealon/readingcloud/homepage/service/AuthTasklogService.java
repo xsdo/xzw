@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.homepage.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwtasks.AuthTasklog;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -34,6 +35,13 @@ public interface AuthTasklogService {
     Page<AuthTasklog> queryByPage(AuthTasklog authTasklog, PageRequest pageRequest);
 
     List<AuthTasklog> queryAll(AuthTasklog authTasklog);
+
+    List<AuthTasklog>queryByUserId(Long userId);
+
+    JSONObject toAuthTasklog(Long authTasklogId);
+
+    String getRedisTask(Long userId,Long taskId);
+    void setRedisTask(Long userId,Long taskId);
     /**
      * 新增数据
      *

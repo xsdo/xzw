@@ -105,6 +105,8 @@ public class UAttribute implements Serializable {
     /**
      * 绑定老师id
      */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long teacherid;
     /**
      * 是否优评员（默认0：非；优评：1）

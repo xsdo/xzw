@@ -1,5 +1,10 @@
 package cn.zealon.readingcloud.common.pojo.xzwresources;
 
+import cn.zealon.readingcloud.common.utils.LongJsonDeserializer;
+import cn.zealon.readingcloud.common.utils.LongJsonSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -14,6 +19,8 @@ public class CLikes implements Serializable {
     /**
      * ID
      */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long id;
     /**
      * 是否使用（默认0：启用； 1：废弃）
@@ -34,10 +41,14 @@ public class CLikes implements Serializable {
     /**
      * 用户id
      */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long userId;
     /**
      * 被点赞id
      */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long likesId;
     /**
      * 点赞状态：是否取消点赞（默认：0；取消：1）

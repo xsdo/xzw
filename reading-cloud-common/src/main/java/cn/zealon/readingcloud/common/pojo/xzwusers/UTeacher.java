@@ -1,5 +1,10 @@
 package cn.zealon.readingcloud.common.pojo.xzwusers;
 
+import cn.zealon.readingcloud.common.utils.LongJsonDeserializer;
+import cn.zealon.readingcloud.common.utils.LongJsonSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.util.Date;
 import java.io.Serializable;
 
@@ -14,6 +19,8 @@ public class UTeacher implements Serializable {
     /**
      * ID
      */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long id;
     /**
      * 是否使用（默认0：启用； 1：废弃）
@@ -38,6 +45,8 @@ public class UTeacher implements Serializable {
     /**
      * 绑定学校id
      */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long tSchoolid;
     /**
      * 年级

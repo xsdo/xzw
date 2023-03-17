@@ -55,7 +55,8 @@ public class CompositionController {
         return this.compositionService.queryAll(composition);
     }
 
-    @GetMapping("/queryContent")
+    //检阅作文数据
+//    @GetMapping("/queryContent")
     public List<Map<String,String>>queryContent(){
         return this.compositionService.queryContent();
     }

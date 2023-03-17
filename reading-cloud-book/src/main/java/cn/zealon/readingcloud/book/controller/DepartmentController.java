@@ -53,7 +53,8 @@ public class DepartmentController {
         return this.departmentService.queryAll(department);
     }
 
-    @GetMapping("/queryContent")
+    //检阅作文数据
+//    @GetMapping("/queryContent")
     public List<Map<String,String>>queryContent(){
         return this.departmentService.queryContent();
     }

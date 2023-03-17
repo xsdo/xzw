@@ -108,7 +108,12 @@ public class UTeacher implements Serializable {
      * 排名
      */
     private Integer rankings;
-
+    /**
+     * 老师id
+     */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
+    private Long teacherId;
 
     public Long getId() {
         return id;
@@ -286,5 +291,12 @@ public class UTeacher implements Serializable {
         this.rankings = rankings;
     }
 
+    public Long getTeacherId() {
+        return teacherId;
+    }
+
+    public void setTeacherId(Long teacherId) {
+        this.teacherId = teacherId;
+    }
 }
 

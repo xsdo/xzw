@@ -7,6 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作文表(Composition)表服务接口
@@ -39,6 +40,10 @@ public interface CompositionService {
     Page<Composition> queryByPage(Composition composition, PageRequest pageRequest);
 
     List<Composition> queryAll(Composition composition);
+
+    List<Map<String,String>>queryContent();
+
+    List<Composition>queryRandoms(int size);
 
     /**
      * 新增数据

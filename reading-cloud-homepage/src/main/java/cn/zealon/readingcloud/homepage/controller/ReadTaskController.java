@@ -53,6 +53,10 @@ public class ReadTaskController {
     }
 
 
+    @GetMapping("toReadTask")
+    public void toReadTask(){
+        this.readTaskService.toReadTask();
+    }
     /**
      * 通过主键查询单条数据
      *

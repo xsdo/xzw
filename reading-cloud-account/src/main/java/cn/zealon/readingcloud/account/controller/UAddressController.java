@@ -48,6 +48,13 @@ public class UAddressController {
     public UAddress queryByUserId(Long userId){
         return this.uAddressService.queryByUserId(userId);
     }
+
+
+    @GetMapping("addAddress")
+    public UAddress addAddress(Long userId,String name,String phoneNumber,String address){
+        return this.uAddressService.addAddress(userId, name, phoneNumber, address);
+    }
+
     /**
      * 通过主键查询单条数据
      *

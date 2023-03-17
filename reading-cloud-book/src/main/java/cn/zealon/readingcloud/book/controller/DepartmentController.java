@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 部编同步作文(Department)表控制层
@@ -42,6 +43,19 @@ public class DepartmentController {
     @GetMapping("queryAll")
     public List<Department>queryAll(Department department){
         return this.departmentService.queryAll(department);
+    }
+
+    @GetMapping("queryByDepartment")
+    public List<Department>queryByDepartment(String dGrade,String dUnitarea) {
+        Department department=new Department();
+        department.setDGrade(dGrade);
+        department.setDUnitarea(dUnitarea);
+        return this.departmentService.queryAll(department);
+    }
+
+    @GetMapping("/queryContent")
+    public List<Map<String,String>>queryContent(){
+        return this.departmentService.queryContent();
     }
     /**
      * 通过主键查询单条数据

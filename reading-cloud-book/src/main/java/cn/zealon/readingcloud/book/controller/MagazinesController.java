@@ -12,12 +12,12 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 杂志表(Magazines)表控制层
+ * 杂志栏目表(Magazines)表控制层
  *
  * @author makejava
- * @since 2023-03-01 11:13:55
+ * @since 2023-03-15 17:17:09
  */
-@Api(description = "杂志接口")
+@Api(description = "杂志栏目接口")
 @RestController
 @RequestMapping("book/magazines")
 public class MagazinesController {
@@ -40,7 +40,17 @@ public class MagazinesController {
     }
 
     @GetMapping("queryAll")
-    public List<Magazines>queryAll(Magazines magazines){
+    public List<Magazines> queryAll(int type){
+        Magazines magazines=new Magazines();
+        magazines.setIsused(0);
+        magazines.setType(type);
+        return this.magazinesService.queryAll(magazines);
+    }
+    @GetMapping("queryAllTry")
+    public List<Magazines>queryAllTry(){
+        Magazines magazines=new Magazines();
+        magazines.setIsused(0);
+        magazines.setTryvip(1);
         return this.magazinesService.queryAll(magazines);
     }
     /**

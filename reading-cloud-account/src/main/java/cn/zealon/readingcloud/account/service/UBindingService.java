@@ -37,6 +37,8 @@ public interface UBindingService {
     List<UBinding> queryByTeacherId(Long teacherId);
 
     JSONObject doBinding(Long userId, Long teacherId);
+
+    JSONObject conductBingding(Long userId,Long bingdingId,int type);
     /**
      * 新增数据
      *

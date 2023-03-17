@@ -13,7 +13,9 @@ import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作文表(Composition)表服务实现类
@@ -75,6 +77,23 @@ public class CompositionServiceImpl implements CompositionService {
         return this.compositionDao.queryAll(composition);
     }
 
+    @Override
+    public List<Map<String,String>>queryContent(){
+        List<Map<String,String>>list=new ArrayList<>();
+        List<Composition> compositionList=this.compositionDao.queryAll(new Composition());
+        if (compositionList!=null){
+            for (Composition cc: compositionList) {
+                Map<String,String>map = new HashMap<>();
+                map.put(cc.getCTitle(),cc.getCArticle());
+                list.add(map);
+}
+        }
+        return list;
+    }
+    @Override
+    public List<Composition>queryRandoms(int size){
+        return this.compositionDao.queryRand(size);
+    }
 
     /**
      * 新增数据

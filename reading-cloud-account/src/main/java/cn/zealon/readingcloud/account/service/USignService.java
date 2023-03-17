@@ -2,8 +2,11 @@ package cn.zealon.readingcloud.account.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwusers.USign;
 import cn.zealon.readingcloud.common.pojo.xzwusers.USigndetail;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+
+import java.util.Map;
 
 /**
  * 签到表(USign)表服务接口
@@ -18,6 +21,9 @@ public interface USignService {
     USigndetail todayDetail(Long userId);
     USigndetail yesterdayDetail(Long userId);
 
+
+    JSONObject sign (Long userId);
+    Map<String,Object> getSign(Long userId);
 
     /**
      * 通过ID查询单条数据

@@ -7,10 +7,10 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 
 /**
- * 杂志表(Magazines)表数据库访问层
+ * 杂志栏目表(Magazines)表数据库访问层
  *
  * @author makejava
- * @since 2023-03-01 11:13:55
+ * @since 2023-03-15 17:17:09
  */
 public interface MagazinesDao {
 

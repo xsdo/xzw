@@ -1,10 +1,14 @@
 package cn.zealon.readingcloud.account.service;
 
+import cn.zealon.readingcloud.common.pojo.xzwusers.USchool;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UTeacher;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 教师班级表(UTeacher)表服务接口
@@ -22,6 +26,14 @@ public interface UTeacherService {
      */
     UTeacher queryById(Long id);
 
+    Map<String, String> updateHeadImg(MultipartFile multipartFile);
+    UTeacher changeHead(Long teacherId, String fileUrl);
+    UTeacher changeTeacherHead(Long teacherId, String fileUrl);
+
+
+    UTeacher teacherQRCode(Long teacherId);
+
+    JSONObject doBinding(Long userId, Long schoolId , String grade, String term, int student);
     /**
      * 分页查询
      *

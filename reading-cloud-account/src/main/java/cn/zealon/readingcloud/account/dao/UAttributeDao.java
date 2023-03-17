@@ -1,5 +1,6 @@
 package cn.zealon.readingcloud.account.dao;
 
+import cn.zealon.readingcloud.common.pojo.xzwresources.Composition;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.data.domain.Pageable;
@@ -32,6 +33,8 @@ public interface UAttributeDao {
     List<UAttribute> queryAllByLimit(UAttribute uAttribute, @Param("pageable") Pageable pageable);
     List<UAttribute> queryAll(UAttribute uAttribute);
 
+
+    List<UAttribute>queryRand(int size);
     /**
      * 统计总行数
      *

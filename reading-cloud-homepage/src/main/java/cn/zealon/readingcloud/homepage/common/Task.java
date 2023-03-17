@@ -1,14 +1,24 @@
 package cn.zealon.readingcloud.homepage.common;
 
+import cn.zealon.readingcloud.homepage.service.AuthTaskService;
 import cn.zealon.readingcloud.homepage.service.AuthTasklogService;
+import cn.zealon.readingcloud.homepage.service.ReadTaskService;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+
+import javax.annotation.Resource;
 
 @Component
 public class Task {
 
-private AuthTasklogService authTasklogService;
+    @Resource
+    private AuthTasklogService authTasklogService;
 
+    @Resource
+    private ReadTaskService readTaskService;
+
+    @Resource
+    private AuthTaskService authTaskService;
     public void authTask(){
         System.out.println("定时更新每日任务表启动");
 //        authTasklogService.
@@ -16,6 +26,7 @@ private AuthTasklogService authTasklogService;
     }
 //    @Scheduled(initialDelay = 1000,fixedDelay = 1000)
     public void myTask1(){
+        this.readTaskService.toReadTask();
         System.out.println("第一个定时任务");
     }
 //    @Scheduled(initialDelay = 2000,fixedDelay = 3000)

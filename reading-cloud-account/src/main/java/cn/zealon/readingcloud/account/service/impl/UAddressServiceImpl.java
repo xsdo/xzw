@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,6 +62,26 @@ public class UAddressServiceImpl implements UAddressService {
             return uAddressList.get(0);
         }else {
             return null;
+        }
+    }
+    @Override
+    public UAddress addAddress(Long userId,String name,String phoneNumber,String address){
+        UAddress uAddress =new UAddress();
+        uAddress.setIsused(0);
+        uAddress.setUserId(userId);
+        List<UAddress> uAddressList = this.uAddressDao.queryAll(uAddress);
+        uAddress.setAName(name);
+        uAddress.setAPhonenumber(phoneNumber);
+        uAddress.setAAddress(address);
+        uAddress.setUpdateTime(new Date());
+        if (uAddressList.size()>0&&uAddressList!=null){
+            uAddress.setId(uAddressList.get(0).getId());
+            this.update(uAddress);
+            return uAddress;
+        }else {
+            uAddress.setCreateTime(new Date());
+            this.insert(uAddress);
+            return uAddress;
         }
     }
     /**

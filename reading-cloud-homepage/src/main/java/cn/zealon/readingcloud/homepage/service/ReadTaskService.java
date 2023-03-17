@@ -35,6 +35,8 @@ public interface ReadTaskService {
 
     ReadTask queryOne();
 
+    void toReadTask();
+
     /**
      * 新增数据
      *

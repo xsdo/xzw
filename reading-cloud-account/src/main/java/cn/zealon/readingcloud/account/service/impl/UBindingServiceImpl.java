@@ -1,8 +1,12 @@
 package cn.zealon.readingcloud.account.service.impl;
 
+import cn.zealon.readingcloud.account.service.UAttributeService;
+import cn.zealon.readingcloud.account.service.UTeacherService;
+import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UBinding;
 import cn.zealon.readingcloud.account.dao.UBindingDao;
 import cn.zealon.readingcloud.account.service.UBindingService;
+import cn.zealon.readingcloud.common.pojo.xzwusers.UTeacher;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -26,6 +30,11 @@ public class UBindingServiceImpl implements UBindingService {
     @Resource
     private UBindingDao uBindingDao;
 
+    @Resource
+    private UAttributeService uAttributeService;
+
+    @Resource
+    private UTeacherService uTeacherService;
     /**
      * 通过ID查询单条数据
      *
@@ -105,6 +114,55 @@ public class UBindingServiceImpl implements UBindingService {
             result.put("sign",-1);
             result.put("data","服务器错误");
         }
+        return result;
+    }
+
+    @Override
+    public JSONObject conductBingding(Long userId,Long bingdingId,int type){
+        JSONObject result = new JSONObject();
+        Map<String, Object> data = new HashMap<>();
+        try{
+            UBinding ubing = this.queryById(bingdingId);
+            if (ubing != null){
+                UTeacher uteacher=this.uTeacherService.queryById(ubing.getTeacherId());
+                if (uteacher != null) {
+                    if (uteacher.getTeacherId()!=userId){
+                        result.put("sign", -1);
+                        data.put("data", "非本班教师不可修改");
+                    }else{
+                        if (type==1){
+                            ubing.setBindtime(new Date());
+                            ubing.setBStatus(1);
+                            this.update(ubing);
+                            UAttribute u=this.uAttributeService.queryById(ubing.getUserId());
+                            if (u!=null){
+                                u.setUpdateTime(new Date());
+                                u.setTeacherid(ubing.getTeacherId());
+                                this.uAttributeService.update(u);
+                            }
+                            result.put("sign", 00);
+                            data.put("data", "加入班级成功");
+                        }else if(type==2){
+                            this.deleteById(bingdingId);
+                            UAttribute u=this.uAttributeService.queryById(ubing.getUserId());
+                            if (u!=null){
+                                u.setUpdateTime(new Date());
+                                u.setTeacherid(new Long(-1));
+                                this.uAttributeService.update(u);
+                            }
+                            result.put("sign", 00);
+                            data.put("data", "已删除");
+                        }
+                    }
+                }
+
+            }
+        result.put("data",data);
+    }catch (Exception e) {
+        e.printStackTrace();
+        result.put("sign",-1);
+        result.put("data","服务器错误");
+    }
         return result;
     }
 

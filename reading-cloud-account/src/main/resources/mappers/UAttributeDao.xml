@@ -38,6 +38,16 @@
 
     </select>
 
+    <!--随机-->
+    <select id="queryRand" resultMap="UAttributeMap">
+
+        select
+            id, isUsed, create_time, update_time, remarks, sex, birthday, portrait, qqnum, wechatnum, email, u_type, u_tableUse, u_tableIds, province, city, area, school, is_auth, sign, background, teacherid, isgoodcommons, integral
+        from u_attribute
+        ORDER BY RAND() LIMIT #{size}
+
+    </select>
+
     <!--查询指定行数据-->
     <select id="queryAll" resultMap="UAttributeMap">
         select

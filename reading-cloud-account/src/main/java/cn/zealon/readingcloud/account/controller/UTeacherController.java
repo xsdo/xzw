@@ -1,15 +1,20 @@
 package cn.zealon.readingcloud.account.controller;
 
 import cn.zealon.readingcloud.account.service.UTeacherService;
+import cn.zealon.readingcloud.common.pojo.xzwusers.USchool;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UTeacher;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 教师班级表(UTeacher)表控制层
@@ -53,6 +58,38 @@ public class UTeacherController {
     public ResponseEntity<UTeacher> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uTeacherService.queryById(id));
     }
+    @ApiOperation("上传图片")
+    @PostMapping("updateImg")
+    public Map<String, String> updateImg(MultipartFile avatar){
+        return this.uTeacherService.updateHeadImg(avatar);
+    }
+
+    @ApiOperation("修改班级头像")
+    @GetMapping("changeHead")
+    public UTeacher changeHead(Long teacherId, String fileUrl){
+        return this.uTeacherService.changeHead(teacherId, fileUrl);
+    }
+
+    @ApiOperation("修改教师头像")
+    @GetMapping("changeTeacherHead")
+    public UTeacher changeTeacherHead(Long teacherId, String fileUrl){
+        return this.uTeacherService.changeTeacherHead(teacherId, fileUrl);
+    }
+
+    @ApiOperation("生成班级二维码")
+    @GetMapping("teacherQRCode")
+    public UTeacher teacherQRCode(Long teacherId){
+        return this.uTeacherService.teacherQRCode(teacherId);
+    }
+
+
+    @ApiOperation("扫码创建班级")
+    @GetMapping("doBindingTeacher")
+    public JSONObject doBinding(Long userId, Long schoolId , String grade, String term, int student){
+        return this.uTeacherService.doBinding(userId, schoolId, grade, term, student);
+    }
+
+
 
     /**
      * 新增数据
@@ -61,7 +98,7 @@ public class UTeacherController {
      * @return 新增结果
      */
     @PostMapping
-    public ResponseEntity<UTeacher> add(UTeacher uTeacher) {
+    public ResponseEntity<UTeacher> add(@RequestBody UTeacher uTeacher) {
         return ResponseEntity.ok(this.uTeacherService.insert(uTeacher));
     }
 

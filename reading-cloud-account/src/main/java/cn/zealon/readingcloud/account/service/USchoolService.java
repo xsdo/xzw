@@ -22,6 +22,8 @@ public interface USchoolService {
      */
     USchool queryById(Long id);
 
+    USchool schoolQRCode(Long schoolId);
+
     /**
      * 分页查询
      *

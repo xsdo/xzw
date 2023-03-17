@@ -1,5 +1,6 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.common.pojo.xzwresources.Composition;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Department;
 import cn.zealon.readingcloud.book.dao.DepartmentDao;
 import cn.zealon.readingcloud.book.service.DepartmentService;
@@ -9,7 +10,10 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 部编同步作文(Department)表服务实现类
@@ -49,6 +53,20 @@ public class DepartmentServiceImpl implements DepartmentService {
     @Override
     public List<Department>queryAll(Department department){
         return this.departmentDao.queryAll(department);
+    }
+
+    @Override
+    public List<Map<String,String>>queryContent(){
+        List<Map<String,String>>list=new ArrayList<>();
+        List<Department> compositionList=this.departmentDao.queryAll(new Department());
+        if (compositionList!=null){
+            for (Department cc: compositionList) {
+                Map<String,String>map = new HashMap<>();
+                map.put(cc.getDTitle(),cc.getDContents());
+                list.add(map);
+            }
+        }
+        return list;
     }
     /**
      * 新增数据

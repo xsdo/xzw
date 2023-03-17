@@ -34,6 +34,16 @@
                 where id = #{id}
 
     </select>
+
+    <!--随机-->
+    <select id="queryRand" resultMap="CompositionMap" >
+
+        select
+            id, isUsed, create_time, update_time, remarks, c_title, c_authorId, c_synopsis, c_article, c_imageB, c_imageS, c_voice, c_videos, c_vip, c_grade, c_gatetype, c_words, c_status, c_likes, c_discuss, c_readtimes
+        from composition
+        ORDER BY RAND() LIMIT #{size}
+
+    </select>
     <!--查询指定行数据-->
     <select id="queryAll" resultMap="CompositionMap">
         select

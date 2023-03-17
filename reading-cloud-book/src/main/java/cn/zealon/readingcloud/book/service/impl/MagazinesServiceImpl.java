@@ -12,10 +12,10 @@ import javax.annotation.Resource;
 import java.util.List;
 
 /**
- * 杂志表(Magazines)表服务实现类
+ * 杂志栏目表(Magazines)表服务实现类
  *
  * @author makejava
- * @since 2023-03-01 11:13:55
+ * @since 2023-03-15 17:17:13
  */
 @Service("magazinesService")
 public class MagazinesServiceImpl implements MagazinesService {
@@ -50,7 +50,6 @@ public class MagazinesServiceImpl implements MagazinesService {
     public List<Magazines>queryAll(Magazines magazines){
         return this.magazinesDao.queryAll(magazines);
     }
-
     /**
      * 新增数据
      *

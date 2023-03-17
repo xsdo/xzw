@@ -1,5 +1,7 @@
 package cn.zealon.readingcloud.account.service.impl;
 
+import cn.zealon.readingcloud.account.common.utils.QRCodeUtil;
+import cn.zealon.readingcloud.common.config.FileProperties;
 import cn.zealon.readingcloud.common.pojo.xzwusers.USchool;
 import cn.zealon.readingcloud.account.dao.USchoolDao;
 import cn.zealon.readingcloud.account.service.USchoolService;
@@ -22,6 +24,8 @@ public class USchoolServiceImpl implements USchoolService {
     @Resource
     private USchoolDao uSchoolDao;
 
+    @Resource
+    private FileProperties properties;
     /**
      * 通过ID查询单条数据
      *
@@ -33,6 +37,33 @@ public class USchoolServiceImpl implements USchoolService {
         return this.uSchoolDao.queryById(id);
     }
 
+
+    @Override
+    public USchool schoolQRCode(Long schoolId) {
+        USchool uSchool=this.queryById(schoolId);
+        if (uSchool != null) {
+            try{
+                // 存放在二维码中的内容
+                // 二维码中的内容可以是文字，可以是链接等
+                String text = "schoolId="+schoolId;
+                // 生成的二维码的路径及名称
+                String name=System.currentTimeMillis()+"";
+                String destPath =properties.getPath().getPath() + name + ".jpg";
+
+                //生成二维码
+                QRCodeUtil.encode(text, null, destPath, true);
+                // 解析二维码
+                String str = QRCodeUtil.decode(destPath);
+
+                String codePath="/Resource/News/"+name + ".jpg";
+                uSchool.setQrCode(codePath);
+                this.update(uSchool);
+            }catch (Exception e) {
+
+            }
+        }
+        return this.queryById(schoolId);
+    }
     /**
      * 分页查询
      *

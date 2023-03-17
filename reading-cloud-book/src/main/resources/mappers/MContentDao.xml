@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="cn.zealon.readingcloud.book.dao.MColumnDao">
-    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.MColumn" id="MColumnMap">
+<mapper namespace="cn.zealon.readingcloud.book.dao.MContentDao">
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.MContent" id="MContentMap">
         <result property="id" column="id" jdbcType="INTEGER"/>
         <result property="isused" column="isUsed" jdbcType="INTEGER"/>
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
         <result property="magazinesId" column="magazines_id" jdbcType="INTEGER"/>
-        <result property="columnname" column="columnname" jdbcType="VARCHAR"/>
+        <result property="titles" column="titles" jdbcType="VARCHAR"/>
+        <result property="content" column="content" jdbcType="VARCHAR"/>
+        <result property="tryvip" column="tryVip" jdbcType="INTEGER"/>
+        <result property="compositionId" column="composition_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
-    <select id="queryById" resultMap="MColumnMap">
-
-                select
-                  id, isUsed, create_time, update_time, remarks, magazines_id, columnname
-                from m_column
-                where id = #{id}
-
+    <select id="queryById" resultMap="MContentMap">
+        select id,
+               isUsed,
+               create_time,
+               update_time,
+               remarks,
+               magazines_id,
+               titles,
+               content,
+               tryVip,
+               composition_id
+        from m_content
+        where id = #{id}
     </select>
 
-    <!--查询指定行数据-->
-    <select id="queryAll" resultMap="MColumnMap">
+    <select id="queryAll" resultMap="MContentMap">
         select
-        id, isUsed, create_time, update_time, remarks, magazines_id, columnname
-        from m_column
+        id, isUsed, create_time, update_time, remarks, magazines_id, titles, content, tryVip, composition_id
+        from m_content
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -45,18 +53,26 @@
             <if test="magazinesId != null">
                 and magazines_id = #{magazinesId}
             </if>
-            <if test="columnname != null and columnname != ''">
-                and columnname = #{columnname}
+            <if test="titles != null and titles != ''">
+                and titles = #{titles}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="tryvip != null">
+                and tryVip = #{tryvip}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
             </if>
         </where>
-
     </select>
 
     <!--查询指定行数据-->
-    <select id="queryAllByLimit" resultMap="MColumnMap">
+    <select id="queryAllByLimit" resultMap="MContentMap">
         select
-        id, isUsed, create_time, update_time, remarks, magazines_id, columnname
-        from m_column
+        id, isUsed, create_time, update_time, remarks, magazines_id, titles, content, tryVip, composition_id
+        from m_content
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -76,8 +92,17 @@
             <if test="magazinesId != null">
                 and magazines_id = #{magazinesId}
             </if>
-            <if test="columnname != null and columnname != ''">
-                and columnname = #{columnname}
+            <if test="titles != null and titles != ''">
+                and titles = #{titles}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="tryvip != null">
+                and tryVip = #{tryvip}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -86,7 +111,7 @@
     <!--统计总行数-->
     <select id="count" resultType="java.lang.Long">
         select count(1)
-        from m_column
+        from m_content
         <where>
             <if test="id != null">
                 and id = #{id}
@@ -106,35 +131,46 @@
             <if test="magazinesId != null">
                 and magazines_id = #{magazinesId}
             </if>
-            <if test="columnname != null and columnname != ''">
-                and columnname = #{columnname}
+            <if test="titles != null and titles != ''">
+                and titles = #{titles}
+            </if>
+            <if test="content != null and content != ''">
+                and content = #{content}
+            </if>
+            <if test="tryvip != null">
+                and tryVip = #{tryvip}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-
-                insert into m_column(isUsed, create_time, update_time, remarks, magazines_id, columnname)
-                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{magazinesId}, #{columnname})
-
+        insert into m_content(isUsed, create_time, update_time, remarks, magazines_id, titles, content, tryVip,
+                              composition_id)
+        values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{magazinesId}, #{titles}, #{content}, #{tryvip},
+                #{compositionId})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into m_column(isUsed, create_time, update_time, remarks, magazines_id, columnname)
+        insert into m_content(isUsed, create_time, update_time, remarks, magazines_id, titles, content, tryVip,
+        composition_id)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.magazinesId},
-            #{entity.columnname})
+            #{entity.titles}, #{entity.content}, #{entity.tryvip}, #{entity.compositionId})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into m_column(isUsed, create_time, update_time, remarks, magazines_id, columnname)
+        insert into m_content(isUsed, create_time, update_time, remarks, magazines_id, titles, content, tryVip,
+        composition_id)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.magazinesId},
-            #{entity.columnname})
+            #{entity.titles}, #{entity.content}, #{entity.tryvip}, #{entity.compositionId})
         </foreach>
         on duplicate key update
         isUsed = values(isUsed),
@@ -142,12 +178,15 @@
         update_time = values(update_time),
         remarks = values(remarks),
         magazines_id = values(magazines_id),
-        columnname = values(columnname)
+        titles = values(titles),
+        content = values(content),
+        tryVip = values(tryVip),
+        composition_id = values(composition_id)
     </insert>
 
     <!--通过主键修改数据-->
     <update id="update">
-        update m_column
+        update m_content
         <set>
             <if test="isused != null">
                 isUsed = #{isused},
@@ -164,8 +203,17 @@
             <if test="magazinesId != null">
                 magazines_id = #{magazinesId},
             </if>
-            <if test="columnname != null and columnname != ''">
-                columnname = #{columnname},
+            <if test="titles != null and titles != ''">
+                titles = #{titles},
+            </if>
+            <if test="content != null and content != ''">
+                content = #{content},
+            </if>
+            <if test="tryvip != null">
+                tryVip = #{tryvip},
+            </if>
+            <if test="compositionId != null">
+                composition_id = #{compositionId},
             </if>
         </set>
         where id = #{id}
@@ -173,9 +221,9 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-
-                delete from m_column where id = #{id}
-
+        delete
+        from m_content
+        where id = #{id}
     </delete>
 </mapper>
 

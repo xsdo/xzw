@@ -43,6 +43,19 @@ public class USchoolController {
     public List<USchool>queryAll(USchool uSchool){
         return this.uSchoolService.queryAll(uSchool);
     }
+
+
+
+    @GetMapping("schoolQRCode")
+    public USchool schoolQRCode(Long schoolId){
+        return this.uSchoolService.schoolQRCode(schoolId);
+    }
+
+
+
+
+
+
     /**
      * 通过主键查询单条数据
      *
@@ -53,6 +66,8 @@ public class USchoolController {
     public ResponseEntity<USchool> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uSchoolService.queryById(id));
     }
+
+
 
     /**
      * 新增数据

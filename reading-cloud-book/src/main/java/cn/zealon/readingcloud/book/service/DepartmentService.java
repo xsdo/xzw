@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 部编同步作文(Department)表服务接口
@@ -32,6 +33,8 @@ public interface DepartmentService {
     Page<Department> queryByPage(Department department, PageRequest pageRequest);
 
     List<Department> queryAll(Department department);
+
+    List<Map<String,String>>queryContent();
     /**
      * 新增数据
      *

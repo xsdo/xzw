@@ -58,7 +58,10 @@ public class USchool implements Serializable {
      * 学校总鲜花
      */
     private Integer sFlowers;
-
+    /**
+     * 二维码
+     */
+    private String qrCode;
 
     public Long getId() {
         return id;
@@ -138,6 +141,14 @@ public class USchool implements Serializable {
 
     public void setSFlowers(Integer sFlowers) {
         this.sFlowers = sFlowers;
+    }
+
+    public String getQrCode() {
+        return qrCode;
+    }
+
+    public void setQrCode(String qrCode) {
+        this.qrCode = qrCode;
     }
 
 }

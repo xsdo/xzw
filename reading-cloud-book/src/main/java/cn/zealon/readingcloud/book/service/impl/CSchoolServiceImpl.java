@@ -1,14 +1,19 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.book.service.CompositionService;
+import cn.zealon.readingcloud.common.pojo.xzwresources.CNation;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CSchool;
 import cn.zealon.readingcloud.book.dao.CSchoolDao;
 import cn.zealon.readingcloud.book.service.CSchoolService;
+import cn.zealon.readingcloud.common.pojo.xzwresources.Composition;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +27,8 @@ public class CSchoolServiceImpl implements CSchoolService {
     @Resource
     private CSchoolDao cSchoolDao;
 
+    @Resource
+    private CompositionService compositionService;
     /**
      * 通过ID查询单条数据
      *
@@ -49,6 +56,28 @@ public class CSchoolServiceImpl implements CSchoolService {
     @Override
     public List<CSchool>queryAll(CSchool cSchool){
         return this.cSchoolDao.queryAll(cSchool);
+    }
+
+    @Override
+    public List<CSchool> randSchool(int size){
+        List<Composition>compositionList=this.compositionService.queryRandoms(size);
+        List<CSchool>cSchoolList=new ArrayList<>();
+        if (!compositionList.isEmpty()) {
+            for (Composition composition: compositionList) {
+                CSchool cSchool=new CSchool();
+                cSchool.setIsused(0);
+                cSchool.setCreateTime(new Date());
+                cSchool.setUpdateTime(new Date());
+                cSchool.setCompositionId(composition.getId());
+                cSchool.setSImage(composition.getCImageb());
+                cSchool.setSVoice(composition.getCVoice());
+                cSchool.setSLikes(composition.getCLikes());
+                cSchool.setSDiscuss(composition.getCDiscuss());
+                this.insert(cSchool);
+                cSchoolList.add(cSchool);
+            }
+        }
+        return cSchoolList;
     }
     /**
      * 新增数据

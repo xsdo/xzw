@@ -24,23 +24,43 @@
         <result property="readalouds" column="readalouds" jdbcType="INTEGER"/>
         <result property="tOpen" column="t_open" jdbcType="INTEGER"/>
         <result property="rankings" column="rankings" jdbcType="INTEGER"/>
+        <result property="teacherId" column="teacher_id" jdbcType="INTEGER"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="UTeacherMap">
-
-                select
-                  id, isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code, t_student, t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings
-                from u_teacher
-                where id = #{id}
-
+        select id,
+               isUsed,
+               create_time,
+               update_time,
+               remarks,
+               t_name,
+               t_schoolid,
+               t_grade,
+               t_term,
+               qr_code,
+               t_student,
+               t_flowers,
+               t_image,
+               tea_name,
+               tea_image,
+               tea_sign,
+               t_slogan,
+               writes,
+               readings,
+               readalouds,
+               t_open,
+               rankings,
+               teacher_id
+        from u_teacher
+        where id = #{id}
     </select>
 
-    <!--查询指定行数据-->
     <select id="queryAll" resultMap="UTeacherMap">
         select
         id, isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code, t_student,
-        t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings
+        t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings,
+        teacher_id
         from u_teacher
         <where>
             <if test="id != null">
@@ -108,6 +128,9 @@
             </if>
             <if test="rankings != null">
                 and rankings = #{rankings}
+            </if>
+            <if test="teacherId != null">
+                and teacher_id = #{teacherId}
             </if>
         </where>
     </select>
@@ -116,7 +139,8 @@
     <select id="queryAllByLimit" resultMap="UTeacherMap">
         select
         id, isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code, t_student,
-        t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings
+        t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings,
+        teacher_id
         from u_teacher
         <where>
             <if test="id != null">
@@ -184,6 +208,9 @@
             </if>
             <if test="rankings != null">
                 and rankings = #{rankings}
+            </if>
+            <if test="teacherId != null">
+                and teacher_id = #{teacherId}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -260,42 +287,47 @@
             <if test="rankings != null">
                 and rankings = #{rankings}
             </if>
+            <if test="teacherId != null">
+                and teacher_id = #{teacherId}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-
-                insert into u_teacher(isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code, t_student, t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open, rankings)
-                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{tName}, #{tSchoolid}, #{tGrade}, #{tTerm}, #{qrCode}, #{tStudent}, #{tFlowers}, #{tImage}, #{teaName}, #{teaImage}, #{teaSign}, #{tSlogan}, #{writes}, #{readings}, #{readalouds}, #{tOpen}, #{rankings})
-
+        insert into u_teacher(isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code,
+                              t_student, t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings,
+                              readalouds, t_open, rankings, teacher_id)
+        values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{tName}, #{tSchoolid}, #{tGrade}, #{tTerm},
+                #{qrCode}, #{tStudent}, #{tFlowers}, #{tImage}, #{teaName}, #{teaImage}, #{teaSign}, #{tSlogan},
+                #{writes}, #{readings}, #{readalouds}, #{tOpen}, #{rankings}, #{teacherId})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
         insert into u_teacher(isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code,
         t_student, t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open,
-        rankings)
+        rankings, teacher_id)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.tName},
             #{entity.tSchoolid}, #{entity.tGrade}, #{entity.tTerm}, #{entity.qrCode}, #{entity.tStudent},
             #{entity.tFlowers}, #{entity.tImage}, #{entity.teaName}, #{entity.teaImage}, #{entity.teaSign},
             #{entity.tSlogan}, #{entity.writes}, #{entity.readings}, #{entity.readalouds}, #{entity.tOpen},
-            #{entity.rankings})
+            #{entity.rankings}, #{entity.teacherId})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
         insert into u_teacher(isUsed, create_time, update_time, remarks, t_name, t_schoolid, t_grade, t_term, qr_code,
         t_student, t_flowers, t_image, tea_name, tea_image, tea_sign, t_slogan, writes, readings, readalouds, t_open,
-        rankings)
+        rankings, teacher_id)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.tName},
             #{entity.tSchoolid}, #{entity.tGrade}, #{entity.tTerm}, #{entity.qrCode}, #{entity.tStudent},
             #{entity.tFlowers}, #{entity.tImage}, #{entity.teaName}, #{entity.teaImage}, #{entity.teaSign},
             #{entity.tSlogan}, #{entity.writes}, #{entity.readings}, #{entity.readalouds}, #{entity.tOpen},
-            #{entity.rankings})
+            #{entity.rankings}, #{entity.teacherId})
         </foreach>
         on duplicate key update
         isUsed = values(isUsed),
@@ -318,7 +350,8 @@
         readings = values(readings),
         readalouds = values(readalouds),
         t_open = values(t_open),
-        rankings = values(rankings)
+        rankings = values(rankings),
+        teacher_id = values(teacher_id)
     </insert>
 
     <!--通过主键修改数据-->
@@ -388,15 +421,18 @@
             <if test="rankings != null">
                 rankings = #{rankings},
             </if>
+            <if test="teacherId != null">
+                teacher_id = #{teacherId},
+            </if>
         </set>
         where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-
-                delete from u_teacher where id = #{id}
-
+        delete
+        from u_teacher
+        where id = #{id}
     </delete>
 </mapper>
 

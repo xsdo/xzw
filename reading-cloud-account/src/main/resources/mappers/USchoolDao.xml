@@ -12,22 +12,30 @@
         <result property="sCity" column="s_city" jdbcType="VARCHAR"/>
         <result property="sArea" column="s_area" jdbcType="VARCHAR"/>
         <result property="sFlowers" column="s_flowers" jdbcType="INTEGER"/>
+        <result property="qrCode" column="qr_code" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="USchoolMap">
-
-                select
-                  id, isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers
-                from u_school
-                where id = #{id}
-
+        select id,
+               isUsed,
+               create_time,
+               update_time,
+               remarks,
+               s_name,
+               s_province,
+               s_city,
+               s_area,
+               s_flowers,
+               qr_code
+        from u_school
+        where id = #{id}
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAll" resultMap="USchoolMap">
         select
-        id, isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers
+        id, isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers, qr_code
         from u_school
         <where>
             <if test="id != null">
@@ -60,14 +68,16 @@
             <if test="sFlowers != null">
                 and s_flowers = #{sFlowers}
             </if>
+            <if test="qrCode != null and qrCode != ''">
+                and qr_code = #{qrCode}
+            </if>
         </where>
-        order by id desc
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="USchoolMap">
         select
-        id, isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers
+        id, isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers, qr_code
         from u_school
         <where>
             <if test="id != null">
@@ -99,6 +109,9 @@
             </if>
             <if test="sFlowers != null">
                 and s_flowers = #{sFlowers}
+            </if>
+            <if test="qrCode != null and qrCode != ''">
+                and qr_code = #{qrCode}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -139,32 +152,37 @@
             <if test="sFlowers != null">
                 and s_flowers = #{sFlowers}
             </if>
+            <if test="qrCode != null and qrCode != ''">
+                and qr_code = #{qrCode}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-
-                insert into u_school(isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers)
-                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{sName}, #{sProvince}, #{sCity}, #{sArea}, #{sFlowers})
-
+        insert into u_school(isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers,
+                             qr_code)
+        values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{sName}, #{sProvince}, #{sCity}, #{sArea},
+                #{sFlowers}, #{qrCode})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into u_school(isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers)
+        insert into u_school(isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers,
+        qr_code)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.sName},
-            #{entity.sProvince}, #{entity.sCity}, #{entity.sArea}, #{entity.sFlowers})
+            #{entity.sProvince}, #{entity.sCity}, #{entity.sArea}, #{entity.sFlowers}, #{entity.qrCode})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into u_school(isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers)
+        insert into u_school(isUsed, create_time, update_time, remarks, s_name, s_province, s_city, s_area, s_flowers,
+        qr_code)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.sName},
-            #{entity.sProvince}, #{entity.sCity}, #{entity.sArea}, #{entity.sFlowers})
+            #{entity.sProvince}, #{entity.sCity}, #{entity.sArea}, #{entity.sFlowers}, #{entity.qrCode})
         </foreach>
         on duplicate key update
         isUsed = values(isUsed),
@@ -175,7 +193,8 @@
         s_province = values(s_province),
         s_city = values(s_city),
         s_area = values(s_area),
-        s_flowers = values(s_flowers)
+        s_flowers = values(s_flowers),
+        qr_code = values(qr_code)
     </insert>
 
     <!--通过主键修改数据-->
@@ -209,15 +228,18 @@
             <if test="sFlowers != null">
                 s_flowers = #{sFlowers},
             </if>
+            <if test="qrCode != null and qrCode != ''">
+                qr_code = #{qrCode},
+            </if>
         </set>
         where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-
-                delete from u_school where id = #{id}
-
+        delete
+        from u_school
+        where id = #{id}
     </delete>
 </mapper>
 

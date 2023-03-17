@@ -55,6 +55,12 @@ public class UBindingController {
         return this.uBindingService.doBinding(userId, teacherId);
     }
 
+    @GetMapping("conductBingding")
+    public JSONObject conductBingding(Long userId,Long bingdingId,int type){
+        return this.uBindingService.conductBingding(userId, bingdingId, type);
+    }
+
+
 
     /**
      * 通过主键查询单条数据

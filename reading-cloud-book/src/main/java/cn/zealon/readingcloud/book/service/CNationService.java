@@ -33,6 +33,8 @@ public interface CNationService {
 
     List<CNation> queryAll(CNation cNation);
 
+    List<CNation> randNation(int size);
+
     /**
      * 新增数据
      *

@@ -32,6 +32,8 @@ public interface CSchoolService {
     Page<CSchool> queryByPage(CSchool cSchool, PageRequest pageRequest);
 
     List<CSchool> queryAll(CSchool cSchool);
+
+    List<CSchool> randSchool(int size);
     /**
      * 新增数据
      *

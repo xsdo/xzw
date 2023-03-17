@@ -44,6 +44,10 @@ public class CSchoolController {
         return this.cSchoolService.queryAll(cSchool);
     }
 
+    @GetMapping("randSchool")
+    public List<CSchool> randSchool(int size){
+        return this.cSchoolService.randSchool(size);
+    }
     /**
      * 通过主键查询单条数据
      *

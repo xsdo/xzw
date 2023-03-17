@@ -1,14 +1,18 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.book.service.CompositionService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CNation;
 import cn.zealon.readingcloud.book.dao.CNationDao;
 import cn.zealon.readingcloud.book.service.CNationService;
+import cn.zealon.readingcloud.common.pojo.xzwresources.Composition;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -21,6 +25,8 @@ import java.util.List;
 public class CNationServiceImpl implements CNationService {
     @Resource
     private CNationDao cNationDao;
+    @Resource
+    private CompositionService compositionService;
 
     /**
      * 通过ID查询单条数据
@@ -48,6 +54,28 @@ public class CNationServiceImpl implements CNationService {
     @Override
     public List<CNation>queryAll(CNation cNation){
         return this.cNationDao.queryAll(cNation);
+    }
+
+    @Override
+    public List<CNation> randNation(int size){
+        List<Composition>compositionList=this.compositionService.queryRandoms(size);
+        List<CNation>cNationList=new ArrayList<>();
+        if (!compositionList.isEmpty()) {
+            for (Composition composition: compositionList) {
+                CNation cnation=new CNation();
+                cnation.setIsused(0);
+                cnation.setCreateTime(new Date());
+                cnation.setUpdateTime(new Date());
+                cnation.setCompositionId(composition.getId());
+                cnation.setNImage(composition.getCImageb());
+                cnation.setNVoice(composition.getCVoice());
+                cnation.setNLikes(composition.getCLikes());
+                cnation.setNDiscuss(composition.getCDiscuss());
+                this.insert(cnation);
+                cNationList.add(cnation);
+            }
+        }
+        return cNationList;
     }
 
 

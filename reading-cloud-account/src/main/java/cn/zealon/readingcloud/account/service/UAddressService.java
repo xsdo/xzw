@@ -35,6 +35,8 @@ public interface UAddressService {
     List<UAddress> queryAll(UAddress uAddress);
 
     UAddress queryByUserId(Long userId);
+
+    UAddress addAddress(Long userId,String name,String phoneNumber,String address);
     /**
      * 新增数据
      *

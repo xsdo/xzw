@@ -41,7 +41,7 @@ public class UAttributeServiceImpl implements UAttributeService {
 
 
 
-    @Override
+    /*@Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, String> updateHead(MultipartFile multipartFile) {
         // 文件大小验证
@@ -58,7 +58,7 @@ public class UAttributeServiceImpl implements UAttributeService {
             put("avatar", file.getName());
         }};
     }
-
+*/
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, String> updateHeadImg(MultipartFile multipartFile) {
@@ -74,12 +74,51 @@ public class UAttributeServiceImpl implements UAttributeService {
             String fileUrl = FileUtil.uploadFile(multipartFile, properties.getPath().getAvatar());
 
             return new HashMap<String, String>(1) {{
-                put("fileUrl", fileUrl);
+                put("fileUrl", "/Resource/avatar/"+fileUrl);
             }};
         }catch (Exception e) {
             return null;
         }
+    }
+    @Override
+    public UAttribute changeHead(Long userId,String fileUrl){
+        UAttribute uAttribute=this.queryById(userId);
+        if (uAttribute!=null){
+            uAttribute.setPortrait(fileUrl);
+            this.update(uAttribute);
+        }
+        return this.queryById(userId);
+    }
 
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, String> updateBackGround(MultipartFile multipartFile) {
+        // 文件大小验证
+        FileUtil.checkSize(properties.getAvatarMaxSize(), multipartFile.getSize());
+        // 验证文件上传的格式
+        String image = "gif jpg png jpeg";
+        String fileType = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
+        if(fileType != null && !image.contains(fileType)){
+            throw new BadRequestException("文件格式错误！, 仅支持 " + image +" 格式");
+        }
+        try {
+            String fileUrl = FileUtil.uploadFile(multipartFile, properties.getPath().getPath());
+
+            return new HashMap<String, String>(1) {{
+                put("fileUrl", "/Resource/News/"+fileUrl);
+            }};
+        }catch (Exception e) {
+            return null;
+        }
+    }
+    @Override
+    public UAttribute changeBackGround(Long userId,String fileUrl){
+        UAttribute uAttribute=this.queryById(userId);
+        if (uAttribute!=null){
+            uAttribute.setBackground(fileUrl);
+            this.update(uAttribute);
+        }
+        return this.queryById(userId);
     }
 
 
@@ -121,6 +160,11 @@ public class UAttributeServiceImpl implements UAttributeService {
     @Override
     public List<UAttribute>queryAll(UAttribute uAttribute){
         return this.uAttributeDao.queryAll(uAttribute);
+    }
+
+    @Override
+    public List<UAttribute>queryRand(int size){
+        return this.uAttributeDao.queryRand(size);
     }
 
     /**

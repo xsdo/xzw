@@ -7,24 +7,34 @@
         <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
         <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
         <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
-        <result property="mMag" column="m_mag" jdbcType="VARCHAR"/>
-        <result property="mImage" column="m_image" jdbcType="VARCHAR"/>
-        <result property="mType" column="m_type" jdbcType="VARCHAR"/>
+        <result property="titles" column="titles" jdbcType="VARCHAR"/>
+        <result property="readtime" column="readTime" jdbcType="TIMESTAMP"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="tryvip" column="tryVip" jdbcType="INTEGER"/>
+        <result property="image" column="image" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="MagazinesMap">
-
-                select
-                  id, isUsed, create_time, update_time, remarks, m_mag, m_image, m_type
-                from magazines
-                where id = #{id}
-
+        select id,
+               isUsed,
+               create_time,
+               update_time,
+               remarks,
+               titles,
+               readTime,
+               name,
+               type,
+               tryVip,
+               image
+        from magazines
+        where id = #{id}
     </select>
     <!--查询指定行数据-->
     <select id="queryAll" resultMap="MagazinesMap">
         select
-        id, isUsed, create_time, update_time, remarks, m_mag, m_image, m_type
+        id, isUsed, create_time, update_time, remarks, titles, readTime, name, type, tryVip, image
         from magazines
         <where>
             <if test="id != null">
@@ -42,22 +52,32 @@
             <if test="remarks != null and remarks != ''">
                 and remarks = #{remarks}
             </if>
-            <if test="mMag != null and mMag != ''">
-                and m_mag = #{mMag}
+            <if test="titles != null and titles != ''">
+                and titles = #{titles}
             </if>
-            <if test="mImage != null and mImage != ''">
-                and m_image = #{mImage}
+            <if test="readtime != null">
+                and readTime = #{readtime}
             </if>
-            <if test="mType != null and mType != ''">
-                and m_type = #{mType}
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="tryvip != null">
+                and tryVip = #{tryvip}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
             </if>
         </where>
+        order by id desc
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="MagazinesMap">
         select
-        id, isUsed, create_time, update_time, remarks, m_mag, m_image, m_type
+        id, isUsed, create_time, update_time, remarks, titles, readTime, name, type, tryVip, image
         from magazines
         <where>
             <if test="id != null">
@@ -75,14 +95,23 @@
             <if test="remarks != null and remarks != ''">
                 and remarks = #{remarks}
             </if>
-            <if test="mMag != null and mMag != ''">
-                and m_mag = #{mMag}
+            <if test="titles != null and titles != ''">
+                and titles = #{titles}
             </if>
-            <if test="mImage != null and mImage != ''">
-                and m_image = #{mImage}
+            <if test="readtime != null">
+                and readTime = #{readtime}
             </if>
-            <if test="mType != null and mType != ''">
-                and m_type = #{mType}
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="tryvip != null">
+                and tryVip = #{tryvip}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -108,50 +137,61 @@
             <if test="remarks != null and remarks != ''">
                 and remarks = #{remarks}
             </if>
-            <if test="mMag != null and mMag != ''">
-                and m_mag = #{mMag}
+            <if test="titles != null and titles != ''">
+                and titles = #{titles}
             </if>
-            <if test="mImage != null and mImage != ''">
-                and m_image = #{mImage}
+            <if test="readtime != null">
+                and readTime = #{readtime}
             </if>
-            <if test="mType != null and mType != ''">
-                and m_type = #{mType}
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="tryvip != null">
+                and tryVip = #{tryvip}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
             </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-
-                insert into magazines(isUsed, create_time, update_time, remarks, m_mag, m_image, m_type)
-                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{mMag}, #{mImage}, #{mType})
-
+        insert into magazines(isUsed, create_time, update_time, remarks, titles, readTime, name, type, tryVip, image)
+        values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{titles}, #{readtime}, #{name}, #{type},
+                #{tryvip}, #{image})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into magazines(isUsed, create_time, update_time, remarks, m_mag, m_image, m_type)
+        insert into magazines(isUsed, create_time, update_time, remarks, titles, readTime, name, type, tryVip, image)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.mMag},
-            #{entity.mImage}, #{entity.mType})
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.titles},
+            #{entity.readtime}, #{entity.name}, #{entity.type}, #{entity.tryvip}, #{entity.image})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
-        insert into magazines(isUsed, create_time, update_time, remarks, m_mag, m_image, m_type)
+        insert into magazines(isUsed, create_time, update_time, remarks, titles, readTime, name, type, tryVip, image)
         values
         <foreach collection="entities" item="entity" separator=",">
-            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.mMag},
-            #{entity.mImage}, #{entity.mType})
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.titles},
+            #{entity.readtime}, #{entity.name}, #{entity.type}, #{entity.tryvip}, #{entity.image})
         </foreach>
         on duplicate key update
         isUsed = values(isUsed),
         create_time = values(create_time),
         update_time = values(update_time),
         remarks = values(remarks),
-        m_mag = values(m_mag),
-        m_image = values(m_image),
-        m_type = values(m_type)
+        titles = values(titles),
+        readTime = values(readTime),
+        name = values(name),
+        type = values(type),
+        tryVip = values(tryVip),
+        image = values(image)
     </insert>
 
     <!--通过主键修改数据-->
@@ -170,14 +210,23 @@
             <if test="remarks != null and remarks != ''">
                 remarks = #{remarks},
             </if>
-            <if test="mMag != null and mMag != ''">
-                m_mag = #{mMag},
+            <if test="titles != null and titles != ''">
+                titles = #{titles},
             </if>
-            <if test="mImage != null and mImage != ''">
-                m_image = #{mImage},
+            <if test="readtime != null">
+                readTime = #{readtime},
             </if>
-            <if test="mType != null and mType != ''">
-                m_type = #{mType},
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="tryvip != null">
+                tryVip = #{tryvip},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
             </if>
         </set>
         where id = #{id}
@@ -185,9 +234,9 @@
 
     <!--通过主键删除-->
     <delete id="deleteById">
-
-                delete from magazines where id = #{id}
-
+        delete
+        from magazines
+        where id = #{id}
     </delete>
 </mapper>
 

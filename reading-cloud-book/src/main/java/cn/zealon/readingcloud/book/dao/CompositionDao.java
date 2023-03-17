@@ -32,6 +32,8 @@ public interface CompositionDao {
     List<Composition> queryAllByLimit(Composition composition, @Param("pageable") Pageable pageable);
     List<Composition> queryAll(Composition composition);
 
+    List<Composition>queryRand(int size);
+
     /**
      * 统计总行数
      *

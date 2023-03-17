@@ -1,5 +1,7 @@
 package cn.zealon.readingcloud.homepage.service.impl;
 
+import cn.zealon.readingcloud.book.feign.client.CompositionClient;
+import cn.zealon.readingcloud.common.pojo.xzwresources.Composition;
 import cn.zealon.readingcloud.common.pojo.xzwtasks.ReadTask;
 import cn.zealon.readingcloud.homepage.dao.ReadTaskDao;
 import cn.zealon.readingcloud.homepage.service.ReadTaskService;
@@ -9,6 +11,11 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import javax.xml.crypto.Data;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 /**
@@ -21,6 +28,9 @@ import java.util.List;
 public class ReadTaskServiceImpl implements ReadTaskService {
     @Resource
     private ReadTaskDao readTaskDao;
+
+    @Resource
+    private CompositionClient compositionClient;
 
     /**
      * 通过ID查询单条数据
@@ -63,6 +73,67 @@ public class ReadTaskServiceImpl implements ReadTaskService {
         }
     }
 
+    @Override
+    public void toReadTask(){
+        //将昨天的任务改为已结束
+        this.checkReadTask();
+        List<Composition>compositions=this.compositionClient.queryRandoms(2);
+        if (compositions.size() == 2) {
+            ReadTask readTask=new ReadTask();
+            readTask.setIsused(0);
+            readTask.setCreateTime(new Date());
+            readTask.setUpdateTime(new Date());
+            readTask.setRTitle(compositions.get(0).getCTitle());
+            readTask.setRSynopsis(compositions.get(1).getCTitle());
+            try{
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+                Date date = new Date();
+                String format = simpleDateFormat.format(date);
+                Date today=simpleDateFormat.parse(format);
+                readTask.setRBegintime(today);
+                //获取明天日期
+                Calendar calendar = new GregorianCalendar();
+                calendar.setTime(date);
+                // 把日期往后增加一天,整数  往后推,负数往前移动
+                calendar.add(Calendar.DATE, 1);
+                // 这个时间就是日期往后推一天的结果
+                date = calendar.getTime();
+                format = simpleDateFormat.format(date);
+                Date tomorrow=simpleDateFormat.parse(format);
+                readTask.setREndtime(tomorrow);
+            }catch (Exception e) {
+            }
+            readTask.setRStatus(1);
+            readTask.setRTaskfirst(compositions.get(0).getId());
+            readTask.setRTasksecond(compositions.get(1).getId());
+            readTask.setRTime(20+"");
+            this.readTaskDao.insert(readTask);
+        }
+    }
+
+    public void checkReadTask(){
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = new Date();
+            String format = simpleDateFormat.format(date);
+            Date today=simpleDateFormat.parse(format);
+            ReadTask oldTask=new ReadTask();
+            oldTask.setIsused(0);
+            oldTask.setRStatus(1);
+            List<ReadTask> list = this.readTaskDao.queryAll(oldTask);
+            if (list != null && list.size() > 0) {
+                for (ReadTask r:list){
+                    if (r.getRBegintime().before(today)){
+                        r.setRStatus(2);
+                        this.readTaskDao.update(r);
+                    }
+                }
+            }
+        }catch (Exception e) {
+
+        }
+
+    }
 
     /**
      * 新增数据

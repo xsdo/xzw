@@ -9,13 +9,13 @@ import java.util.Date;
 import java.io.Serializable;
 
 /**
- * 杂志表(Magazines)实体类
+ * 杂志栏目表(Magazines)实体类
  *
  * @author makejava
- * @since 2023-03-01 11:13:55
+ * @since 2023-03-15 17:17:09
  */
 public class Magazines implements Serializable {
-    private static final long serialVersionUID = -40017175326474390L;
+    private static final long serialVersionUID = 208244128126754801L;
     /**
      * ID
      */
@@ -39,17 +39,29 @@ public class Magazines implements Serializable {
      */
     private String remarks;
     /**
-     * 期数
+     * 栏目名
      */
-    private String mMag;
+    private String titles;
     /**
-     * 杂志封面图
+     * 更新时间
      */
-    private String mImage;
+    private Date readtime;
     /**
-     * 杂志类型（高低）
+     * 杂志名
      */
-    private String mType;
+    private String name;
+    /**
+     * 类型(0：1-3年级；1：4-6年级
+     */
+    private Integer type;
+    /**
+     * 非会员试读(1 试读 0非试读
+     */
+    private Integer tryvip;
+    /**
+     * 图片
+     */
+    private String image;
 
 
     public Long getId() {
@@ -92,28 +104,52 @@ public class Magazines implements Serializable {
         this.remarks = remarks;
     }
 
-    public String getMMag() {
-        return mMag;
+    public String getTitles() {
+        return titles;
     }
 
-    public void setMMag(String mMag) {
-        this.mMag = mMag;
+    public void setTitles(String titles) {
+        this.titles = titles;
     }
 
-    public String getMImage() {
-        return mImage;
+    public Date getReadtime() {
+        return readtime;
     }
 
-    public void setMImage(String mImage) {
-        this.mImage = mImage;
+    public void setReadtime(Date readtime) {
+        this.readtime = readtime;
     }
 
-    public String getMType() {
-        return mType;
+    public String getName() {
+        return name;
     }
 
-    public void setMType(String mType) {
-        this.mType = mType;
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public Integer getType() {
+        return type;
+    }
+
+    public void setType(Integer type) {
+        this.type = type;
+    }
+
+    public Integer getTryvip() {
+        return tryvip;
+    }
+
+    public void setTryvip(Integer tryvip) {
+        this.tryvip = tryvip;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
 }

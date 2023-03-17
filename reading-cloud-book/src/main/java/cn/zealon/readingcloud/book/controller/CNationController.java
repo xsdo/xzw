@@ -56,6 +56,11 @@ public class CNationController {
     return this.cNationService.queryAll(cNation);
     }
 
+    @GetMapping("randNation")
+    public List<CNation> randNation(int size){
+        return this.cNationService.randNation(size);
+    }
+
     /**
      * 新增数据
      *

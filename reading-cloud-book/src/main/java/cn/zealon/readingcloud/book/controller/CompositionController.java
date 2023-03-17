@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 作文表(Composition)表控制层
@@ -52,6 +53,16 @@ public class CompositionController {
     @GetMapping("queryAll")
     public List<Composition>queryAll(Composition composition){
         return this.compositionService.queryAll(composition);
+    }
+
+    @GetMapping("/queryContent")
+    public List<Map<String,String>>queryContent(){
+        return this.compositionService.queryContent();
+    }
+
+    @GetMapping("queryRandoms")
+    public List<Composition>queryRandoms(int size){
+        return this.compositionService.queryRandoms(size);
     }
 
     @GetMapping("queryByUserId")

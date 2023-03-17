@@ -9,13 +9,13 @@ import java.util.Date;
 import java.io.Serializable;
 
 /**
- * 杂志目录表(MTitles)实体类
+ * 杂志内容表(MContent)实体类
  *
  * @author makejava
- * @since 2023-03-01 11:13:53
+ * @since 2023-03-15 17:17:08
  */
-public class MTitles implements Serializable {
-    private static final long serialVersionUID = -38759596996232052L;
+public class MContent implements Serializable {
+    private static final long serialVersionUID = 346766273692141474L;
     /**
      * ID
      */
@@ -39,31 +39,29 @@ public class MTitles implements Serializable {
      */
     private String remarks;
     /**
-     * 文章标题
-     */
-    private String mTitle;
-    /**
-     * 栏目id
+     * 杂志id
      */
     @JsonSerialize(using = LongJsonSerializer.class)
     @JsonDeserialize(using = LongJsonDeserializer.class)
-    private Long pid;
+    private Long magazinesId;
     /**
-     * 作者
+     * 文章标题
      */
-    private String mAuthor;
+    private String titles;
     /**
-     * 学校
+     * 文章内容
      */
-    private String mSchool;
+    private String content;
     /**
-     * 是否试读(0否：1是）
+     * 非会员试读
      */
-    private Integer mTry;
+    private Integer tryvip;
     /**
-     * 图片
+     * 作文id
      */
-    private String mImage;
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
+    private Long compositionId;
 
 
     public Long getId() {
@@ -106,52 +104,44 @@ public class MTitles implements Serializable {
         this.remarks = remarks;
     }
 
-    public String getMTitle() {
-        return mTitle;
+    public Long getMagazinesId() {
+        return magazinesId;
     }
 
-    public void setMTitle(String mTitle) {
-        this.mTitle = mTitle;
+    public void setMagazinesId(Long magazinesId) {
+        this.magazinesId = magazinesId;
     }
 
-    public Long getPid() {
-        return pid;
+    public String getTitles() {
+        return titles;
     }
 
-    public void setPid(Long pid) {
-        this.pid = pid;
+    public void setTitles(String titles) {
+        this.titles = titles;
     }
 
-    public String getMAuthor() {
-        return mAuthor;
+    public String getContent() {
+        return content;
     }
 
-    public void setMAuthor(String mAuthor) {
-        this.mAuthor = mAuthor;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getMSchool() {
-        return mSchool;
+    public Integer getTryvip() {
+        return tryvip;
     }
 
-    public void setMSchool(String mSchool) {
-        this.mSchool = mSchool;
+    public void setTryvip(Integer tryvip) {
+        this.tryvip = tryvip;
     }
 
-    public Integer getMTry() {
-        return mTry;
+    public Long getCompositionId() {
+        return compositionId;
     }
 
-    public void setMTry(Integer mTry) {
-        this.mTry = mTry;
-    }
-
-    public String getMImage() {
-        return mImage;
-    }
-
-    public void setMImage(String mImage) {
-        this.mImage = mImage;
+    public void setCompositionId(Long compositionId) {
+        this.compositionId = compositionId;
     }
 
 }

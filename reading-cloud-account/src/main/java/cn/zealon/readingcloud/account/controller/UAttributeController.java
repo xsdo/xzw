@@ -37,10 +37,28 @@ public class UAttributeController {
     public ResponseEntity<Object> updateHead(MultipartFile avatar){
         return new ResponseEntity<>(uAttributeService.updateHeadImg(avatar), HttpStatus.OK);
     }
+    @ApiOperation("修改头像")
+    @GetMapping(value = "/changeHead")
+    public ResponseEntity<Object> changeHead(Long userId,String fileUrl){
+        return new ResponseEntity<>(uAttributeService.changeHead(userId, fileUrl), HttpStatus.OK);
+    }
+
+    @ApiOperation("上传背景")
+    @PostMapping(value = "/updateBackGround")
+    public ResponseEntity<Object> updateBackGround(MultipartFile avatar){
+        return new ResponseEntity<>(uAttributeService.updateBackGround(avatar), HttpStatus.OK);
+    }
+    @ApiOperation("修改背景")
+    @GetMapping(value = "/changeBackGround")
+    public ResponseEntity<Object> changeBackGround(Long userId,String fileUrl){
+        return new ResponseEntity<>(uAttributeService.changeBackGround(userId, fileUrl), HttpStatus.OK);
+    }
+
+
 
     @ApiOperation("修改资料")
     @PostMapping(value = "/change")
-    public ResponseEntity<Object> change(UAttribute uAttribute){
+    public ResponseEntity<Object> change(@RequestBody UAttribute uAttribute){
         return new ResponseEntity<>(uAttributeService.update(uAttribute), HttpStatus.OK);
     }
     /**
@@ -60,6 +78,10 @@ public class UAttributeController {
         return this.uAttributeService.queryAll(uAttribute);
     }
 
+    @GetMapping("queryRand")
+    public List<UAttribute>queryRand(int size){
+        return this.uAttributeService.queryRand(size);
+    }
 
 
     @GetMapping("queryByUserId")

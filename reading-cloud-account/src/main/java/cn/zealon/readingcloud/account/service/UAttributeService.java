@@ -17,9 +17,14 @@ import java.util.Map;
 public interface UAttributeService {
 
 
-    Map<String, String> updateHead(MultipartFile multipartFile);
+//    Map<String, String> updateHead(MultipartFile multipartFile);
 
     Map<String, String> updateHeadImg(MultipartFile multipartFile);
+    UAttribute changeHead(Long userId,String fileUrl);
+
+    Map<String, String> updateBackGround(MultipartFile multipartFile);
+    UAttribute changeBackGround(Long userId,String fileUrl);
+
     /**
      * 通过ID查询单条数据
      *
@@ -38,6 +43,9 @@ public interface UAttributeService {
     Page<UAttribute> queryByPage(UAttribute uAttribute, PageRequest pageRequest);
 
     List<UAttribute> queryAll(UAttribute uAttribute);
+
+
+    List<UAttribute>queryRand(int size);
     /**
      * 新增数据
      *

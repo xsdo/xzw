@@ -64,6 +64,15 @@ public class CCollectlogController {
     }
 
 
+    @GetMapping("moveCollectlog")
+    public ResponseEntity<CCollectlog>moveCollectlog(Long collectId,Long collectLogId){
+        CCollectlog cCollectlog = this.cCollectlogService.queryById(collectLogId);
+        if (cCollectlog!=null){
+            cCollectlog.setCollectId(collectId);
+            this.cCollectlogService.update(cCollectlog);
+        }
+        return ResponseEntity.ok(this.cCollectlogService.queryById(collectLogId));
+    }
     @GetMapping("addCollectlog")
     public ResponseEntity<CCollectlog> addCollectlog(Long collectId,String cName ,String cImage, Long compositionId, int type) {
         CCollectlog cCollectlog = new CCollectlog();

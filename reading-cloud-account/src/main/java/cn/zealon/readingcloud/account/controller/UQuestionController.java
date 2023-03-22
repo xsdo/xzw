@@ -49,13 +49,19 @@ public class UQuestionController {
     }
 
     @GetMapping("toQuestion")
-    public JSONObject toQuestion(UQuestion uQuestion){
+    public JSONObject toQuestion(Long userId,int type,String content, String email){
+
         JSONObject result = new JSONObject();
         Map<String, Object> data = new HashMap<>();
         try {
+            UQuestion uQuestion=new UQuestion();
             uQuestion.setIsused(0);
             uQuestion.setCreateTime(new Date());
             uQuestion.setUpdateTime(new Date());
+            uQuestion.setUserId(userId);
+            uQuestion.setQType(type);
+            uQuestion.setQContent(content);
+            uQuestion.setEmail(email);
             this.uQuestionService.insert(uQuestion);
             result.put("sign",00);
             data.put("data","您反馈的问题已提交管理平台，管理员马上会回复你的，请耐心等待。");

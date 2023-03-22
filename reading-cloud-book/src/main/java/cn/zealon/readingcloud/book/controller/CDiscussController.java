@@ -59,7 +59,7 @@ public class CDiscussController {
         return this.cDiscussService.queryByCompositionId(compositionId,remarks);
     }
 
-    @PostMapping("doDiscuss")
+    @GetMapping("doDiscuss")
     public JSONObject doDiscuss(Long userId,String discuss,Long compositionId,Integer type){
         return this.cDiscussService.doDiscuss(userId, discuss, compositionId,type);
     }

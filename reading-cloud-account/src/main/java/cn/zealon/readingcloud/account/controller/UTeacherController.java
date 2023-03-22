@@ -1,6 +1,8 @@
 package cn.zealon.readingcloud.account.controller;
 
+import cn.zealon.readingcloud.account.service.UAttributeService;
 import cn.zealon.readingcloud.account.service.UTeacherService;
+import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
 import cn.zealon.readingcloud.common.pojo.xzwusers.USchool;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UTeacher;
 import com.alibaba.fastjson.JSONObject;
@@ -32,6 +34,10 @@ public class UTeacherController {
     @Resource
     private UTeacherService uTeacherService;
 
+    @Resource
+    private UAttributeService uAttributeService;
+
+
     /**
      * 分页查询
      *
@@ -47,6 +53,19 @@ public class UTeacherController {
     @GetMapping("queryAll")
     public List<UTeacher>queryAll(UTeacher uTeacher){
         return this.uTeacherService.queryAll(uTeacher);
+    }
+    @GetMapping("queryByUserId")
+    public UTeacher queryByUserId(Long userId){
+        UTeacher teacher=new UTeacher();
+        UAttribute uAttribute =this.uAttributeService.queryById(userId);
+        if (uAttribute!=null){
+            Long teacherId =uAttribute.getTeacherid();
+            if (teacherId>0){
+                teacher=this.uTeacherService.queryById(teacherId);
+                teacher.setRemarks(uAttribute.getUType()+"");
+            }
+        }
+        return teacher;
     }
     /**
      * 通过主键查询单条数据

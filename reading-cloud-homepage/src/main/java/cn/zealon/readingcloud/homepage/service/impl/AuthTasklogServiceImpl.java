@@ -70,6 +70,18 @@ public class AuthTasklogServiceImpl implements AuthTasklogService {
     }
 
     @Override
+    public void resetTaskLog(){
+        AuthTasklog authTasklog = new AuthTasklog();
+        authTasklog.setIsused(0);
+        List<AuthTasklog>authTasklogList=this.queryAll(authTasklog);
+        if (authTasklogList!=null){
+            for (AuthTasklog aa:authTasklogList){
+                aa.setStatus(0);
+                this.update(aa);
+            }
+        }
+    }
+    @Override
     public List<AuthTasklog>queryByUserId(Long userId){
         AuthTask authTask =new AuthTask();
         authTask.setIsused(0);

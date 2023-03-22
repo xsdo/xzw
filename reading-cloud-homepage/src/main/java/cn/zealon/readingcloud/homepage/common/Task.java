@@ -19,15 +19,18 @@ public class Task {
 
     @Resource
     private AuthTaskService authTaskService;
+
+    @Scheduled(cron = "0 0 0 * * ?")//每天的0点都执行一次
     public void authTask(){
-        System.out.println("定时更新每日任务表启动");
-//        authTasklogService.
-        System.out.println("定时更新每日任务表完成");
+        System.out.println("每日更新用户任务表启动...");
+        this.authTasklogService.resetTaskLog();
+        System.out.println("每日更新用户任务表完成...");
     }
-//    @Scheduled(initialDelay = 1000,fixedDelay = 1000)
+    @Scheduled(cron = "0 0 0 * * ?")//每天的0点都执行一次
     public void myTask1(){
+        System.out.println("每日更新用户阅读任务启动...");
         this.readTaskService.toReadTask();
-        System.out.println("第一个定时任务");
+        System.out.println("每日更新用户阅读任务完成...");
     }
 //    @Scheduled(initialDelay = 2000,fixedDelay = 3000)
     public void myTask2(){

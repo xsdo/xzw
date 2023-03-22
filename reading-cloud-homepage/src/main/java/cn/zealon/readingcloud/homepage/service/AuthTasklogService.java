@@ -36,6 +36,8 @@ public interface AuthTasklogService {
 
     List<AuthTasklog> queryAll(AuthTasklog authTasklog);
 
+    void resetTaskLog();
+
     List<AuthTasklog>queryByUserId(Long userId);
 
     JSONObject toAuthTasklog(Long authTasklogId);

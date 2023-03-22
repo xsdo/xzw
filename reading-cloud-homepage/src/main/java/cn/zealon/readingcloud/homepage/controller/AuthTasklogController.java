@@ -62,6 +62,10 @@ public class AuthTasklogController {
         return this.authTasklogService.toAuthTasklog(authTasklogId);
     }
 
+    @GetMapping("resetTaskLog")
+    public void resetTaskLog(){
+        this.authTasklogService.resetTaskLog();
+    }
 
     /**
      * 通过主键查询单条数据

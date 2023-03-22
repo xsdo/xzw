@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.book.controller;
 
 import cn.zealon.readingcloud.common.pojo.xzwresources.CVideos;
 import cn.zealon.readingcloud.book.service.CVideosService;
+import cn.zealon.readingcloud.common.pojo.xzwresources.Department;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -44,6 +45,18 @@ public class CVideosController {
         return  this.cVideosService.queryAll(cVideos);
     }
 
+    @GetMapping("queryByUnitarea")
+    public CVideos queryByDepartment(String grade, String unitarea) {
+        CVideos cVideos=new CVideos();
+        cVideos.setVGrade(grade);
+        cVideos.setVUnitarea(unitarea);
+        List<CVideos> cVideosList = this.cVideosService.queryAll(cVideos);
+        if (cVideosList!=null&&cVideosList.size() > 0){
+            return cVideosList.get(0);
+        }else {
+            return null;
+        }
+    }
 
     /**
      * 通过主键查询单条数据

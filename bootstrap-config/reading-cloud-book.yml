@@ -41,7 +41,8 @@ spring:
       test-while-idle: true
       validation-query: 'select 1 from dual'
       connect-timeout: 1500
-
+  jackson:
+    time-zone: GMT+8
   #---- redis配置  ----#
   redis:
     database: 0

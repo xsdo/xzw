@@ -27,7 +27,7 @@ public class Task {
         System.out.println("每日更新用户任务表完成...");
     }
     @Scheduled(cron = "0 0 0 * * ?")//每天的0点都执行一次
-    public void myTask1(){
+    public void readTask(){
         System.out.println("每日更新用户阅读任务启动...");
         this.readTaskService.toReadTask();
         System.out.println("每日更新用户阅读任务完成...");

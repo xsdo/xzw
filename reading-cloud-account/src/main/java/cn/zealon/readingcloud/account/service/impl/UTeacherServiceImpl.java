@@ -2,9 +2,11 @@ package cn.zealon.readingcloud.account.service.impl;
 
 import cn.zealon.readingcloud.account.common.utils.QRCodeUtil;
 import cn.zealon.readingcloud.account.dao.UTeacherDao;
+import cn.zealon.readingcloud.account.service.UAttributeService;
 import cn.zealon.readingcloud.account.service.UTeacherService;
 import cn.zealon.readingcloud.common.config.FileProperties;
 import cn.zealon.readingcloud.common.exception.BadRequestException;
+import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UBinding;
 import cn.zealon.readingcloud.common.pojo.xzwusers.USchool;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UTeacher;
@@ -36,6 +38,9 @@ public class UTeacherServiceImpl implements UTeacherService {
 
     @Resource
     private FileProperties properties;
+
+    @Resource
+    private UAttributeService uAttributeService;
 
     /**
      * 通过ID查询单条数据
@@ -157,6 +162,22 @@ public class UTeacherServiceImpl implements UTeacherService {
                 teacher.setReadalouds(0);
                 teacher.setTOpen(1);
                 teacher.setRankings(1);
+                this.insert(teacher);
+
+                UTeacher t = new UTeacher();
+                t.setIsused(0);
+                t.setTeacherId(userId);
+                t.setTSchoolid(schoolId);
+                List<UTeacher>tList=this.uTeacherDao.queryAll(t);
+                if (tList.size() > 0) {
+                    UAttribute uat =this.uAttributeService.queryById(userId);
+                    if (uat!=null){
+                        uat.setUType(5);
+                        uat.setTeacherid(tList.get(0).getId());
+                        this.uAttributeService.update(uat);
+                    }
+                }
+
                 result.put("sign", 00);
                 data.put("data", "班级创建成功，快生成您的班级专属二维码邀请你的学生扫码进班吧");
             }

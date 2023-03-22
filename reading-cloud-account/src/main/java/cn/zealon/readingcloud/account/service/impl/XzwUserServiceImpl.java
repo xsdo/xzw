@@ -234,7 +234,7 @@ public class XzwUserServiceImpl implements XzwUserService {
                     uAttribute.setCreateTime(new Date());
                     uAttribute.setUpdateTime(new Date());
                     uAttribute.setQqnum(nickName);
-                    uAttribute.setPortrait(avatarUrl);
+                    uAttribute.setPortrait("/Resource/avatar/2023/3/16/20230316094704350c65bbfaa-da26-4d72-9a36-5e8d19b4fcfe.png");
                     uAttribute.setUType(0);
                     uAttribute.setBackground("/Resource/News/2023/3/16/20230316165055682569b7a0b-51c1-42c3-9862-c7ce3bc1acd0.png");
                     uAttribute.setIsAuth(0);

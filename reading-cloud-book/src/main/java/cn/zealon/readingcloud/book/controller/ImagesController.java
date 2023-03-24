@@ -7,8 +7,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * 随机图表(Images)表控制层
@@ -38,6 +40,10 @@ public class ImagesController {
         return ResponseEntity.ok(this.imagesService.queryByPage(images, pageRequest));
     }
 
+    @PostMapping("updateImage")
+    public Map<String, String> updateImage(MultipartFile big, MultipartFile small ){
+        return imagesService.updateImage(big,small);
+    }
     @GetMapping("queryRand")
     public Images queryRand(){
         return this.imagesService.queryRand();

@@ -78,7 +78,10 @@ public class ActiveTask implements Serializable {
      * 活动文案
      */
     private String acPaperwork;
-
+    /**
+     * 活动地址
+     */
+    private String acUrl;
 
     public Long getId() {
         return id;
@@ -200,5 +203,12 @@ public class ActiveTask implements Serializable {
         this.acPaperwork = acPaperwork;
     }
 
+    public String getAcUrl() {
+        return acUrl;
+    }
+
+    public void setAcUrl(String acUrl) {
+        this.acUrl = acUrl;
+    }
 }
 

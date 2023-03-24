@@ -1,15 +1,22 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.common.config.FileProperties;
+import cn.zealon.readingcloud.common.exception.BadRequestException;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Images;
 import cn.zealon.readingcloud.book.dao.ImagesDao;
 import cn.zealon.readingcloud.book.service.ImagesService;
+import cn.zealon.readingcloud.common.utils.FileUtil;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 随机图表(Images)表服务实现类
@@ -22,6 +29,8 @@ public class ImagesServiceImpl implements ImagesService {
     @Resource
     private ImagesDao imagesDao;
 
+    @Resource
+    private FileProperties properties;
     /**
      * 通过ID查询单条数据
      *
@@ -44,6 +53,39 @@ public class ImagesServiceImpl implements ImagesService {
     public Page<Images> queryByPage(Images images, PageRequest pageRequest) {
         long total = this.imagesDao.count(images);
         return new PageImpl<>(this.imagesDao.queryAllByLimit(images, pageRequest), pageRequest, total);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, String> updateImage(MultipartFile multipartFile,MultipartFile multipartFile2 ) {
+        // 文件大小验证
+        FileUtil.checkSize(properties.getAvatarMaxSize(), multipartFile.getSize());
+        FileUtil.checkSize(properties.getAvatarMaxSize(), multipartFile2.getSize());
+        // 验证文件上传的格式
+        String image = "gif jpg png jpeg";
+        String fileType = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
+        String fileType2 = FileUtil.getExtensionName(multipartFile2.getOriginalFilename());
+        if(fileType != null && !image.contains(fileType)){
+            throw new BadRequestException("文件格式错误！, 仅支持 " + image +" 格式");
+        }
+        if(fileType2 != null && !image.contains(fileType2)){
+            throw new BadRequestException("文件格式错误！, 仅支持 " + image +" 格式");
+        }
+        try {
+            String fileUrl = FileUtil.uploadFile(multipartFile, properties.getPath().getPath());
+            String fileUrl2 = FileUtil.uploadFile(multipartFile2, properties.getPath().getPath());
+            Images images = new Images();
+            images.setImageb("/Resource/News/"+fileUrl);
+            images.setImages("/Resource/News/"+fileUrl2);
+            images.setType(1);
+            this.insert(images);
+            return new HashMap<String, String>(1) {{
+                put("fileUrl", "/Resource/News/"+fileUrl);
+                put("fileUrl2", "/Resource/News/"+fileUrl2);
+            }};
+        }catch (Exception e) {
+            return null;
+        }
     }
 
     @Override

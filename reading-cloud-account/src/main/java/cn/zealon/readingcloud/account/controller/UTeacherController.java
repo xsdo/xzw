@@ -108,6 +108,32 @@ public class UTeacherController {
         return this.uTeacherService.doBinding(userId, schoolId, grade, term, student);
     }
 
+    @ApiOperation("修改班级信息")
+    @GetMapping("editTeacher")
+    public UTeacher editTeacher(Long id,String grade, String term, int student,int open ,String slogan){
+        UTeacher uTeacher =new UTeacher();
+        uTeacher.setId(id);
+        uTeacher.setTGrade(grade);
+        uTeacher.setTTerm(term);
+        uTeacher.setTName(grade+term);
+        uTeacher.setTStudent(student);
+        uTeacher.setTOpen(open);
+        uTeacher.setTSlogan(slogan);
+        this.uTeacherService.update(uTeacher);
+        return this.uTeacherService.queryById(id);
+    }
+    @ApiOperation("修改班主任信息")
+    @GetMapping("editTeacherUser")
+    public UTeacher editTeacherUser(Long id,String name, String sign){
+        UTeacher uTeacher =new UTeacher();
+        uTeacher.setId(id);
+        uTeacher.setTeaName(name);
+        uTeacher.setTeaSign(sign);
+        this.uTeacherService.update(uTeacher);
+        return this.uTeacherService.queryById(id);
+    }
+
+
 
 
     /**

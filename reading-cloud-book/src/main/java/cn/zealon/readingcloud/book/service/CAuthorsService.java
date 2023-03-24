@@ -1,8 +1,10 @@
 package cn.zealon.readingcloud.book.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwresources.CAuthors;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -32,6 +34,8 @@ public interface CAuthorsService {
     Page<CAuthors> queryByPage(CAuthors cAuthors, PageRequest pageRequest);
 
     List<CAuthors> queryAll(CAuthors cAuthors);
+
+    JSONObject toAuthors(String title, String name, String province, String city, String area, String school );
     /**
      * 新增数据
      *

@@ -2,11 +2,13 @@ package cn.zealon.readingcloud.book.controller;
 
 import cn.zealon.readingcloud.common.pojo.xzwresources.CAuthors;
 import cn.zealon.readingcloud.book.service.CAuthorsService;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -44,6 +46,11 @@ public class CAuthorsController {
         return this.cAuthorsService.queryAll(cAuthors);
     }
 
+
+    @GetMapping("toAuthors")
+    public JSONObject toAuthors(String title, String name, String province, String city, String area, String school  ){
+        return this.cAuthorsService.toAuthors(title, name, province, city, area, school);
+    }
     /**
      * 通过主键查询单条数据
      *

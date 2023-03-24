@@ -3,6 +3,9 @@ package cn.zealon.readingcloud.book.service;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Images;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.Map;
 
 /**
  * 随机图表(Images)表服务接口
@@ -28,6 +31,8 @@ public interface ImagesService {
      * @return 查询结果
      */
     Page<Images> queryByPage(Images images, PageRequest pageRequest);
+
+    Map<String, String> updateImage(MultipartFile multipartFile, MultipartFile multipartFile2 );
 
     Images queryRand();
     /**

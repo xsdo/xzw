@@ -17,22 +17,36 @@
         <result property="acEndtime" column="ac_endtime" jdbcType="TIMESTAMP"/>
         <result property="acIspay" column="ac_ispay" jdbcType="INTEGER"/>
         <result property="acPaperwork" column="ac_paperwork" jdbcType="VARCHAR"/>
+        <result property="acUrl" column="ac_url" jdbcType="VARCHAR"/>
     </resultMap>
 
     <!--查询单个-->
     <select id="queryById" resultMap="ActiveTaskMap">
-
-                select
-                  id, isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type, ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork
-                from active_task
-                where id = #{id}
-
+        select id,
+               isUsed,
+               create_time,
+               update_time,
+               remarks,
+               ac_name,
+               ac_synopsis,
+               ac_status,
+               ac_type,
+               ac_award,
+               ac_image,
+               ac_begintime,
+               ac_endtime,
+               ac_ispay,
+               ac_paperwork,
+               ac_url
+        from active_task
+        where id = #{id}
     </select>
+
     <!--查询指定行数据-->
     <select id="queryAll" resultMap="ActiveTaskMap">
         select
         id, isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type, ac_award, ac_image,
-        ac_begintime, ac_endtime, ac_ispay, ac_paperwork
+        ac_begintime, ac_endtime, ac_ispay, ac_paperwork, ac_url
         from active_task
         <where>
             <if test="id != null">
@@ -80,15 +94,17 @@
             <if test="acPaperwork != null and acPaperwork != ''">
                 and ac_paperwork = #{acPaperwork}
             </if>
+            <if test="acUrl != null and acUrl != ''">
+                and ac_url = #{acUrl}
+            </if>
         </where>
-        order by id desc
     </select>
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ActiveTaskMap">
         select
         id, isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type, ac_award, ac_image,
-        ac_begintime, ac_endtime, ac_ispay, ac_paperwork
+        ac_begintime, ac_endtime, ac_ispay, ac_paperwork, ac_url
         from active_task
         <where>
             <if test="id != null">
@@ -135,6 +151,9 @@
             </if>
             <if test="acPaperwork != null and acPaperwork != ''">
                 and ac_paperwork = #{acPaperwork}
+            </if>
+            <if test="acUrl != null and acUrl != ''">
+                and ac_url = #{acUrl}
             </if>
         </where>
         limit #{pageable.offset}, #{pageable.pageSize}
@@ -190,36 +209,39 @@
             <if test="acPaperwork != null and acPaperwork != ''">
                 and ac_paperwork = #{acPaperwork}
             </if>
+            <if test="acUrl != null and acUrl != ''">
+                and ac_url = #{acUrl}
+            </if>
         </where>
     </select>
 
     <!--新增所有列-->
     <insert id="insert" keyProperty="id" useGeneratedKeys="true">
-
-                insert into active_task(isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type, ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork)
-                values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{acName}, #{acSynopsis}, #{acStatus}, #{acType}, #{acAward}, #{acImage}, #{acBegintime}, #{acEndtime}, #{acIspay}, #{acPaperwork})
-
+        insert into active_task(isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type,
+                                ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork, ac_url)
+        values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{acName}, #{acSynopsis}, #{acStatus}, #{acType},
+                #{acAward}, #{acImage}, #{acBegintime}, #{acEndtime}, #{acIspay}, #{acPaperwork}, #{acUrl})
     </insert>
 
     <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
         insert into active_task(isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type,
-        ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork)
+        ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork, ac_url)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.acName},
             #{entity.acSynopsis}, #{entity.acStatus}, #{entity.acType}, #{entity.acAward}, #{entity.acImage},
-            #{entity.acBegintime}, #{entity.acEndtime}, #{entity.acIspay}, #{entity.acPaperwork})
+            #{entity.acBegintime}, #{entity.acEndtime}, #{entity.acIspay}, #{entity.acPaperwork}, #{entity.acUrl})
         </foreach>
     </insert>
 
     <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
         insert into active_task(isUsed, create_time, update_time, remarks, ac_name, ac_synopsis, ac_status, ac_type,
-        ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork)
+        ac_award, ac_image, ac_begintime, ac_endtime, ac_ispay, ac_paperwork, ac_url)
         values
         <foreach collection="entities" item="entity" separator=",">
             (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.acName},
             #{entity.acSynopsis}, #{entity.acStatus}, #{entity.acType}, #{entity.acAward}, #{entity.acImage},
-            #{entity.acBegintime}, #{entity.acEndtime}, #{entity.acIspay}, #{entity.acPaperwork})
+            #{entity.acBegintime}, #{entity.acEndtime}, #{entity.acIspay}, #{entity.acPaperwork}, #{entity.acUrl})
         </foreach>
         on duplicate key update
         isUsed = values(isUsed),
@@ -235,7 +257,8 @@
         ac_begintime = values(ac_begintime),
         ac_endtime = values(ac_endtime),
         ac_ispay = values(ac_ispay),
-        ac_paperwork = values(ac_paperwork)
+        ac_paperwork = values(ac_paperwork),
+        ac_url = values(ac_url)
     </insert>
 
     <!--通过主键修改数据-->
@@ -284,15 +307,18 @@
             <if test="acPaperwork != null and acPaperwork != ''">
                 ac_paperwork = #{acPaperwork},
             </if>
+            <if test="acUrl != null and acUrl != ''">
+                ac_url = #{acUrl},
+            </if>
         </set>
         where id = #{id}
     </update>
 
     <!--通过主键删除-->
     <delete id="deleteById">
-
-                delete from active_task where id = #{id}
-
+        delete
+        from active_task
+        where id = #{id}
     </delete>
 </mapper>
 

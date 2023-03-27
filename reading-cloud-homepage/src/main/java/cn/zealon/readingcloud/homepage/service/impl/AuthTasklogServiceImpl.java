@@ -105,6 +105,7 @@ public class AuthTasklogServiceImpl implements AuthTasklogService {
         return authTasklogList;
     }
 
+    //判断任务状态
     public void checkLogStatusByTask(Long authTasklogId){
         AuthTasklog authTasklog=this.queryById(authTasklogId);
         if (authTasklog != null) {

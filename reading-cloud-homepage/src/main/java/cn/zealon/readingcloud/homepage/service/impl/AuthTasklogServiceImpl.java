@@ -128,7 +128,7 @@ public class AuthTasklogServiceImpl implements AuthTasklogService {
 
     }
 
-    @Override//领取
+    @Override//领取奖励
     public JSONObject toAuthTasklog(Long authTasklogId){
         JSONObject result = new JSONObject();
         Map<String, Object> data = new HashMap<>();

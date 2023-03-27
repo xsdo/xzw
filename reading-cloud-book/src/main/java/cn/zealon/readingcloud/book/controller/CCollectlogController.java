@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.book.controller;
 
 import cn.zealon.readingcloud.common.pojo.xzwresources.CCollectlog;
 import cn.zealon.readingcloud.book.service.CCollectlogService;
+import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -74,17 +75,8 @@ public class CCollectlogController {
         return ResponseEntity.ok(this.cCollectlogService.queryById(collectLogId));
     }
     @GetMapping("addCollectlog")
-    public ResponseEntity<CCollectlog> addCollectlog(Long collectId,String cName ,String cImage, Long compositionId, int type) {
-        CCollectlog cCollectlog = new CCollectlog();
-        cCollectlog.setIsused(0);
-        cCollectlog.setCreateTime(new Date());
-        cCollectlog.setUpdateTime(new Date());
-        cCollectlog.setCollectId(collectId);
-        cCollectlog.setCName(cName);
-        cCollectlog.setCImage(cImage);
-        cCollectlog.setCompositionId(compositionId);
-        cCollectlog.setCType(type);
-        return ResponseEntity.ok(this.cCollectlogService.insert(cCollectlog));
+    public JSONObject addCollectlog (Long collectId, String cName , String cImage, Long compositionId, int type) {
+        return this.cCollectlogService.addCollectlog(collectId, cName, cImage, compositionId, type);
     }
 
     /**

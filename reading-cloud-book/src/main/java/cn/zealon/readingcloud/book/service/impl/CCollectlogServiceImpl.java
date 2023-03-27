@@ -3,13 +3,18 @@ package cn.zealon.readingcloud.book.service.impl;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CCollectlog;
 import cn.zealon.readingcloud.book.dao.CCollectlogDao;
 import cn.zealon.readingcloud.book.service.CCollectlogService;
+import com.alibaba.fastjson.JSONObject;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 收藏夹文件表(CCollectlog)表服务实现类
@@ -60,6 +65,55 @@ public class CCollectlogServiceImpl implements CCollectlogService {
     public CCollectlog insert(CCollectlog cCollectlog) {
         this.cCollectlogDao.insert(cCollectlog);
         return cCollectlog;
+    }
+
+
+    @Override
+    public JSONObject addCollectlog (Long collectId,String cName ,String cImage, Long compositionId, int type){
+        JSONObject result = new JSONObject();
+        Map<String, Object> data = new HashMap<>();
+        try{
+            //查询是否已收藏
+            CCollectlog cCollectlog = new CCollectlog();
+            cCollectlog.setCollectId(collectId);
+            cCollectlog.setCompositionId(compositionId);
+            List<CCollectlog>collectlogList =this.queryAll(cCollectlog);
+            if (collectlogList.size() > 0){
+                CCollectlog cc=collectlogList.get(0);
+                if (cc != null) {
+                    if (cc.getIsused()==0) {
+                        cc.setUpdateTime(new Date());
+                        cc.setIsused(1);
+                        this.update(cc);
+                        result.put("sign",00);
+                        data.put("data","取消收藏成功");
+                    }else if (cc.getIsused() == 1) {
+                        cc.setUpdateTime(new Date());
+                        cc.setIsused(0);
+                        this.update(cc);
+                        result.put("sign",00);
+                        data.put("data","收藏成功");
+                    }
+                }
+            }else {
+                cCollectlog.setIsused(0);
+                cCollectlog.setCreateTime(new Date());
+                cCollectlog.setUpdateTime(new Date());
+                cCollectlog.setCName(cName);
+                cCollectlog.setCImage(cImage);
+                cCollectlog.setCType(type);
+                this.insert(cCollectlog);
+                result.put("sign",00);
+                data.put("data","收藏成功");
+            }
+                result.put("data",data);
+        }catch (Exception e) {
+            e.printStackTrace();
+            result.put("sign",-1);
+            result.put("data","服务器错误");
+        }
+
+        return result;
     }
 
     /**

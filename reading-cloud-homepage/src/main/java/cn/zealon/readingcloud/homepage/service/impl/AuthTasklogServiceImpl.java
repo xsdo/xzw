@@ -96,11 +96,39 @@ public class AuthTasklogServiceImpl implements AuthTasklogService {
         authTasklog.setUserId(userId);
         authTasklog.setIsused(0);
         List<AuthTasklog> authTasklogList = this.queryAll(authTasklog);
-
+        if (!authTasklogList.isEmpty()) {
+            for (AuthTasklog aa:authTasklogList){
+                this.checkLogStatusByTask(aa.getId());
+            }
+        }
+        authTasklogList = this.queryAll(authTasklog);
         return authTasklogList;
     }
 
-    @Override//领取任务
+    public void checkLogStatusByTask(Long authTasklogId){
+        AuthTasklog authTasklog=this.queryById(authTasklogId);
+        if (authTasklog != null) {
+            if (authTasklog != null) {
+                String count=this.getRedisTask(authTasklog.getUserId(),authTasklog.getTaskId());
+                if (count != null){
+                    if (authTasklog.getTaskId()==2||authTasklog.getTaskId() == 3||authTasklog.getTaskId() == 7){
+                        if (count.length()>0){
+                            authTasklog.setStatus(2);
+                            this.update(authTasklog);
+                        }
+                    }else if (authTasklog.getTaskId() == 4 || authTasklog.getTaskId() == 5){
+                        if (count.length()>1){
+                            authTasklog.setStatus(2);
+                            this.update(authTasklog);
+                        }
+                    }
+                }
+            }
+        }
+
+    }
+
+    @Override//领取
     public JSONObject toAuthTasklog(Long authTasklogId){
         JSONObject result = new JSONObject();
         Map<String, Object> data = new HashMap<>();
@@ -113,42 +141,7 @@ public class AuthTasklogServiceImpl implements AuthTasklogService {
             }
             AuthTask authTask=authTaskService.queryById(authTasklog.getTaskId());
             if (authTasklog != null) {
-                if (authTasklog.getStatus()==0){
-                    authTasklog.setStatus(1);
-                    this.update(authTasklog);
-                    result.put("sign",00);
-                    data.put("data","任务领取成功");
-                }else if (authTasklog.getStatus()==1){
-                    String count=this.getRedisTask(authTasklog.getUserId(),authTasklog.getTaskId());
-                    if (count != null){
-                        if (authTasklog.getTaskId()==2||authTasklog.getTaskId() == 3||authTasklog.getTaskId() == 7){
-                            if (count.length()>0){
-                                authTasklog.setStatus(2);
-                                this.update(authTasklog);
-                                result.put("sign",00);
-                                data.put("data","任务完成");
-                            }else {
-                                result.put("sign",-1);
-                                data.put("data","任务未完成");
-                            }
-                        }else if (authTasklog.getTaskId() == 4 || authTasklog.getTaskId() == 5){
-                            if (count.length()>1){
-                                authTasklog.setStatus(2);
-                                this.update(authTasklog);
-                                result.put("sign",00);
-                                data.put("data","任务完成");
-                            }else {
-                                result.put("sign",-1);
-                                data.put("data","任务未完成");
-                            }
-                        }
-                    }else {
-                        result.put("sign",-1);
-                        data.put("data","任务未完成");
-                    }
-
-
-                }else if (authTasklog.getStatus() == 2) {
+                if (authTasklog.getStatus() == 2) {
                     //给用户添加积分
                     flowersClient.addFlowers(authTasklog.getUserId(),Integer.parseInt(authTask.getAAward()),authTask.getAName());
                     //状态改为已领取奖励

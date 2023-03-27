@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.book.service;
 
 import cn.zealon.readingcloud.common.pojo.xzwresources.CCollectlog;
+import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
@@ -39,6 +40,8 @@ public interface CCollectlogService {
      * @return 实例对象
      */
     CCollectlog insert(CCollectlog cCollectlog);
+
+    JSONObject addCollectlog (Long collectId, String cName , String cImage, Long compositionId, int type);
 
     /**
      * 修改数据

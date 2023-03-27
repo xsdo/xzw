@@ -14,10 +14,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 绑定班级表(UBinding)表服务实现类
@@ -66,10 +63,22 @@ public class UBindingServiceImpl implements UBindingService {
 
     @Override
     public List<UBinding> queryByTeacherId(Long teacherId){
-        UBinding uBinding=new UBinding();
-        uBinding.setIsused(0);
-        uBinding.setTeacherId(teacherId);
-        return this.uBindingDao.queryAll(uBinding);
+        List<UBinding> list=new ArrayList<>();
+        //找出老师id
+        UTeacher teacher=this.uTeacherService.queryById(teacherId);
+        if (teacher != null) {
+            UBinding uBinding=new UBinding();
+            uBinding.setIsused(0);
+            uBinding.setTeacherId(teacherId);
+            List<UBinding> bindings =this.queryAll(uBinding);
+            for (UBinding ub: bindings) {
+                if (ub.getUserId()!=teacher.getTeacherId()){
+                    list.add(ub);
+                }
+            }
+        }
+
+        return list;
     }
 
     @Override//绑定班级

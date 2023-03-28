@@ -98,7 +98,9 @@ public class AuthTasklogServiceImpl implements AuthTasklogService {
         List<AuthTasklog> authTasklogList = this.queryAll(authTasklog);
         if (!authTasklogList.isEmpty()) {
             for (AuthTasklog aa:authTasklogList){
-                this.checkLogStatusByTask(aa.getId());
+                if (aa.getStatus()!=3){
+                    this.checkLogStatusByTask(aa.getId());
+                }
             }
         }
         authTasklogList = this.queryAll(authTasklog);

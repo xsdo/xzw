@@ -23,6 +23,8 @@ public interface UTableService {
      */
     UTable queryById(Long id);
 
+    void toTableAdd(Long userId,Long tableId);
+
 
     List<UTable>queryByIds(ArrayList ids);
 

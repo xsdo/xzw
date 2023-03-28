@@ -1,5 +1,7 @@
 package cn.zealon.readingcloud.account.service.impl;
 
+import cn.zealon.readingcloud.account.service.UAttributeService;
+import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UTable;
 import cn.zealon.readingcloud.account.dao.UTableDao;
 import cn.zealon.readingcloud.account.service.UTableService;
@@ -23,6 +25,8 @@ public class UTableServiceImpl implements UTableService {
     @Resource
     private UTableDao uTableDao;
 
+    @Resource
+    private UAttributeService uAttributeService;
     /**
      * 通过ID查询单条数据
      *
@@ -32,6 +36,34 @@ public class UTableServiceImpl implements UTableService {
     @Override
     public UTable queryById(Long id) {
         return this.uTableDao.queryById(id);
+    }
+
+    @Override
+    public void toTableAdd(Long userId,Long tableId){
+        UTable uTable = this.uTableDao.queryById(tableId);
+        if (uTable != null) {
+        UAttribute uAttribute = this.uAttributeService.queryById(userId);
+        if (uAttribute != null) {
+            if (uAttribute.getUTableuse()==null){
+                uAttribute.setUTableuse(tableId.intValue());
+                uAttribute.setUTableids(tableId+"");
+                uAttribute.setRemarks(uTable.getUTableName());
+                this.uAttributeService.update(uAttribute);
+            }else {
+                String[]tableIds=uAttribute.getUTableids().split(",");
+                int count=0;
+                for (String id: tableIds) {
+                    if (id.equals(tableId.toString())) {
+                        count++;
+                    }
+                }
+                if (count == 0) {
+                    uAttribute.setUTableids(uAttribute.getUTableids()+","+tableId);
+                    this.uAttributeService.update(uAttribute);
+                }
+            }
+        }
+        }
     }
 
     @Override

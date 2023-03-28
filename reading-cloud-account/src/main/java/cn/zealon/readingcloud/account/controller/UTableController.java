@@ -55,6 +55,10 @@ public class UTableController {
         return ResponseEntity.ok(this.uTableService.queryById(id));
     }
 
+    @GetMapping("toTableAdd")
+    public void toTableAdd(Long userId,Long tableId){
+        this.uTableService.toTableAdd(userId, tableId);
+    }
     @GetMapping("queryByIds")
     public List<UTable>queryByIds(String ids){
         String[] idss=ids.split(",");

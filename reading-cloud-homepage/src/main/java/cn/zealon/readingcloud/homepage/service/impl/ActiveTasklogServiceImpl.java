@@ -1,9 +1,11 @@
 package cn.zealon.readingcloud.homepage.service.impl;
 
+import cn.zealon.readingcloud.account.feign.client.TableClient;
 import cn.zealon.readingcloud.common.pojo.xzwtasks.ActiveTasklog;
 import cn.zealon.readingcloud.homepage.dao.ActiveTasklogDao;
 import cn.zealon.readingcloud.homepage.service.ActiveTasklogService;
 import com.alibaba.fastjson.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -25,6 +27,9 @@ import java.util.Map;
 public class ActiveTasklogServiceImpl implements ActiveTasklogService {
     @Resource
     private ActiveTasklogDao activeTasklogDao;
+
+    @Autowired
+    private TableClient tableClient;
 
     /**
      * 通过ID查询单条数据
@@ -87,8 +92,15 @@ public class ActiveTasklogServiceImpl implements ActiveTasklogService {
                 activeTasklog.setUpdateTime(new Date());
                 activeTasklog.setStatus(1);
                 this.activeTasklogDao.insert(activeTasklog);
+
+                if (taskId==1){
+                    //参与活动1送标签10
+                    Long tableId=new Long(10);
+                    tableClient.toTableAdd(userId, tableId);
+                }
                 result.put("sign",00);
                 data.put("data","报名成功");
+
             }
             result.put("data",data);
         }catch (Exception e) {

@@ -86,36 +86,44 @@ public class UBindingServiceImpl implements UBindingService {
         JSONObject result = new JSONObject();
         Map<String, Object> data = new HashMap<>();
         try{
-            UBinding ubinding = new UBinding();
-            ubinding.setIsused(0);
-            ubinding.setUserId(userId);
-            ubinding.setTeacherId(teacherId);
-            List<UBinding>uBindingList=this.uBindingDao.queryAll(ubinding);
-            if (uBindingList.size() > 0) {
-                UBinding u=uBindingList.get(0);
-                if (u!=null){
-                    if (u.getBStatus() == 1){
-                        result.put("sign", 00);
-                        data.put("data", "您已经是该班级成员");
-                    }else  {
-                        u.setBStatus(0);
-                        u.setUpdateTime(new Date());
-                        u.setScantime(new Date());
-                        this.uBindingDao.update(u);
+            UAttribute uAttribute =this.uAttributeService.queryById(userId);
+            if (uAttribute != null) {
+                if (uAttribute.getUType()==5) {
+                    result.put("sign", -1);
+                    data.put("data", "班主任不可加入其他班级");
+                }else {
+                    UBinding ubinding = new UBinding();
+                    ubinding.setIsused(0);
+                    ubinding.setUserId(userId);
+                    ubinding.setTeacherId(teacherId);
+                    List<UBinding>uBindingList=this.uBindingDao.queryAll(ubinding);
+                    if (uBindingList.size() > 0) {
+                        UBinding u=uBindingList.get(0);
+                        if (u!=null){
+                            if (u.getBStatus() == 1){
+                                result.put("sign", 00);
+                                data.put("data", "您已经是该班级成员");
+                            }else  {
+                                u.setBStatus(0);
+                                u.setUpdateTime(new Date());
+                                u.setScantime(new Date());
+                                this.uBindingDao.update(u);
+                                result.put("sign", 00);
+                                data.put("data", "申请成功，快让班主任同意进班吧");
+                            }
+                        }
+                    }else {
+                        ubinding.setCreateTime(new Date());
+                        ubinding.setUpdateTime(new Date());
+                        ubinding.setScantime(new Date());
+                        ubinding.setBStatus(0);
+                        this.uBindingDao.insert(ubinding);
                         result.put("sign", 00);
                         data.put("data", "申请成功，快让班主任同意进班吧");
                     }
-                }
-            }else {
-                ubinding.setCreateTime(new Date());
-                ubinding.setUpdateTime(new Date());
-                ubinding.setScantime(new Date());
-                ubinding.setBStatus(0);
-                this.uBindingDao.insert(ubinding);
-                result.put("sign", 00);
-                data.put("data", "申请成功，快让班主任同意进班吧");
-            }
 
+                }
+            }
 
             result.put("data",data);
         }catch (Exception e) {

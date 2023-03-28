@@ -35,6 +35,8 @@ public interface CircleService {
     List<Circle> queryAll(Circle circle);
 
     void doCircle (UAttribute uAttribute, String content, Long compositionId, Integer type);
+
+    List<Circle>queryByUserId(Long userId);
     /**
      * 新增数据
      *

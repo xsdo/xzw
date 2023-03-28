@@ -44,6 +44,11 @@ public class CircleController {
         return circleService.queryAll(circle);
     }
 
+    @GetMapping("queryByUserId")
+    public List<Circle>queryByUserId(Long userId){
+        return this.circleService.queryByUserId(userId);
+    }
+
 
 
     /**

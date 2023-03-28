@@ -61,6 +61,11 @@ public class UFollowController {
         return ResponseEntity.ok(this.uFollowService.queryById(id));
     }
 
+    //查询用户的关注
+    @GetMapping("queryFollows")
+    public List<UFollow>queryFollows(Long userId){
+        return this.uFollowService.queryFollow(userId);
+    }
     //查询是否关注
     @GetMapping("checkFollow")
     public Integer checkFollow(Long userId, Long followId){

@@ -1,15 +1,19 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.account.feign.client.FollowClient;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Circle;
 import cn.zealon.readingcloud.book.dao.CircleDao;
 import cn.zealon.readingcloud.book.service.CircleService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
+import cn.zealon.readingcloud.common.pojo.xzwusers.UFollow;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -23,6 +27,9 @@ import java.util.List;
 public class CircleServiceImpl implements CircleService {
     @Resource
     private CircleDao circleDao;
+
+    @Autowired
+    private FollowClient followClient;
 
     /**
      * 通过ID查询单条数据
@@ -66,6 +73,28 @@ public class CircleServiceImpl implements CircleService {
         this.circleDao.insert(circle);
     }
 
+    @Override
+    public List<Circle>queryByUserId(Long userId){
+        List<Circle> circleList = new ArrayList<>();
+        List<UFollow>uFollowList=this.followClient.queryFollows(userId);
+        if (uFollowList == null || uFollowList.size() == 0) {
+            return null;
+        }else {
+            List<Long>followIds=new ArrayList<>();
+            for (UFollow uFollow: uFollowList) {
+                followIds.add(uFollow.getFollowedUser());
+            }
+            Circle circle=new Circle();
+            circle.setIsused(0);
+            List<Circle>circles=this.queryAll(circle);
+            for (Circle cc:circles) {
+                if (followIds.contains(cc.getUserId())) {
+                    circleList.add(cc);
+                }
+            }
+        }
+        return circleList;
+    }
 
     @Override
     public List<Circle>queryAll(Circle circle){

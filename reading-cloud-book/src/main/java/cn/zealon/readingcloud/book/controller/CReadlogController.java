@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -50,6 +51,16 @@ public class CReadlogController {
         cReadlog.setIsused(0);
         cReadlog.setUserId(userId);
         return this.cReadlogService.queryAll(cReadlog);
+    }
+
+    @GetMapping("doReadlog")
+    public CReadlog doReadlog(Long userId,String image,String name,Long compositionId,int type){
+        return this.cReadlogService.doReadlog(userId, image, name, compositionId, type);
+    }
+
+    @GetMapping("cleanReadlog")
+    public void cleanReadlog(Long userId){
+        this.cReadlogService.cleanReadlog(userId);
     }
     /**
      * 通过主键查询单条数据

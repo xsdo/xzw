@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -46,6 +47,39 @@ public class CReadlogServiceImpl implements CReadlogService {
         return new PageImpl<>(this.cReadlogDao.queryAllByLimit(cReadlog, pageRequest), pageRequest, total);
     }
 
+    @Override
+    public void cleanReadlog(Long userId){
+        CReadlog cReadlog =new CReadlog();
+        cReadlog.setIsused(0);
+        cReadlog.setUserId(userId);
+        List<CReadlog>cReadlogList =this.queryAll(cReadlog);
+        if (!cReadlogList.isEmpty()) {
+            for (CReadlog cc:cReadlogList) {
+                cc.setIsused(1);
+                this.update(cc);
+            }
+        }
+    }
+
+    @Override
+    public CReadlog doReadlog(Long userId,String image,String name,Long compositionId,int type){
+        CReadlog cReadlog =new CReadlog();
+        cReadlog.setIsused(0);
+        cReadlog.setUserId(userId);
+        cReadlog.setCompositionId(compositionId);
+        cReadlog.setRType(type);
+        List<CReadlog> readlogList =this.queryAll(cReadlog);
+        if (readlogList.isEmpty()){
+            cReadlog.setCreateTime(new Date());
+            cReadlog.setUpdateTime(new Date());
+            cReadlog.setRImage(image);
+            cReadlog.setRName(name);
+            this.insert(cReadlog);
+            return cReadlog;
+        }else {
+            return readlogList.get(0);
+        }
+    }
     @Override
     public List<CReadlog>queryAll(CReadlog cReadlog){
         return this.cReadlogDao.queryAll(cReadlog);

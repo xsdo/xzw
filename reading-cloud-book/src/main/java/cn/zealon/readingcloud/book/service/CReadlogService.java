@@ -31,6 +31,9 @@ public interface CReadlogService {
      */
     Page<CReadlog> queryByPage(CReadlog cReadlog, PageRequest pageRequest);
 
+    CReadlog doReadlog(Long userId,String image,String name,Long compositionId,int type);
+
+    void cleanReadlog(Long userId);
 
     List<CReadlog> queryAll(CReadlog cReadlog);
     /**

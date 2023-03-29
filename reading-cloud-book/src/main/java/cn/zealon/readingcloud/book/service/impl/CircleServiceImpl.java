@@ -1,10 +1,13 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.account.feign.client.BindingClient;
 import cn.zealon.readingcloud.account.feign.client.FollowClient;
+import cn.zealon.readingcloud.account.feign.client.UserAttributeClient;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Circle;
 import cn.zealon.readingcloud.book.dao.CircleDao;
 import cn.zealon.readingcloud.book.service.CircleService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
+import cn.zealon.readingcloud.common.pojo.xzwusers.UBinding;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UFollow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,6 +33,12 @@ public class CircleServiceImpl implements CircleService {
 
     @Autowired
     private FollowClient followClient;
+
+    @Autowired
+    private UserAttributeClient userAttributeClient;
+
+    @Autowired
+    private BindingClient bindingClient;
 
     /**
      * 通过ID查询单条数据
@@ -77,21 +86,30 @@ public class CircleServiceImpl implements CircleService {
     public List<Circle>queryByUserId(Long userId){
         List<Circle> circleList = new ArrayList<>();
         List<UFollow>uFollowList=this.followClient.queryFollows(userId);
-        if (uFollowList == null || uFollowList.size() == 0) {
-            return null;
-        }else {
-            List<Long>followIds=new ArrayList<>();
+        List<Long>followIds=new ArrayList<>();
+        followIds.add(userId);
+        if (uFollowList != null && uFollowList.size() > 0) {
             for (UFollow uFollow: uFollowList) {
                 followIds.add(uFollow.getFollowedUser());
             }
-            followIds.add(userId);
-            Circle circle=new Circle();
-            circle.setIsused(0);
-            List<Circle>circles=this.queryAll(circle);
-            for (Circle cc:circles) {
-                if (followIds.contains(cc.getUserId())) {
-                    circleList.add(cc);
+        }
+        UAttribute uAttribute = this.userAttributeClient.queryByUserId(userId);
+        if (uAttribute!=null&&uAttribute.getTeacherid()!=-1){
+            List<UBinding>bindingList=this.bindingClient.queryByTeacherId(uAttribute.getTeacherid());
+            if (bindingList!=null&&bindingList.size() > 0){
+                for (UBinding ub:bindingList){
+                    if (ub.getBStatus()==1){
+                        followIds.add(ub.getUserId());
+                    }
                 }
+            }
+        }
+        Circle circle=new Circle();
+        circle.setIsused(0);
+        List<Circle>circles=this.queryAll(circle);
+        for (Circle cc:circles) {
+            if (followIds.contains(cc.getUserId())) {
+                circleList.add(cc);
             }
         }
         return circleList;

@@ -65,7 +65,7 @@ public class CSubmitServiceImpl implements CSubmitService {
         cSubmit.setSContent(content);
         this.insert(cSubmit);
         //同步发布到圈子
-        this.circleService.doCircle(this.userAttributeClient.queryByUserId(userId),"我刚刚发布了一篇<"+name+">的作文，欢迎捧场！",cSubmit.getId(),0);
+        this.circleService.doCircle(this.userAttributeClient.queryByUserId(userId),"我刚刚发布了一篇《"+name+"》的作文，欢迎捧场！",cSubmit.getId(),0);
 
         this.noticeClient.doNotice(userId,"新作文",0,"新作文提醒您，您的投稿已成功。");
         return ResponseEntity.ok(cSubmit);

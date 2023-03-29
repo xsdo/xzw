@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -49,6 +50,20 @@ public class UNoticeServiceImpl implements UNoticeService {
     @Override
     public List<UNotice> queryAll(UNotice uNotice){
         return this.uNoticeDao.queryAll(uNotice);
+    }
+
+    @Override
+    public void doNotice(Long userId,String name,int type,String coment){
+        UNotice unotice =new UNotice();
+        unotice.setIsused(0);
+        unotice.setUserId(userId);
+        unotice.setCreateTime(new Date());
+        unotice.setUpdateTime(new Date());
+        unotice.setReadoff(0);
+        unotice.setNName(name);
+        unotice.setNType(type);
+        unotice.setComent(coment);
+        this.insert(unotice);
     }
 
     @Override

@@ -61,6 +61,10 @@ public class UNoticeController {
     return this.uNoticeService.readNotice(userId);
     }
 
+    @GetMapping("doNotice")
+    public void doNotice(Long userId,String name,int type,String coment){
+        this.uNoticeService.doNotice(userId, name, type, coment);
+    }
     /**
      * 通过主键查询单条数据
      *

@@ -109,10 +109,12 @@ public class CDiscussServiceImpl implements CDiscussService {
         List<CDiscuss> cDiscussList = this.cDiscussDao.queryAll(cDiscuss);
         if(cDiscussList!=null&&cDiscussList.size() > 0){
             for (CDiscuss cd: cDiscussList) {
-                DiscussUserVO discussUserVO = new DiscussUserVO();
-                discussUserVO.setCDiscuss(cd);
-                discussUserVO.setUAttribute(this.userAttributeClient.queryByUserId(cd.getUserId()));
-                diso.add(discussUserVO);
+                if (cd.getStatus()==0||cd.getStatus() == 1||cd.getStatus() == 2||cd.getStatus()==5) {
+                    DiscussUserVO discussUserVO = new DiscussUserVO();
+                    discussUserVO.setCDiscuss(cd);
+                    discussUserVO.setUAttribute(this.userAttributeClient.queryByUserId(cd.getUserId()));
+                    diso.add(discussUserVO);
+                }
             }
         }
         return diso;

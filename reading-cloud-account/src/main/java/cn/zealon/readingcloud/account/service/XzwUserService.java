@@ -33,6 +33,7 @@ public interface XzwUserService {
 
     Result loginByPhoneNumber(String phoneNumber, String validateCode);
 
+    Result bindingPhoneNumber(Long userId,String phoneNumber,String validateCode);
 
 
     XzwUser queryByOpenId(String openId);

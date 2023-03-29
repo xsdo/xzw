@@ -42,12 +42,14 @@ public class CVideosController {
 
     @GetMapping("/queryAll")
     public List<CVideos>queryAll(CVideos cVideos){
+        cVideos.setIsused(0);
         return  this.cVideosService.queryAll(cVideos);
     }
 
     @GetMapping("queryByUnitarea")
     public CVideos queryByDepartment(String grade, String unitarea) {
         CVideos cVideos=new CVideos();
+        cVideos.setIsused(0);
         cVideos.setVGrade(grade);
         cVideos.setVUnitarea(unitarea);
         List<CVideos> cVideosList = this.cVideosService.queryAll(cVideos);

@@ -30,6 +30,7 @@ public class CTipsServiceImpl implements CTipsService {
 
     @Resource
     private CDiscussService cDiscussService;
+
     /**
      * 通过ID查询单条数据
      *
@@ -69,7 +70,7 @@ public class CTipsServiceImpl implements CTipsService {
                     result.put("sign",-1);
                     data.put("data","该评论已审核");
                 }else {
-                    cDiscuss.setStatus(2);
+                    cDiscuss.setStatus(3);
                     this.cDiscussService.update(cDiscuss);
                     CTips cTips=new CTips();
                     cTips.setIsused(0);

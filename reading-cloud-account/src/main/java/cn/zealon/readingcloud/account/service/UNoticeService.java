@@ -33,6 +33,8 @@ public interface UNoticeService {
 
     List<UNotice> queryAll(UNotice uNotice);
 
+    void doNotice(Long userId,String name,int type,String coment);
+
     long countNotice (Long userId);
 
     List<UNotice> readNotice(Long userId);

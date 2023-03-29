@@ -188,6 +188,36 @@ public class XzwUserServiceImpl implements XzwUserService {
     }
 
     @Override
+    public Result bindingPhoneNumber(Long userId,String phoneNumber,String validateCode){
+        // 获取redis的验证码
+        String code =this.redisService.getCache(phoneNumber);
+        // 判断三项信息是否为空
+        if(phoneNumber != null && code != null && validateCode != null && code.equals(validateCode)){
+            // 验证码正确
+            XzwUser xzwUser =this.queryById(userId);
+            if (xzwUser != null ) {//用户存在更新手机号
+                xzwUser.setPhoneNumber(phoneNumber);
+                this.update(xzwUser);
+            }
+            XzwUser xzwUser2 =this.queryById(userId);
+            //保存会员信息到Redis中
+            // Redis是不能直接保存java对象的的，需要转换对象
+            String json = JSON.toJSON(xzwUser2).toString();
+            redisService.setExpireCache(phoneNumber,json,MINUTE_THIRTY);
+            // 登录成功，返回用户信息
+            AuthXzwVO vo=new AuthXzwVO();
+            XzwUserVO xzwUserVO = new XzwUserVO();
+            BeanUtils.copyProperties(xzwUser2,xzwUserVO);
+            vo.setToken(JwtUtil.buildJwtXzw(this.getLoginExpre(),xzwUserVO));
+            vo.setXzwUser(xzwUserVO);
+            return ResultUtil.success(vo);
+        }else if (!code.equals(validateCode)){
+            return ResultUtil.fail().buildMessage("验证码错误！请重新验证。 ");
+        }else {
+            return ResultUtil.fail().buildMessage("绑定失败！请重试。 ");
+        }
+    }
+    @Override
     public String getOpeId(JSONObject js_code) {
         String code = js_code.getString("js_code");
         // 小程序唯一标识 (在微信小程序管理后台获取)

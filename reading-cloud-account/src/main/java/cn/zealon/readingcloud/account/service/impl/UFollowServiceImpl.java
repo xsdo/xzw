@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.account.service.impl;
 
 import cn.zealon.readingcloud.account.service.UAttributeService;
+import cn.zealon.readingcloud.account.service.UNoticeService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UFollow;
 import cn.zealon.readingcloud.account.dao.UFollowDao;
@@ -28,6 +29,9 @@ public class UFollowServiceImpl implements UFollowService {
 
     @Resource
     private UAttributeService uAttributeService;
+
+    @Resource
+    private UNoticeService unoticeService;
     /**
      * 通过ID查询单条数据
      *
@@ -94,34 +98,39 @@ public class UFollowServiceImpl implements UFollowService {
         try {
             //查询是否关注
             UFollow u = this.queryByUserId(userId, followId);
-            if (u != null) {
-                if (u.getStatus()==0){
-                    u.setStatus(1);
-                    u.setUpdateTime(new Date());
-                    this.update(u);
-                    data.put("followId",followId);
-                    result.put("sign",00);
-                    data.put("data","取消关注");
-                }else if (u.getStatus() == 1) {
-                    u.setStatus(0);
-                    u.setUpdateTime(new Date());
-                    this.update(u);
+            UAttribute ua = this.uAttributeService.queryById(userId);
+            if (ua != null) {
+                if (u != null) {
+                    if (u.getStatus()==0){
+                        u.setStatus(1);
+                        u.setUpdateTime(new Date());
+                        this.update(u);
+                        data.put("followId",followId);
+                        result.put("sign",00);
+                        data.put("data","取消关注");
+                    }else if (u.getStatus() == 1) {
+                        u.setStatus(0);
+                        u.setUpdateTime(new Date());
+                        this.update(u);
+                        this.unoticeService.doNotice(followId,ua.getQqnum(),1,ua.getQqnum()+"刚刚关注了您。");
+                        data.put("followId",followId);
+                        result.put("sign",00);
+                        data.put("data","关注成功");
+                    }
+                }else {
+                    UFollow uFollow=new UFollow();
+                    uFollow.setIsused(0);
+                    uFollow.setUserId(userId);
+                    uFollow.setFollowedUser(followId);
+                    uFollow.setStatus(0);
+                    uFollow.setCreateTime(new Date());
+                    uFollow.setUpdateTime(new Date());
+                    this.insert(uFollow);
+                    this.unoticeService.doNotice(followId,ua.getQqnum(),1,ua.getQqnum()+"刚刚关注了您。");
                     data.put("followId",followId);
                     result.put("sign",00);
                     data.put("data","关注成功");
                 }
-            }else {
-                UFollow uFollow=new UFollow();
-                uFollow.setIsused(0);
-                uFollow.setUserId(userId);
-                uFollow.setFollowedUser(followId);
-                uFollow.setStatus(0);
-                uFollow.setCreateTime(new Date());
-                uFollow.setUpdateTime(new Date());
-                this.insert(uFollow);
-                data.put("followId",followId);
-                result.put("sign",00);
-                data.put("data","关注成功");
             }
             result.put("data",data);
         }catch (Exception e) {

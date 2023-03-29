@@ -84,6 +84,7 @@ public class CircleServiceImpl implements CircleService {
             for (UFollow uFollow: uFollowList) {
                 followIds.add(uFollow.getFollowedUser());
             }
+            followIds.add(userId);
             Circle circle=new Circle();
             circle.setIsused(0);
             List<Circle>circles=this.queryAll(circle);

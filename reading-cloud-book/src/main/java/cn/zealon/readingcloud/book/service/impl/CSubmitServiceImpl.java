@@ -1,7 +1,9 @@
 package cn.zealon.readingcloud.book.service.impl;
 
 import cn.zealon.readingcloud.account.feign.client.NoticeClient;
+import cn.zealon.readingcloud.account.feign.client.UserAttributeClient;
 import cn.zealon.readingcloud.book.service.CLikesService;
+import cn.zealon.readingcloud.book.service.CircleService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CSubmit;
 import cn.zealon.readingcloud.book.dao.CSubmitDao;
 import cn.zealon.readingcloud.book.service.CSubmitService;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -32,6 +35,12 @@ public class CSubmitServiceImpl implements CSubmitService {
 
     @Autowired
     private NoticeClient noticeClient;
+
+    @Resource
+    private CircleService circleService;
+
+    @Autowired
+    private UserAttributeClient userAttributeClient;
     /**
      * 通过ID查询单条数据
      *
@@ -55,6 +64,9 @@ public class CSubmitServiceImpl implements CSubmitService {
         cSubmit.setSName(name);
         cSubmit.setSContent(content);
         this.insert(cSubmit);
+        //同步发布到圈子
+        this.circleService.doCircle(this.userAttributeClient.queryByUserId(userId),"我刚刚发布了一篇<"+name+">的作文，欢迎捧场！",cSubmit.getId(),0);
+
         this.noticeClient.doNotice(userId,"新作文",0,"新作文提醒您，您的投稿已成功。");
         return ResponseEntity.ok(cSubmit);
     }

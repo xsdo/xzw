@@ -160,6 +160,7 @@ public class CDiscussServiceImpl implements CDiscussService {
                         circle.setDiscuss(circle.getDiscuss() + 1);
                         this.circleService.update(circle);
                     }
+
                 }
 
                 //redis

@@ -3,6 +3,7 @@ package cn.zealon.readingcloud.book.service;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CSubmit;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
 
 import java.util.List;
 
@@ -22,6 +23,8 @@ public interface CSubmitService {
      */
     CSubmit queryById(Long id);
 
+
+    ResponseEntity<CSubmit> add(Long userId, String name, String content);
     /**
      * 分页查询
      *

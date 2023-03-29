@@ -67,17 +67,7 @@ public class CSubmitController {
 
     @GetMapping("addSubmit")
     public ResponseEntity<CSubmit> add(Long userId,String name,String content) {
-        //redis
-        this.clikesService.setRedisTask(userId,new Long(7));
-        CSubmit cSubmit=new CSubmit();
-        cSubmit.setIsused(0);
-        cSubmit.setCreateTime(new Date());
-        cSubmit.setUpdateTime(new Date());
-        cSubmit.setUserId(userId);
-        cSubmit.setSName(name);
-        cSubmit.setSContent(content);
-        return ResponseEntity.ok(this.cSubmitService.insert(cSubmit));
-
+        return (this.cSubmitService.add(userId, name, content));
     }
     /**
      * 新增数据

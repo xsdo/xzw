@@ -1,14 +1,19 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.account.feign.client.NoticeClient;
+import cn.zealon.readingcloud.book.service.CLikesService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CSubmit;
 import cn.zealon.readingcloud.book.dao.CSubmitDao;
 import cn.zealon.readingcloud.book.service.CSubmitService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +27,11 @@ public class CSubmitServiceImpl implements CSubmitService {
     @Resource
     private CSubmitDao cSubmitDao;
 
+    @Resource
+    private CLikesService  clikesService;
+
+    @Autowired
+    private NoticeClient noticeClient;
     /**
      * 通过ID查询单条数据
      *
@@ -31,6 +41,22 @@ public class CSubmitServiceImpl implements CSubmitService {
     @Override
     public CSubmit queryById(Long id) {
         return this.cSubmitDao.queryById(id);
+    }
+
+    @Override
+    public ResponseEntity<CSubmit> add(Long userId, String name, String content) {
+        //redis
+        this.clikesService.setRedisTask(userId,new Long(7));
+        CSubmit cSubmit=new CSubmit();
+        cSubmit.setIsused(0);
+        cSubmit.setCreateTime(new Date());
+        cSubmit.setUpdateTime(new Date());
+        cSubmit.setUserId(userId);
+        cSubmit.setSName(name);
+        cSubmit.setSContent(content);
+        this.insert(cSubmit);
+        this.noticeClient.doNotice(userId,"新作文",0,"新作文提醒您，您的投稿已成功。");
+        return ResponseEntity.ok(cSubmit);
     }
 
     /**

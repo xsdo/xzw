@@ -153,9 +153,16 @@ public class UTeacherServiceImpl implements UTeacherService {
                 teacher.setTStudent(student);
                 teacher.setTFlowers(0);
                 teacher.setTImage("/Resource/avatar/2023/3/16/2023031611095329856324534-2bc3-481f-b222-d64e9155ef33.png");
-                teacher.setTeaName("班主任");
-                teacher.setTeaImage("/Resource/avatar/2023/3/16/20230316110813591997da7f0-c7dc-46e0-ba46-f1d0949ff9dc.png");
-                teacher.setTeaSign("班主任签名");
+                UAttribute uAttribute =this.uAttributeService.queryById(userId);
+                if (uAttribute != null) {
+                    teacher.setTName(uAttribute.getQqnum());
+                    teacher.setTeaImage(uAttribute.getPortrait());
+                    teacher.setTeaSign(uAttribute.getSign());
+                }else {
+                    teacher.setTeaName("班主任");
+                    teacher.setTeaImage("/Resource/avatar/2023/3/16/20230316110813591997da7f0-c7dc-46e0-ba46-f1d0949ff9dc.png");
+                    teacher.setTeaSign("班主任签名");
+                }
                 teacher.setTSlogan("班级寄语");
                 teacher.setWrites(0);
                 teacher.setReadings(0);

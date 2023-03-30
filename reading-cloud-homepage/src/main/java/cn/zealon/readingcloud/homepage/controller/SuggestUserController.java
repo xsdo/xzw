@@ -18,7 +18,7 @@ import java.util.List;
  * @since 2023-03-01 11:11:39
  */
 @Api(description = "推荐用户")
-@RestController
+//@RestController
 @RequestMapping("index/suggestUser")
 public class SuggestUserController {
     /**

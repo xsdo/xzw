@@ -38,11 +38,11 @@ public class CSubmitController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CSubmit>> queryByPage(CSubmit cSubmit, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cSubmitService.queryByPage(cSubmit, pageRequest));
     }
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<CSubmit>queryAll(CSubmit cSubmit){
         return this.cSubmitService.queryAll(cSubmit);
     }
@@ -75,7 +75,7 @@ public class CSubmitController {
      * @param cSubmit 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CSubmit> add(@RequestBody CSubmit cSubmit) {
         return ResponseEntity.ok(this.cSubmitService.insert(cSubmit));
     }
@@ -86,7 +86,7 @@ public class CSubmitController {
      * @param cSubmit 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CSubmit> edit(CSubmit cSubmit) {
         return ResponseEntity.ok(this.cSubmitService.update(cSubmit));
     }
@@ -97,7 +97,7 @@ public class CSubmitController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cSubmitService.deleteById(id));
     }

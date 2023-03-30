@@ -34,7 +34,7 @@ public class CSchoolController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CSchool>> queryByPage(CSchool cSchool, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cSchoolService.queryByPage(cSchool, pageRequest));
     }
@@ -54,7 +54,7 @@ public class CSchoolController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<CSchool> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.cSchoolService.queryById(id));
     }
@@ -65,7 +65,7 @@ public class CSchoolController {
      * @param cSchool 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CSchool> add(CSchool cSchool) {
         return ResponseEntity.ok(this.cSchoolService.insert(cSchool));
     }
@@ -76,7 +76,7 @@ public class CSchoolController {
      * @param cSchool 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CSchool> edit(CSchool cSchool) {
         return ResponseEntity.ok(this.cSchoolService.update(cSchool));
     }
@@ -87,7 +87,7 @@ public class CSchoolController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cSchoolService.deleteById(id));
     }

@@ -34,12 +34,12 @@ public class UNoticeController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UNotice>> queryByPage(UNotice uNotice, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uNoticeService.queryByPage(uNotice, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<UNotice>queryAll(UNotice uNotice){
         return this.uNoticeService.queryAll(uNotice);
     }
@@ -71,7 +71,7 @@ public class UNoticeController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<UNotice> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uNoticeService.queryById(id));
     }
@@ -82,7 +82,7 @@ public class UNoticeController {
      * @param uNotice 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UNotice> add(UNotice uNotice) {
         return ResponseEntity.ok(this.uNoticeService.insert(uNotice));
     }
@@ -93,7 +93,7 @@ public class UNoticeController {
      * @param uNotice 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UNotice> edit(UNotice uNotice) {
         return ResponseEntity.ok(this.uNoticeService.update(uNotice));
     }
@@ -104,7 +104,7 @@ public class UNoticeController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uNoticeService.deleteById(id));
     }

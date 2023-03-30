@@ -39,12 +39,12 @@ public class CDiscussController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CDiscuss>> queryByPage(CDiscuss cDiscuss, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cDiscussService.queryByPage(cDiscuss, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<CDiscuss>queryAll(CDiscuss cDiscuss){
         return this.cDiscussService.queryAll(cDiscuss);
     }
@@ -82,7 +82,7 @@ public class CDiscussController {
      * @param cDiscuss 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CDiscuss> add(CDiscuss cDiscuss) {
         return ResponseEntity.ok(this.cDiscussService.insert(cDiscuss));
     }
@@ -93,7 +93,7 @@ public class CDiscussController {
      * @param cDiscuss 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CDiscuss> edit(CDiscuss cDiscuss) {
         return ResponseEntity.ok(this.cDiscussService.update(cDiscuss));
     }
@@ -104,7 +104,7 @@ public class CDiscussController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cDiscussService.deleteById(id));
     }

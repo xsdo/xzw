@@ -35,7 +35,7 @@ public class CVideosController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CVideos>> queryByPage(CVideos cVideos, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cVideosService.queryByPage(cVideos, pageRequest));
     }
@@ -77,7 +77,7 @@ public class CVideosController {
      * @param cVideos 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CVideos> add(CVideos cVideos) {
         return ResponseEntity.ok(this.cVideosService.insert(cVideos));
     }
@@ -88,7 +88,7 @@ public class CVideosController {
      * @param cVideos 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CVideos> edit(CVideos cVideos) {
         return ResponseEntity.ok(this.cVideosService.update(cVideos));
     }
@@ -99,7 +99,7 @@ public class CVideosController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cVideosService.deleteById(id));
     }

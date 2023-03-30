@@ -34,12 +34,12 @@ public class UAddressController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UAddress>> queryByPage(UAddress uAddress, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uAddressService.queryByPage(uAddress, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<UAddress>queryAll(UAddress uAddress){
         return this.uAddressService.queryAll(uAddress);
     }
@@ -61,7 +61,7 @@ public class UAddressController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<UAddress> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uAddressService.queryById(id));
     }
@@ -72,7 +72,7 @@ public class UAddressController {
      * @param uAddress 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UAddress> add(UAddress uAddress) {
         return ResponseEntity.ok(this.uAddressService.insert(uAddress));
     }
@@ -83,7 +83,7 @@ public class UAddressController {
      * @param uAddress 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UAddress> edit(UAddress uAddress) {
         return ResponseEntity.ok(this.uAddressService.update(uAddress));
     }
@@ -94,7 +94,7 @@ public class UAddressController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uAddressService.deleteById(id));
     }

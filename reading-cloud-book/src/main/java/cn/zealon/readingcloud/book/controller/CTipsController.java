@@ -35,7 +35,7 @@ public class CTipsController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CTips>> queryByPage(CTips cTips, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cTipsService.queryByPage(cTips, pageRequest));
     }
@@ -66,7 +66,7 @@ public class CTipsController {
      * @param cTips 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CTips> add(CTips cTips) {
         return ResponseEntity.ok(this.cTipsService.insert(cTips));
     }
@@ -77,7 +77,7 @@ public class CTipsController {
      * @param cTips 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CTips> edit(CTips cTips) {
         return ResponseEntity.ok(this.cTipsService.update(cTips));
     }
@@ -88,7 +88,7 @@ public class CTipsController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cTipsService.deleteById(id));
     }

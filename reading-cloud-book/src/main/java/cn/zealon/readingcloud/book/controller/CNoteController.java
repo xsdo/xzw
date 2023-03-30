@@ -34,10 +34,6 @@ public class CNoteController {
     @Resource
     private CNoteService cNoteService;
 
-
-
-//    @Autowired
-//    private Like
     /**
      * 分页查询
      *
@@ -45,7 +41,7 @@ public class CNoteController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CNote>> queryByPage(CNote cNote, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cNoteService.queryByPage(cNote, pageRequest));
     }
@@ -73,7 +69,7 @@ public class CNoteController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<CNote> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.cNoteService.queryById(id));
     }
@@ -84,7 +80,7 @@ public class CNoteController {
      * @param cNote 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CNote> add(CNote cNote) {
         return ResponseEntity.ok(this.cNoteService.insert(cNote));
     }
@@ -95,7 +91,7 @@ public class CNoteController {
      * @param cNote 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CNote> edit(CNote cNote) {
         return ResponseEntity.ok(this.cNoteService.update(cNote));
     }
@@ -106,7 +102,7 @@ public class CNoteController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cNoteService.deleteById(id));
     }

@@ -35,12 +35,12 @@ public class UBindingController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UBinding>> queryByPage(UBinding uBinding, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uBindingService.queryByPage(uBinding, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<UBinding>queryAll(UBinding uBinding){
         return this.uBindingService.queryAll(uBinding);
     }
@@ -68,7 +68,7 @@ public class UBindingController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<UBinding> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uBindingService.queryById(id));
     }
@@ -79,7 +79,7 @@ public class UBindingController {
      * @param uBinding 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UBinding> add(UBinding uBinding) {
         return ResponseEntity.ok(this.uBindingService.insert(uBinding));
     }
@@ -90,7 +90,7 @@ public class UBindingController {
      * @param uBinding 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UBinding> edit(UBinding uBinding) {
         return ResponseEntity.ok(this.uBindingService.update(uBinding));
     }
@@ -101,7 +101,7 @@ public class UBindingController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uBindingService.deleteById(id));
     }

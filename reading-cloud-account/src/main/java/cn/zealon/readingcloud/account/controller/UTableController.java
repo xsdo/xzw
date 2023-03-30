@@ -35,7 +35,7 @@ public class UTableController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UTable>> queryByPage(UTable uTable, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uTableService.queryByPage(uTable, pageRequest));
     }
@@ -75,7 +75,7 @@ public class UTableController {
      * @param uTable 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UTable> add(UTable uTable) {
         return ResponseEntity.ok(this.uTableService.insert(uTable));
     }
@@ -86,7 +86,7 @@ public class UTableController {
      * @param uTable 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UTable> edit(UTable uTable) {
         return ResponseEntity.ok(this.uTableService.update(uTable));
     }
@@ -97,7 +97,7 @@ public class UTableController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uTableService.deleteById(id));
     }

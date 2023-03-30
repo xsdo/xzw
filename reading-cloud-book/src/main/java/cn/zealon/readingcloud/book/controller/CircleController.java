@@ -34,12 +34,12 @@ public class CircleController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<Circle>> queryByPage(Circle circle, PageRequest pageRequest) {
         return ResponseEntity.ok(this.circleService.queryByPage(circle, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<Circle> queryAll(Circle circle){
         return circleService.queryAll(circle);
     }
@@ -57,7 +57,7 @@ public class CircleController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<Circle> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.circleService.queryById(id));
     }
@@ -68,7 +68,7 @@ public class CircleController {
      * @param circle 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<Circle> add(Circle circle) {
         return ResponseEntity.ok(this.circleService.insert(circle));
     }
@@ -79,7 +79,7 @@ public class CircleController {
      * @param circle 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<Circle> edit(Circle circle) {
         return ResponseEntity.ok(this.circleService.update(circle));
     }
@@ -90,7 +90,7 @@ public class CircleController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.circleService.deleteById(id));
     }

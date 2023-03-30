@@ -35,7 +35,7 @@ public class CLikesController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CLikes>> queryByPage(CLikes cLikes, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cLikesService.queryByPage(cLikes, pageRequest));
     }
@@ -62,7 +62,7 @@ public class CLikesController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<CLikes> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.cLikesService.queryById(id));
     }
@@ -73,7 +73,7 @@ public class CLikesController {
      * @param cLikes 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CLikes> add(CLikes cLikes) {
         return ResponseEntity.ok(this.cLikesService.insert(cLikes));
     }
@@ -84,7 +84,7 @@ public class CLikesController {
      * @param cLikes 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CLikes> edit(CLikes cLikes) {
         return ResponseEntity.ok(this.cLikesService.update(cLikes));
     }
@@ -95,7 +95,7 @@ public class CLikesController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cLikesService.deleteById(id));
     }

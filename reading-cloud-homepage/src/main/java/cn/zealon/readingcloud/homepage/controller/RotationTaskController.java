@@ -34,7 +34,7 @@ public class RotationTaskController {
      * @param pageRequest  分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<RotationTask>> queryByPage(RotationTask rotationTask, PageRequest pageRequest) {
         return ResponseEntity.ok(this.rotationTaskService.queryByPage(rotationTask, pageRequest));
     }
@@ -50,7 +50,7 @@ public class RotationTaskController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<RotationTask> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.rotationTaskService.queryById(id));
     }
@@ -61,7 +61,7 @@ public class RotationTaskController {
      * @param rotationTask 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<RotationTask> add(RotationTask rotationTask) {
         return ResponseEntity.ok(this.rotationTaskService.insert(rotationTask));
     }
@@ -72,7 +72,7 @@ public class RotationTaskController {
      * @param rotationTask 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<RotationTask> edit(RotationTask rotationTask) {
         return ResponseEntity.ok(this.rotationTaskService.update(rotationTask));
     }
@@ -83,7 +83,7 @@ public class RotationTaskController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.rotationTaskService.deleteById(id));
     }

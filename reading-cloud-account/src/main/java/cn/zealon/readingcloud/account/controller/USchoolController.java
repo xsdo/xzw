@@ -34,12 +34,12 @@ public class USchoolController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<USchool>> queryByPage(USchool uSchool, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uSchoolService.queryByPage(uSchool, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<USchool>queryAll(USchool uSchool){
         return this.uSchoolService.queryAll(uSchool);
     }
@@ -75,7 +75,7 @@ public class USchoolController {
      * @param uSchool 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<USchool> add(USchool uSchool) {
         return ResponseEntity.ok(this.uSchoolService.insert(uSchool));
     }
@@ -86,7 +86,7 @@ public class USchoolController {
      * @param uSchool 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<USchool> edit(USchool uSchool) {
         return ResponseEntity.ok(this.uSchoolService.update(uSchool));
     }
@@ -97,7 +97,7 @@ public class USchoolController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uSchoolService.deleteById(id));
     }

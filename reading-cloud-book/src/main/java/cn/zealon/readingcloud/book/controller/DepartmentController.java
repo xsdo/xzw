@@ -35,7 +35,7 @@ public class DepartmentController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<Department>> queryByPage(Department department, PageRequest pageRequest) {
         return ResponseEntity.ok(this.departmentService.queryByPage(department, pageRequest));
     }
@@ -75,7 +75,7 @@ public class DepartmentController {
      * @param department 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<Department> add(Department department) {
         return ResponseEntity.ok(this.departmentService.insert(department));
     }
@@ -86,7 +86,7 @@ public class DepartmentController {
      * @param department 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<Department> edit(Department department) {
         return ResponseEntity.ok(this.departmentService.update(department));
     }
@@ -97,7 +97,7 @@ public class DepartmentController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.departmentService.deleteById(id));
     }

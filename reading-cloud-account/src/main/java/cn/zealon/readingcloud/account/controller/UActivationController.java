@@ -35,17 +35,17 @@ public class UActivationController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UActivation>> queryByPage(UActivation uActivation, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uActivationService.queryByPage(uActivation, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<UActivation>queryAll(UActivation uActivation){
         return this.uActivationService.queryAll(uActivation);
     }
 
-    @GetMapping("createActivationCode")
+//    @GetMapping("createActivationCode")
     public JSONObject createActivationCode(String createUser, Long vipType, int sum, int month){
         return this.uActivationService.createActivationCode(createUser, vipType, sum, month);
     }
@@ -60,7 +60,7 @@ public class UActivationController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<UActivation> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uActivationService.queryById(id));
     }
@@ -71,7 +71,7 @@ public class UActivationController {
      * @param uActivation 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UActivation> add(UActivation uActivation) {
         return ResponseEntity.ok(this.uActivationService.insert(uActivation));
     }
@@ -82,7 +82,7 @@ public class UActivationController {
      * @param uActivation 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UActivation> edit(UActivation uActivation) {
         return ResponseEntity.ok(this.uActivationService.update(uActivation));
     }
@@ -93,7 +93,7 @@ public class UActivationController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uActivationService.deleteById(id));
     }

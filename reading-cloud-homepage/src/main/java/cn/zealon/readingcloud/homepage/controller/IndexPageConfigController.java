@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since: 2020/4/8
  */
 @Api(description = "精品页接口（废弃）")
-@RestController
+//@RestController
 public class IndexPageConfigController {
 
     @Autowired

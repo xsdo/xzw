@@ -38,12 +38,12 @@ public class UQuestionController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UQuestion>> queryByPage(UQuestion uQuestion, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uQuestionService.queryByPage(uQuestion, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<UQuestion>queryAll(UQuestion uQuestion){
         return this.uQuestionService.queryAll(uQuestion);
     }
@@ -79,7 +79,7 @@ public class UQuestionController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<UQuestion> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uQuestionService.queryById(id));
     }
@@ -90,7 +90,7 @@ public class UQuestionController {
      * @param uQuestion 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UQuestion> add(UQuestion uQuestion) {
         return ResponseEntity.ok(this.uQuestionService.insert(uQuestion));
     }
@@ -101,7 +101,7 @@ public class UQuestionController {
      * @param uQuestion 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UQuestion> edit(UQuestion uQuestion) {
         return ResponseEntity.ok(this.uQuestionService.update(uQuestion));
     }
@@ -112,7 +112,7 @@ public class UQuestionController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uQuestionService.deleteById(id));
     }

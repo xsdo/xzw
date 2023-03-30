@@ -34,7 +34,7 @@ public class DGoodwordsController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<DGoodwords>> queryByPage(DGoodwords dGoodwords, PageRequest pageRequest) {
         return ResponseEntity.ok(this.dGoodwordsService.queryByPage(dGoodwords, pageRequest));
     }
@@ -61,7 +61,7 @@ public class DGoodwordsController {
      * @param dGoodwords 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<DGoodwords> add(DGoodwords dGoodwords) {
         return ResponseEntity.ok(this.dGoodwordsService.insert(dGoodwords));
     }
@@ -72,7 +72,7 @@ public class DGoodwordsController {
      * @param dGoodwords 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<DGoodwords> edit(DGoodwords dGoodwords) {
         return ResponseEntity.ok(this.dGoodwordsService.update(dGoodwords));
     }
@@ -83,7 +83,7 @@ public class DGoodwordsController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.dGoodwordsService.deleteById(id));
     }

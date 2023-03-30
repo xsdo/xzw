@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
  * @since: 2020/4/11
  */
 @Api(description = "用户服务接口（废弃）")
-@RestController
+//@RestController
 @RequestMapping("account/user")
 public class UserController {
 

@@ -115,7 +115,7 @@ public class XzwUserController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<XzwUser>> queryByPage(XzwUser xzwUser, PageRequest pageRequest) {
         return ResponseEntity.ok(this.xzwUserService.queryByPage(xzwUser, pageRequest));
     }
@@ -137,7 +137,7 @@ public class XzwUserController {
      * @param xzwUser 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<XzwUser> add(XzwUser xzwUser) {
         return ResponseEntity.ok(this.xzwUserService.insert(xzwUser));
     }
@@ -148,7 +148,7 @@ public class XzwUserController {
      * @param xzwUser 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<XzwUser> edit(XzwUser xzwUser) {
         return ResponseEntity.ok(this.xzwUserService.update(xzwUser));
     }
@@ -159,7 +159,7 @@ public class XzwUserController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.xzwUserService.deleteById(id));
     }

@@ -62,7 +62,7 @@ public class USignController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<USign>> queryByPage(USign uSign, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uSignService.queryByPage(uSign, pageRequest));
     }
@@ -73,7 +73,7 @@ public class USignController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<USign> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uSignService.queryById(id));
     }
@@ -84,7 +84,7 @@ public class USignController {
      * @param uSign 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<USign> add(USign uSign) {
         return ResponseEntity.ok(this.uSignService.insert(uSign));
     }
@@ -95,7 +95,7 @@ public class USignController {
      * @param uSign 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<USign> edit(USign uSign) {
         return ResponseEntity.ok(this.uSignService.update(uSign));
     }
@@ -106,7 +106,7 @@ public class USignController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uSignService.deleteById(id));
     }

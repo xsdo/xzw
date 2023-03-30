@@ -36,12 +36,12 @@ public class CCollectlogController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CCollectlog>> queryByPage(CCollectlog cCollectlog, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cCollectlogService.queryByPage(cCollectlog, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<CCollectlog>queryAll(CCollectlog cCollectlog){
         return this.cCollectlogService.queryAll(cCollectlog);
     }
@@ -85,7 +85,7 @@ public class CCollectlogController {
      * @param cCollectlog 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CCollectlog> add(CCollectlog cCollectlog) {
         cCollectlog.setIsused(0);
         cCollectlog.setCreateTime(new Date());
@@ -99,7 +99,7 @@ public class CCollectlogController {
      * @param cCollectlog 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CCollectlog> edit(CCollectlog cCollectlog) {
         return ResponseEntity.ok(this.cCollectlogService.update(cCollectlog));
     }
@@ -110,7 +110,7 @@ public class CCollectlogController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cCollectlogService.deleteById(id));
     }

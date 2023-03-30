@@ -34,7 +34,7 @@ public class CNationController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CNation>> queryByPage(CNation cNation, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cNationService.queryByPage(cNation, pageRequest));
     }
@@ -46,7 +46,7 @@ public class CNationController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<CNation> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.cNationService.queryById(id));
     }
@@ -67,7 +67,7 @@ public class CNationController {
      * @param cNation 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CNation> add(CNation cNation) {
         return ResponseEntity.ok(this.cNationService.insert(cNation));
     }
@@ -78,7 +78,7 @@ public class CNationController {
      * @param cNation 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CNation> edit(CNation cNation) {
         return ResponseEntity.ok(this.cNationService.update(cNation));
     }
@@ -89,7 +89,7 @@ public class CNationController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cNationService.deleteById(id));
     }

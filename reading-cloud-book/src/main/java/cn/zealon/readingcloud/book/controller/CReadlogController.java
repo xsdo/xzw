@@ -35,12 +35,12 @@ public class CReadlogController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CReadlog>> queryByPage(CReadlog cReadlog, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cReadlogService.queryByPage(cReadlog, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<CReadlog>queryAll(CReadlog cReadlog){
         return this.cReadlogService.queryAll(cReadlog);
     }
@@ -68,7 +68,7 @@ public class CReadlogController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<CReadlog> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.cReadlogService.queryById(id));
     }
@@ -79,7 +79,7 @@ public class CReadlogController {
      * @param cReadlog 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CReadlog> add(CReadlog cReadlog) {
         return ResponseEntity.ok(this.cReadlogService.insert(cReadlog));
     }
@@ -90,7 +90,7 @@ public class CReadlogController {
      * @param cReadlog 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CReadlog> edit(CReadlog cReadlog) {
         return ResponseEntity.ok(this.cReadlogService.update(cReadlog));
     }
@@ -101,7 +101,7 @@ public class CReadlogController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cReadlogService.deleteById(id));
     }

@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
  * @since: 2020/4/14
  */
 @Api(description = "喜欢看（废弃）")
-@RestController
+//@RestController
 @RequestMapping("account/like-see")
 public class LikeSeeController {
 

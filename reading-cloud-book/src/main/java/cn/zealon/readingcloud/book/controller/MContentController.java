@@ -36,12 +36,12 @@ public class MContentController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<MContent>> queryByPage(MContent mContent, PageRequest pageRequest) {
         return ResponseEntity.ok(this.mContentService.queryByPage(mContent, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<MContent> queryAll(MContent mContent){
         return this.mContentService.queryAll(mContent);
     }
@@ -67,7 +67,7 @@ public class MContentController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<MContent> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.mContentService.queryById(id));
     }
@@ -78,7 +78,7 @@ public class MContentController {
      * @param mContent 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<MContent> add(MContent mContent) {
         return ResponseEntity.ok(this.mContentService.insert(mContent));
     }
@@ -89,7 +89,7 @@ public class MContentController {
      * @param mContent 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<MContent> edit(MContent mContent) {
         return ResponseEntity.ok(this.mContentService.update(mContent));
     }
@@ -100,7 +100,7 @@ public class MContentController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.mContentService.deleteById(id));
     }

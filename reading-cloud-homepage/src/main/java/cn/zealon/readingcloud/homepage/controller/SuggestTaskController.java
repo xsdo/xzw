@@ -18,7 +18,7 @@ import java.util.List;
  * @since 2023-03-01 11:11:43
  */
 @Api(description = "推荐作文")
-@RestController
+//@RestController
 @RequestMapping("index/suggestTask")
 public class SuggestTaskController {
     /**

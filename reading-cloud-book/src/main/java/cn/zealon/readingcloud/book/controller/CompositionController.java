@@ -45,7 +45,7 @@ public class CompositionController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<Composition>> queryByPage(Composition composition, PageRequest pageRequest) {
         return ResponseEntity.ok(this.compositionService.queryByPage(composition, pageRequest));
     }
@@ -90,7 +90,7 @@ public class CompositionController {
      * @param composition 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<Composition> add(Composition composition) {
         return ResponseEntity.ok(this.compositionService.insert(composition));
     }
@@ -101,7 +101,7 @@ public class CompositionController {
      * @param composition 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<Composition> edit(Composition composition) {
         return ResponseEntity.ok(this.compositionService.update(composition));
     }
@@ -112,7 +112,7 @@ public class CompositionController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.compositionService.deleteById(id));
     }

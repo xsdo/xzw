@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since: 2019/4/3
  */
 @Api(description = "图书查询接口（废弃）")
-@RestController
+//@RestController
 @RequestMapping("book")
 public class BookController {
 

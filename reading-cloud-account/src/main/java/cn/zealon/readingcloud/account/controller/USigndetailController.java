@@ -33,7 +33,7 @@ public class USigndetailController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<USigndetail>> queryByPage(USigndetail uSigndetail, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uSigndetailService.queryByPage(uSigndetail, pageRequest));
     }
@@ -55,7 +55,7 @@ public class USigndetailController {
      * @param uSigndetail 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<USigndetail> add(USigndetail uSigndetail) {
         return ResponseEntity.ok(this.uSigndetailService.insert(uSigndetail));
     }
@@ -66,7 +66,7 @@ public class USigndetailController {
      * @param uSigndetail 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<USigndetail> edit(USigndetail uSigndetail) {
         return ResponseEntity.ok(this.uSigndetailService.update(uSigndetail));
     }
@@ -77,7 +77,7 @@ public class USigndetailController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uSigndetailService.deleteById(id));
     }

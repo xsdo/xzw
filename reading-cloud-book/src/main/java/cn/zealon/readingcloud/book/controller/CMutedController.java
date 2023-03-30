@@ -34,7 +34,7 @@ public class CMutedController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CMuted>> queryByPage(CMuted cMuted, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cMutedService.queryByPage(cMuted, pageRequest));
     }
@@ -49,7 +49,7 @@ public class CMutedController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<CMuted> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.cMutedService.queryById(id));
     }
@@ -60,7 +60,7 @@ public class CMutedController {
      * @param cMuted 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CMuted> add(CMuted cMuted) {
         return ResponseEntity.ok(this.cMutedService.insert(cMuted));
     }
@@ -71,7 +71,7 @@ public class CMutedController {
      * @param cMuted 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CMuted> edit(CMuted cMuted) {
         return ResponseEntity.ok(this.cMutedService.update(cMuted));
     }
@@ -82,7 +82,7 @@ public class CMutedController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cMutedService.deleteById(id));
     }

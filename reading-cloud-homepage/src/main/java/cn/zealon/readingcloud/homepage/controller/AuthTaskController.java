@@ -34,7 +34,7 @@ public class AuthTaskController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<AuthTask>> queryByPage(AuthTask authTask, PageRequest pageRequest) {
         return ResponseEntity.ok(this.authTaskService.queryByPage(authTask, pageRequest));
     }
@@ -60,7 +60,7 @@ public class AuthTaskController {
      * @param authTask 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<AuthTask> add(AuthTask authTask) {
         return ResponseEntity.ok(this.authTaskService.insert(authTask));
     }
@@ -71,7 +71,7 @@ public class AuthTaskController {
      * @param authTask 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<AuthTask> edit(AuthTask authTask) {
         return ResponseEntity.ok(this.authTaskService.update(authTask));
     }
@@ -82,7 +82,7 @@ public class AuthTaskController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.authTaskService.deleteById(id));
     }

@@ -45,12 +45,12 @@ public class UTeacherController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UTeacher>> queryByPage(UTeacher uTeacher, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uTeacherService.queryByPage(uTeacher, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<UTeacher>queryAll(UTeacher uTeacher){
         return this.uTeacherService.queryAll(uTeacher);
     }
@@ -122,14 +122,20 @@ public class UTeacherController {
         this.uTeacherService.update(uTeacher);
         return this.uTeacherService.queryById(id);
     }
-    @ApiOperation("修改班主任信息")
+    @ApiOperation("同步班主任信息")
     @GetMapping("editTeacherUser")
-    public UTeacher editTeacherUser(Long id,String name, String sign){
-        UTeacher uTeacher =new UTeacher();
-        uTeacher.setId(id);
-        uTeacher.setTeaName(name);
-        uTeacher.setTeaSign(sign);
-        this.uTeacherService.update(uTeacher);
+    public UTeacher editTeacherUser(Long id){
+        UTeacher uTeacher=this.uTeacherService.queryById(id);
+        if (uTeacher != null) {
+            Long teacherId = uTeacher.getTeacherId();
+            UAttribute uAttribute =this.uAttributeService.queryById(teacherId);
+            if (uAttribute != null) {
+                uTeacher.setTeaName(uAttribute.getQqnum());
+                uTeacher.setTeaImage(uAttribute.getPortrait());
+                uTeacher.setTeaSign(uAttribute.getSign());
+                this.uAttributeService.update(uAttribute);
+            }
+        }
         return this.uTeacherService.queryById(id);
     }
 
@@ -142,7 +148,7 @@ public class UTeacherController {
      * @param uTeacher 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UTeacher> add(@RequestBody UTeacher uTeacher) {
         return ResponseEntity.ok(this.uTeacherService.insert(uTeacher));
     }
@@ -153,7 +159,7 @@ public class UTeacherController {
      * @param uTeacher 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UTeacher> edit(UTeacher uTeacher) {
         return ResponseEntity.ok(this.uTeacherService.update(uTeacher));
     }
@@ -164,7 +170,7 @@ public class UTeacherController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uTeacherService.deleteById(id));
     }

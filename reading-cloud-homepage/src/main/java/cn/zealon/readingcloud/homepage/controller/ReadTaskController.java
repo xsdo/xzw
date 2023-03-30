@@ -37,7 +37,7 @@ public class ReadTaskController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<ReadTask>> queryByPage(ReadTask readTask, PageRequest pageRequest) {
         return ok(this.readTaskService.queryByPage(readTask, pageRequest));
     }
@@ -53,7 +53,7 @@ public class ReadTaskController {
     }
 
 
-    @GetMapping("toReadTask")
+//    @GetMapping("toReadTask")
     public void toReadTask(){
         this.readTaskService.toReadTask();
     }
@@ -74,7 +74,7 @@ public class ReadTaskController {
      * @param readTask 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<ReadTask> add(ReadTask readTask) {
         return ok(this.readTaskService.insert(readTask));
     }
@@ -85,7 +85,7 @@ public class ReadTaskController {
      * @param readTask 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<ReadTask> edit(ReadTask readTask) {
         return ok(this.readTaskService.update(readTask));
     }
@@ -96,7 +96,7 @@ public class ReadTaskController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ok(this.readTaskService.deleteById(id));
     }

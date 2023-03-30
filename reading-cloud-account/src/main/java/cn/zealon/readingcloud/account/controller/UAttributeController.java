@@ -68,7 +68,7 @@ public class UAttributeController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UAttribute>> queryByPage(UAttribute uAttribute, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uAttributeService.queryByPage(uAttribute, pageRequest));
     }
@@ -106,7 +106,7 @@ public class UAttributeController {
      * @param uAttribute 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UAttribute> add(UAttribute uAttribute) {
         return ResponseEntity.ok(this.uAttributeService.insert(uAttribute));
     }
@@ -117,7 +117,7 @@ public class UAttributeController {
      * @param uAttribute 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UAttribute> edit(UAttribute uAttribute) {
         return ResponseEntity.ok(this.uAttributeService.update(uAttribute));
     }
@@ -128,7 +128,7 @@ public class UAttributeController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uAttributeService.deleteById(id));
     }

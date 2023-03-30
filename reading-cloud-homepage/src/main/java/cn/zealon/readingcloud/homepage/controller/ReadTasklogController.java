@@ -35,7 +35,7 @@ public class ReadTasklogController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<ReadTasklog>> queryByPage(ReadTasklog readTasklog, PageRequest pageRequest) {
         return ResponseEntity.ok(this.readTasklogService.queryByPage(readTasklog, pageRequest));
     }
@@ -66,7 +66,7 @@ public class ReadTasklogController {
      * @param readTasklog 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<ReadTasklog> add(ReadTasklog readTasklog) {
         return ResponseEntity.ok(this.readTasklogService.insert(readTasklog));
     }
@@ -77,7 +77,7 @@ public class ReadTasklogController {
      * @param readTasklog 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<ReadTasklog> edit(ReadTasklog readTasklog) {
         return ResponseEntity.ok(this.readTasklogService.update(readTasklog));
     }
@@ -88,7 +88,7 @@ public class ReadTasklogController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.readTasklogService.deleteById(id));
     }

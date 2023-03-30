@@ -35,12 +35,12 @@ public class UVipController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UVip>> queryByPage(UVip uVip, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uVipService.queryByPage(uVip, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<UVip>queryAll(UVip uVip){
         return this.uVipService.queryAll(uVip);
     }
@@ -50,12 +50,12 @@ public class UVipController {
         return this.uVipService.queryVipByUserId(userId);
     }
 
-    @GetMapping("toVipFirst")
+//    @GetMapping("toVipFirst")
     public void toVipFirst(Long userId){
         this.uVipService.toVipFirst(userId);
     }
 
-    @GetMapping("toVip")
+//    @GetMapping("toVip")
     public JSONObject toVip(Long userId,int vipType,int month){
         return this.uVipService.toVip(userId, vipType, month);
     }
@@ -65,7 +65,7 @@ public class UVipController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<UVip> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uVipService.queryById(id));
     }
@@ -76,7 +76,7 @@ public class UVipController {
      * @param uVip 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UVip> add(UVip uVip) {
         return ResponseEntity.ok(this.uVipService.insert(uVip));
     }
@@ -87,7 +87,7 @@ public class UVipController {
      * @param uVip 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UVip> edit(UVip uVip) {
         return ResponseEntity.ok(this.uVipService.update(uVip));
     }
@@ -98,7 +98,7 @@ public class UVipController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uVipService.deleteById(id));
     }

@@ -34,13 +34,13 @@ public class UCharglogController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UCharglog>> queryByPage(UCharglog uCharglog, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uCharglogService.queryByPage(uCharglog, pageRequest));
     }
 
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<UCharglog>queryAll(UCharglog uCharglog){
         return this.uCharglogService.queryAll(uCharglog);
     }
@@ -56,7 +56,7 @@ public class UCharglogController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<UCharglog> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uCharglogService.queryById(id));
     }
@@ -67,7 +67,7 @@ public class UCharglogController {
      * @param uCharglog 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UCharglog> add(UCharglog uCharglog) {
         return ResponseEntity.ok(this.uCharglogService.insert(uCharglog));
     }
@@ -78,7 +78,7 @@ public class UCharglogController {
      * @param uCharglog 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UCharglog> edit(UCharglog uCharglog) {
         return ResponseEntity.ok(this.uCharglogService.update(uCharglog));
     }
@@ -89,7 +89,7 @@ public class UCharglogController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uCharglogService.deleteById(id));
     }

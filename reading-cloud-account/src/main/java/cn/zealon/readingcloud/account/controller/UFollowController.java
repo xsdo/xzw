@@ -45,7 +45,7 @@ public class UFollowController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UFollow>> queryByPage(UFollow uFollow, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uFollowService.queryByPage(uFollow, pageRequest));
     }
@@ -56,7 +56,7 @@ public class UFollowController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<UFollow> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uFollowService.queryById(id));
     }
@@ -92,7 +92,7 @@ public class UFollowController {
      * @param uFollow 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UFollow> add(UFollow uFollow) {
         return ResponseEntity.ok(this.uFollowService.insert(uFollow));
     }
@@ -103,7 +103,7 @@ public class UFollowController {
      * @param uFollow 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UFollow> edit(UFollow uFollow) {
         return ResponseEntity.ok(this.uFollowService.update(uFollow));
     }
@@ -114,7 +114,7 @@ public class UFollowController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uFollowService.deleteById(id));
     }

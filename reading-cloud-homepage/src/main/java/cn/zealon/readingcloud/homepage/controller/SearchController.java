@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
  * @since: 2020/5/29
  */
 @Api(description = "图书查询（废弃）")
-@RestController
+//@RestController
 public class SearchController {
 
     @Autowired

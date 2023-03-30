@@ -36,7 +36,7 @@ public class CAuthorsController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<CAuthors>> queryByPage(CAuthors cAuthors, PageRequest pageRequest) {
         return ResponseEntity.ok(this.cAuthorsService.queryByPage(cAuthors, pageRequest));
     }
@@ -47,7 +47,7 @@ public class CAuthorsController {
     }
 
 
-    @GetMapping("toAuthors")
+//    @GetMapping("toAuthors")
     public JSONObject toAuthors(String title, String name, String province, String city, String area, String school  ){
         return this.cAuthorsService.toAuthors(title, name, province, city, area, school);
     }
@@ -68,7 +68,7 @@ public class CAuthorsController {
      * @param cAuthors 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<CAuthors> add(CAuthors cAuthors) {
         return ResponseEntity.ok(this.cAuthorsService.insert(cAuthors));
     }
@@ -79,7 +79,7 @@ public class CAuthorsController {
      * @param cAuthors 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<CAuthors> edit(CAuthors cAuthors) {
         return ResponseEntity.ok(this.cAuthorsService.update(cAuthors));
     }
@@ -90,7 +90,7 @@ public class CAuthorsController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cAuthorsService.deleteById(id));
     }

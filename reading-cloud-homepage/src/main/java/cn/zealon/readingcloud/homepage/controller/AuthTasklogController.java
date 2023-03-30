@@ -43,12 +43,12 @@ public class AuthTasklogController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<AuthTasklog>> queryByPage(AuthTasklog authTasklog, PageRequest pageRequest) {
         return ResponseEntity.ok(this.authTasklogService.queryByPage(authTasklog, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<AuthTasklog>queryAll(AuthTasklog authTasklog){
         return this.authTasklogService.queryAll(authTasklog);
     }
@@ -84,7 +84,7 @@ public class AuthTasklogController {
      * @param authTasklog 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<AuthTasklog> add(AuthTasklog authTasklog) {
         return ResponseEntity.ok(this.authTasklogService.insert(authTasklog));
     }
@@ -95,7 +95,7 @@ public class AuthTasklogController {
      * @param authTasklog 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<AuthTasklog> edit(AuthTasklog authTasklog) {
         return ResponseEntity.ok(this.authTasklogService.update(authTasklog));
     }
@@ -106,7 +106,7 @@ public class AuthTasklogController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.authTasklogService.deleteById(id));
     }

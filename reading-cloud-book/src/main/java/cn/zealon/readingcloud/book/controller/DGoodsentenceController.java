@@ -34,7 +34,7 @@ public class DGoodsentenceController {
      * @param pageRequest   分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<DGoodsentence>> queryByPage(DGoodsentence dGoodsentence, PageRequest pageRequest) {
         return ResponseEntity.ok(this.dGoodsentenceService.queryByPage(dGoodsentence, pageRequest));
     }
@@ -62,7 +62,7 @@ public class DGoodsentenceController {
      * @param dGoodsentence 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<DGoodsentence> add(DGoodsentence dGoodsentence) {
         return ResponseEntity.ok(this.dGoodsentenceService.insert(dGoodsentence));
     }
@@ -73,7 +73,7 @@ public class DGoodsentenceController {
      * @param dGoodsentence 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<DGoodsentence> edit(DGoodsentence dGoodsentence) {
         return ResponseEntity.ok(this.dGoodsentenceService.update(dGoodsentence));
     }
@@ -84,7 +84,7 @@ public class DGoodsentenceController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.dGoodsentenceService.deleteById(id));
     }

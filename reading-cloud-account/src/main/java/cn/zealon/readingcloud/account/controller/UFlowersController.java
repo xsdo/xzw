@@ -18,7 +18,7 @@ import java.util.List;
  * @author makejava
  * @since 2023-03-06 09:23:22
  */
-@Api(description = "鲜花接口")
+@Api(description = "积分接口")
 @RestController
 @RequestMapping("account/uFlowers")
 public class UFlowersController {
@@ -35,12 +35,12 @@ public class UFlowersController {
      * @param pageRequest 分页对象
      * @return 查询结果
      */
-    @GetMapping
+//    @GetMapping
     public ResponseEntity<Page<UFlowers>> queryByPage(UFlowers uFlowers, PageRequest pageRequest) {
         return ResponseEntity.ok(this.uFlowersService.queryByPage(uFlowers, pageRequest));
     }
 
-    @GetMapping("queryAll")
+//    @GetMapping("queryAll")
     public List<UFlowers>queryAll(UFlowers uFlowers){
         return this.uFlowersService.queryAll(uFlowers);
     }
@@ -72,7 +72,7 @@ public class UFlowersController {
      * @param id 主键
      * @return 单条数据
      */
-    @GetMapping("{id}")
+//    @GetMapping("{id}")
     public ResponseEntity<UFlowers> queryById(@PathVariable("id") Long id) {
         return ResponseEntity.ok(this.uFlowersService.queryById(id));
     }
@@ -83,7 +83,7 @@ public class UFlowersController {
      * @param uFlowers 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<UFlowers> add(UFlowers uFlowers) {
         return ResponseEntity.ok(this.uFlowersService.insert(uFlowers));
     }
@@ -94,7 +94,7 @@ public class UFlowersController {
      * @param uFlowers 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<UFlowers> edit(UFlowers uFlowers) {
         return ResponseEntity.ok(this.uFlowersService.update(uFlowers));
     }
@@ -105,7 +105,7 @@ public class UFlowersController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.uFlowersService.deleteById(id));
     }

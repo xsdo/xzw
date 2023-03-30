@@ -133,7 +133,7 @@ public class UTeacherController {
                 uTeacher.setTeaName(uAttribute.getQqnum());
                 uTeacher.setTeaImage(uAttribute.getPortrait());
                 uTeacher.setTeaSign(uAttribute.getSign());
-                this.uAttributeService.update(uAttribute);
+                this.uTeacherService.update(uTeacher);
             }
         }
         return this.uTeacherService.queryById(id);

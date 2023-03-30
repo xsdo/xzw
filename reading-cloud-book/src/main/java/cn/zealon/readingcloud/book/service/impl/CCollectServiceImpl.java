@@ -57,7 +57,7 @@ public class CCollectServiceImpl implements CCollectService {
         cCollect.setIsused(0);
         cCollect.setUserId(userId);
         List<CCollect> list = this.queryAll(cCollect);
-        if (list.size() == 0||list==null) {
+        if (list.isEmpty()) {
             cCollect.setCreateTime(new Date());
             cCollect.setUpdateTime(new Date());
             cCollect.setCName("默认收藏夹");

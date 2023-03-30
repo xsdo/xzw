@@ -99,7 +99,7 @@ public class ReadTasklogServiceImpl implements ReadTasklogService {
 
     }
     @Override
-    public List<ReadTasklog>queryAllByUserId(Long userId){
+    public List<ReadTasklog> queryAllByUserId(Long userId){
         ReadTask readTask=new ReadTask();
         readTask.setIsused(0);
         readTask.setRStatus(1);

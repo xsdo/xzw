@@ -55,6 +55,7 @@
                 and statussecond = #{statussecond}
             </if>
         </where>
+        order by id desc
     </select>
 
     <!--查询指定行数据-->

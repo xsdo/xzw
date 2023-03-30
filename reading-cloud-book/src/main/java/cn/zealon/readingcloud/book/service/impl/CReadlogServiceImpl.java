@@ -77,7 +77,10 @@ public class CReadlogServiceImpl implements CReadlogService {
             this.insert(cReadlog);
             return cReadlog;
         }else {
-            return readlogList.get(0);
+            CReadlog cr =readlogList.get(0);
+            cr.setUpdateTime(new Date());
+            this.update(cr);
+            return cr;
         }
     }
     @Override

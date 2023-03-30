@@ -61,7 +61,7 @@
                 and r_type = #{rType}
             </if>
         </where>
-        order by id desc
+        order by update_time desc
     </select>
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="CReadlogMap">

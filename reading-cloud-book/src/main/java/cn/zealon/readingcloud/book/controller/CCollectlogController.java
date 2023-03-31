@@ -110,7 +110,7 @@ public class CCollectlogController {
      * @param id 主键
      * @return 删除是否成功
      */
-//    @DeleteMapping
+    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.cCollectlogService.deleteById(id));
     }

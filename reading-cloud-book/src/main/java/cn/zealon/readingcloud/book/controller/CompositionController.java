@@ -61,6 +61,10 @@ public class CompositionController {
         return this.compositionService.queryContent();
     }
 
+    @GetMapping("compositionQRCode")
+    public Composition compositionQRCode(Long compositionId){
+        return this.compositionService.compositionQRCode(compositionId);
+    }
     @GetMapping("queryRandoms")
     public List<Composition>queryRandoms(int size){
         return this.compositionService.queryRandoms(size);

@@ -1,5 +1,10 @@
 package cn.zealon.readingcloud.common.pojo.xzwresources;
 
+import cn.zealon.readingcloud.common.utils.LongJsonDeserializer;
+import cn.zealon.readingcloud.common.utils.LongJsonSerializer;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+
 import java.io.Serializable;
 
 /**
@@ -13,6 +18,8 @@ public class Images implements Serializable {
     /**
      * id
      */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long id;
     /**
      * 大图地址

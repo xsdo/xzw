@@ -75,6 +75,8 @@ public class Circle implements Serializable {
     /**
      * 引用文章id
      */
+    @JsonSerialize(using = LongJsonSerializer.class)
+    @JsonDeserialize(using = LongJsonDeserializer.class)
     private Long compositionId;
 
 

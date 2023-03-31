@@ -89,6 +89,18 @@ public class UFlowersServiceImpl implements UFlowersService {
         return this.uFlowersDao.queryAll(uFlowers);
     }
 
+    public int queryTodayFlowers(Long userId,Long teacherId){
+        int flowers=0;
+        List<UFlowers> uFlowersList = this.uFlowersDao.queryToday();
+        if (!uFlowersList.isEmpty()){
+            for (UFlowers uFlowers:uFlowersList) {
+                if (uFlowers.getUserId().equals(userId)&&uFlowers.getTeacherId().equals(teacherId)){
+                    flowers-=uFlowers.getFlowers();
+                }
+             }
+        }
+        return flowers;
+    }
     @Override
     public JSONObject giveFlowers(Long userId,Long teacherId, int flowers){
         JSONObject result = new JSONObject();
@@ -97,10 +109,14 @@ public class UFlowersServiceImpl implements UFlowersService {
             UAttribute uAttribute=uAttributeService.queryById(userId);
             UTeacher uTeacher =uTeacherService.queryById(teacherId);
             if (uAttribute != null&&uTeacher!=null){
-                if (uAttribute.getIntegral()<flowers) {
+                int flowersToday=this.queryTodayFlowers(userId,teacherId);
+                if (flowersToday+flowers>5){
+                    result.put("sign", -1);
+                    data.put("data", "每日最多可捐献5积分");
+                } else if (uAttribute.getIntegral()<flowers) {
                     result.put("sign", -1);
                     data.put("data", "积分不足");
-                }else if (teacherId != uAttribute.getTeacherid()){
+                }else if (!teacherId .equals(uAttribute.getTeacherid()) ){
                     result.put("sign", -1);
                     data.put("data", "只允许捐献自己所属班级");
                 }else {

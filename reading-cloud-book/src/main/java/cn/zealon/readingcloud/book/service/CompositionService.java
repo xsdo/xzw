@@ -45,6 +45,7 @@ public interface CompositionService {
 
     List<Composition>queryRandoms(int size);
 
+    Composition compositionQRCode(Long compositionId);
     /**
      * 新增数据
      *

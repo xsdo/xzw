@@ -22,6 +22,15 @@
 
     </select>
 
+    <!--查询今日-->
+    <select id="queryToday" resultMap="UFlowersMap">
+
+        select
+        id, isUsed, create_time, update_time, remarks, user_id, teacher_id, flowers
+        from u_flowers
+        where TO_DAYS(create_time)=TO_DAYS(NOW());
+
+    </select>
 
     <!--查询指定行数据-->
     <select id="queryAll" resultMap="UFlowersMap">

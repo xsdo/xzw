@@ -11,7 +11,7 @@ public class QRCodeApplication {
     public static void main(String[] args) throws Exception {
         // 存放在二维码中的内容
         // 二维码中的内容可以是文字，可以是链接等
-        String text = "http://tti00.eicp.net:8010/pages/logs/logs";
+        String text = "https://xzw.aace.com.cn/composition/?compositionId=503231100437401600";
         // 生成的二维码的路径及名称
         String destPath = "f:\\code\\" + System.currentTimeMillis() + ".jpg";
         //生成二维码

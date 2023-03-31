@@ -45,7 +45,7 @@ public class USchoolServiceImpl implements USchoolService {
             try{
                 // 存放在二维码中的内容
                 // 二维码中的内容可以是文字，可以是链接等
-                String text = "schoolId="+schoolId;
+                String text = "https://xzw.aace.com.cn/school/?schoolId="+schoolId;
                 // 生成的二维码的路径及名称
                 String name=System.currentTimeMillis()+"";
                 String destPath =properties.getPath().getPath() + name + ".jpg";

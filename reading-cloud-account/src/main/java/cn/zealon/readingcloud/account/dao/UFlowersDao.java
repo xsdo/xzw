@@ -32,6 +32,8 @@ public interface UFlowersDao {
     List<UFlowers> queryAllByLimit(UFlowers uFlowers, @Param("pageable") Pageable pageable);
     List<UFlowers> queryAll(UFlowers uFlowers);
 
+    List<UFlowers> queryToday();
+
     /**
      * 统计总行数
      *

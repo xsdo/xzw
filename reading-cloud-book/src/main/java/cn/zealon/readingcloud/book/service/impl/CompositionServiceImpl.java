@@ -1,9 +1,12 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.book.common.utils.QRCodeUtil;
 import cn.zealon.readingcloud.common.bean.PageBean;
+import cn.zealon.readingcloud.common.config.FileProperties;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Composition;
 import cn.zealon.readingcloud.book.dao.CompositionDao;
 import cn.zealon.readingcloud.book.service.CompositionService;
+import cn.zealon.readingcloud.common.pojo.xzwusers.USchool;
 import com.alibaba.fastjson.JSONObject;
 import com.alibaba.nacos.client.naming.utils.CollectionUtils;
 import org.springframework.stereotype.Service;
@@ -28,6 +31,8 @@ public class CompositionServiceImpl implements CompositionService {
     @Resource
     private CompositionDao compositionDao;
 
+    @Resource
+    private FileProperties properties;
 
     @Override
     public PageBean<Composition> pageQuery(JSONObject jsonObject) {
@@ -93,6 +98,33 @@ public class CompositionServiceImpl implements CompositionService {
     @Override
     public List<Composition>queryRandoms(int size){
         return this.compositionDao.queryRand(size);
+    }
+
+    @Override
+    public Composition compositionQRCode(Long compositionId) {
+        Composition composition=this.queryById(compositionId);
+        if (composition != null) {
+            try{
+                // 存放在二维码中的内容
+                // 二维码中的内容可以是文字，可以是链接等
+                String text = "https://xzw.aace.com.cn/composition/?compositionId="+compositionId;
+                // 生成的二维码的路径及名称
+                String name=System.currentTimeMillis()+"";
+                String destPath =properties.getPath().getPath() + name + ".jpg";
+
+                //生成二维码
+                QRCodeUtil.encode(text, null, destPath, true);
+                // 解析二维码
+                String str = QRCodeUtil.decode(destPath);
+
+                String codePath="/Resource/News/"+name + ".jpg";
+                composition.setCSynopsis(codePath);
+                this.update(composition);
+            }catch (Exception e) {
+
+            }
+        }
+        return this.queryById(compositionId);
     }
 
     /**

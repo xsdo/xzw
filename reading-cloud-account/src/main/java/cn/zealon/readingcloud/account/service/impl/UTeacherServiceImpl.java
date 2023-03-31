@@ -112,7 +112,7 @@ public class UTeacherServiceImpl implements UTeacherService {
             try{
                 // 存放在二维码中的内容
                 // 二维码中的内容可以是文字，可以是链接等
-                String text = "teacherId="+teacherId;
+                String text = "https://xzw.aace.com.cn/teacher/?teacherId="+teacherId;
                 // 生成的二维码的路径及名称
                 String name=System.currentTimeMillis()+"";
                 String destPath =properties.getPath().getPath() + name + ".jpg";
@@ -132,6 +132,7 @@ public class UTeacherServiceImpl implements UTeacherService {
         return this.queryById(teacherId);
     }
 
+    @Override
     public JSONObject doBinding(Long userId, Long schoolId ,String grade,String term,int student){
         JSONObject result = new JSONObject();
         Map<String, Object> data = new HashMap<>();

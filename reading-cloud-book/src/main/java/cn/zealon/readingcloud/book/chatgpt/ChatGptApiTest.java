@@ -24,7 +24,7 @@ public class ChatGptApiTest {
     private static final RestTemplate restTemplate = new RestTemplate();
     //openai的api key，可以写死或从配置文件读取，这里读取的环境变量
 //    private static final String apiKey = System.getenv("OPENAI_API_KEY");
-    private static final String apiKey = "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";
+    private static final String apiKey = "sk-";
 
     public static void main(String[] args) {
         final String question = "google和openai比,哪个公司更有潜力";

@@ -52,8 +52,9 @@ public class USchoolServiceImpl implements USchoolService {
 
                 //生成二维码
                 QRCodeUtil.encode(text, null, destPath, true);
-                // 解析二维码
-                String str = QRCodeUtil.decode(destPath);
+                // 解析二维码 部分二维码错误 略去解析步骤
+//                String str = QRCodeUtil.decode(destPath);
+//                System.out.println(str);
 
                 String codePath="/Resource/News/"+name + ".jpg";
                 uSchool.setQrCode(codePath);

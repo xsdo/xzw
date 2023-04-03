@@ -52,6 +52,12 @@ public class CompositionController {
 
     @GetMapping("queryAll")
     public List<Composition>queryAll(Composition composition){
+        List<Composition> list = this.compositionService.queryAll(composition);
+        for (Composition cc:list){
+            if (cc.getCSynopsis()==null){
+                this.compositionService.compositionQRCode(cc.getId());
+            }
+        }
         return this.compositionService.queryAll(composition);
     }
 

@@ -1,5 +1,6 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.hutool.core.util.ObjectUtil;
 import cn.zealon.readingcloud.book.common.utils.QRCodeUtil;
 import cn.zealon.readingcloud.common.bean.PageBean;
 import cn.zealon.readingcloud.common.config.FileProperties;
@@ -103,7 +104,7 @@ public class CompositionServiceImpl implements CompositionService {
     @Override
     public Composition compositionQRCode(Long compositionId) {
         Composition composition=this.queryById(compositionId);
-        if (composition != null) {
+        if (!ObjectUtil.isEmpty(composition)) {
             try{
                 // 存放在二维码中的内容
                 // 二维码中的内容可以是文字，可以是链接等
@@ -111,17 +112,19 @@ public class CompositionServiceImpl implements CompositionService {
                 // 生成的二维码的路径及名称
                 String name=System.currentTimeMillis()+"";
                 String destPath =properties.getPath().getPath() + name + ".jpg";
-
+                System.out.println(destPath);
                 //生成二维码
                 QRCodeUtil.encode(text, null, destPath, true);
-                // 解析二维码
-                String str = QRCodeUtil.decode(destPath);
+                // 解析二维码 部分二维码错误 略去解析步骤
+//                String str = QRCodeUtil.decode(destPath);
+//                System.out.println(str);
 
                 String codePath="/Resource/News/"+name + ".jpg";
+                System.out.println(codePath);
                 composition.setCSynopsis(codePath);
                 this.update(composition);
             }catch (Exception e) {
-
+                System.out.println(e.getMessage());
             }
         }
         return this.queryById(compositionId);

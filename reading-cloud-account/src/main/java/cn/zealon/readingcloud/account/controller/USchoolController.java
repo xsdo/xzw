@@ -39,8 +39,9 @@ public class USchoolController {
         return ResponseEntity.ok(this.uSchoolService.queryByPage(uSchool, pageRequest));
     }
 
-//    @GetMapping("queryAll")
+    @GetMapping("queryAll")
     public List<USchool>queryAll(USchool uSchool){
+        uSchool.setIsused(0);
         return this.uSchoolService.queryAll(uSchool);
     }
 

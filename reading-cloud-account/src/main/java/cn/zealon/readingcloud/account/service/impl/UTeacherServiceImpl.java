@@ -119,8 +119,9 @@ public class UTeacherServiceImpl implements UTeacherService {
 
                 //生成二维码
                 QRCodeUtil.encode(text, null, destPath, true);
-                // 解析二维码
-                String str = QRCodeUtil.decode(destPath);
+                // 解析二维码 部分二维码错误 略去解析步骤
+//                String str = QRCodeUtil.decode(destPath);
+//                System.out.println(str);
 
                 String codePath="/Resource/News/"+name + ".jpg";
                 uteacher.setQrCode(codePath);
@@ -156,7 +157,7 @@ public class UTeacherServiceImpl implements UTeacherService {
                 teacher.setTImage("/Resource/avatar/2023/3/16/2023031611095329856324534-2bc3-481f-b222-d64e9155ef33.png");
                 UAttribute uAttribute =this.uAttributeService.queryById(userId);
                 if (uAttribute != null) {
-                    teacher.setTName(uAttribute.getQqnum());
+                    teacher.setTeaName(uAttribute.getQqnum());
                     teacher.setTeaImage(uAttribute.getPortrait());
                     teacher.setTeaSign(uAttribute.getSign());
                 }else {

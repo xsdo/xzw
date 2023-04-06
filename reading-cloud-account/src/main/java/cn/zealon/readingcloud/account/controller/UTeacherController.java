@@ -62,6 +62,11 @@ public class UTeacherController {
             Long teacherId =uAttribute.getTeacherid();
             if (teacherId>0){
                 teacher=this.uTeacherService.queryById(teacherId);
+                if (teacher != null) {
+                    if (teacher.getQrCode()==null){
+                        this.uTeacherService.teacherQRCodePress(teacherId);
+                    }
+                }
                 teacher.setRemarks(uAttribute.getUType()+"");
             }
         }
@@ -75,6 +80,12 @@ public class UTeacherController {
      */
     @GetMapping("{id}")
     public ResponseEntity<UTeacher> queryById(@PathVariable("id") Long id) {
+        UTeacher teacher=this.uTeacherService.queryById(id);
+        if (teacher != null) {
+            if (teacher.getQrCode()==null){
+                this.uTeacherService.teacherQRCodePress(id);
+            }
+        }
         return ResponseEntity.ok(this.uTeacherService.queryById(id));
     }
     @ApiOperation("上传图片")

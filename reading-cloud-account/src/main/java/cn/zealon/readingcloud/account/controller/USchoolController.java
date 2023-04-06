@@ -65,6 +65,12 @@ public class USchoolController {
      */
     @GetMapping("{id}")
     public ResponseEntity<USchool> queryById(@PathVariable("id") Long id) {
+        USchool uSchool =this.uSchoolService.queryById(id);
+        if (uSchool != null){
+            if (uSchool.getQrCode()==null){
+                this.uSchoolService.schoolQRCodePress(id);
+            }
+        }
         return ResponseEntity.ok(this.uSchoolService.queryById(id));
     }
 

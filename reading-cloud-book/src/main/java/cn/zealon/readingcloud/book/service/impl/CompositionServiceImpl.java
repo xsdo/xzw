@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.book.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
 import cn.zealon.readingcloud.book.common.utils.QRCodeUtil;
+import cn.zealon.readingcloud.book.common.utils.QRCodeUtils;
 import cn.zealon.readingcloud.common.bean.PageBean;
 import cn.zealon.readingcloud.common.config.FileProperties;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Composition;
@@ -16,6 +17,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -120,7 +124,41 @@ public class CompositionServiceImpl implements CompositionService {
 //                System.out.println(str);
 
                 String codePath="/Resource/News/"+name + ".jpg";
-                System.out.println(codePath);
+                composition.setCSynopsis(codePath);
+                this.update(composition);
+            }catch (Exception e) {
+                System.out.println(e.getMessage());
+            }
+        }
+        return this.queryById(compositionId);
+    }
+    @Override
+    public Composition compositionQRCodePress(Long compositionId) {
+        Composition composition=this.queryById(compositionId);
+        if (!ObjectUtil.isEmpty(composition)) {
+            try{
+                // 存放在二维码中的内容
+                BufferedImage image = null;
+                File uploadFile = null;
+                // 存放在二维码中的内容
+                // 二维码中的内容可以是文字，可以是链接等
+                String text = "https://xzw.aace.com.cn/composition/?compositionId="+compositionId;
+                image = QRCodeUtils.createQRCode(text);
+                image=QRCodeUtils.pressText(image,null, Color.BLACK,composition.getCTitle());
+                String imgPath =properties.getPath().getPath()+"/"+"logo.png";
+                image= QRCodeUtils.insertLogo(image,imgPath,true);
+                // 生成的二维码的路径及名称
+                String name=System.currentTimeMillis()+"";
+                String destPath = properties.getPath().getPath()+"/"+ name + ".jpg";
+                System.out.println(destPath);
+                //生成二维码
+//                QRCodeUtil.encode(text, null, destPath, true);
+                QRCodeUtils.writeToLocalByPath(image, "jpg", destPath);
+                // 解析二维码 部分二维码错误 略去解析步骤
+//                String str = QRCodeUtil.decode(destPath);
+//                System.out.println(str);
+
+                String codePath="/Resource/News/"+name + ".jpg";
                 composition.setCSynopsis(codePath);
                 this.update(composition);
             }catch (Exception e) {

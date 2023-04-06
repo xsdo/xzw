@@ -33,6 +33,8 @@ public interface UTeacherService {
 
     UTeacher teacherQRCode(Long teacherId);
 
+    UTeacher teacherQRCodePress(Long teacherId);
+
     JSONObject doBinding(Long userId, Long schoolId , String grade, String term, int student);
     /**
      * 分页查询

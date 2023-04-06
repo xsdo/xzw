@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.account.service.impl;
 
 import cn.zealon.readingcloud.account.common.utils.QRCodeUtil;
+import cn.zealon.readingcloud.account.common.utils.QRCodeUtils;
 import cn.zealon.readingcloud.common.config.FileProperties;
 import cn.zealon.readingcloud.common.pojo.xzwusers.USchool;
 import cn.zealon.readingcloud.account.dao.USchoolDao;
@@ -11,6 +12,9 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.File;
 import java.util.List;
 
 /**
@@ -65,6 +69,42 @@ public class USchoolServiceImpl implements USchoolService {
         }
         return this.queryById(schoolId);
     }
+    @Override
+    public USchool schoolQRCodePress(Long schoolId) {
+        USchool uSchool=this.queryById(schoolId);
+        if (uSchool != null) {
+            try{
+                // 存放在二维码中的内容
+                BufferedImage image = null;
+                File uploadFile = null;
+                // 存放在二维码中的内容
+                // 二维码中的内容可以是文字，可以是链接等
+                String text = "https://xzw.aace.com.cn/school/?schoolId="+schoolId;
+                image = QRCodeUtils.createQRCode(text);
+                image=QRCodeUtils.pressText(image,null, Color.BLACK,uSchool.getSName());
+                String imgPath =properties.getPath().getPath()+"/"+"logo.png";
+                image= QRCodeUtils.insertLogo(image,imgPath,true);
+                // 生成的二维码的路径及名称
+                String name=System.currentTimeMillis()+"";
+                String destPath =properties.getPath().getPath() + name + ".jpg";
+
+                //生成二维码
+//                QRCodeUtil.encode(text, null, destPath, true);
+                QRCodeUtils.writeToLocalByPath(image, "jpg", destPath);
+                // 解析二维码 部分二维码错误 略去解析步骤
+//                String str = QRCodeUtil.decode(destPath);
+//                System.out.println(str);
+
+                String codePath="/Resource/News/"+name + ".jpg";
+                uSchool.setQrCode(codePath);
+                this.update(uSchool);
+            }catch (Exception e) {
+
+            }
+        }
+        return this.queryById(schoolId);
+    }
+
     /**
      * 分页查询
      *

@@ -55,7 +55,7 @@ public class CompositionController {
         List<Composition> list = this.compositionService.queryAll(composition);
         for (Composition cc:list){
             if (cc.getCSynopsis()==null){
-                this.compositionService.compositionQRCode(cc.getId());
+                this.compositionService.compositionQRCodePress(cc.getId());
             }
         }
         return this.compositionService.queryAll(composition);
@@ -69,7 +69,7 @@ public class CompositionController {
 
     @GetMapping("compositionQRCode")
     public Composition compositionQRCode(Long compositionId){
-        return this.compositionService.compositionQRCode(compositionId);
+        return this.compositionService.compositionQRCodePress(compositionId);
     }
     @GetMapping("queryRandoms")
     public List<Composition>queryRandoms(int size){

@@ -49,7 +49,7 @@ public class USchoolController {
 
     @GetMapping("schoolQRCode")
     public USchool schoolQRCode(Long schoolId){
-        return this.uSchoolService.schoolQRCode(schoolId);
+        return this.uSchoolService.schoolQRCodePress(schoolId);
     }
 
 

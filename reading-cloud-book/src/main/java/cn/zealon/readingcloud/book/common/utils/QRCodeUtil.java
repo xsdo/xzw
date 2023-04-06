@@ -1,6 +1,5 @@
 package cn.zealon.readingcloud.book.common.utils;
 
-import cn.hutool.extra.qrcode.BufferedImageLuminanceSource;
 import com.google.zxing.*;
 import com.google.zxing.common.BitMatrix;
 import com.google.zxing.common.HybridBinarizer;

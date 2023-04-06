@@ -98,7 +98,7 @@ public class UTeacherController {
     @ApiOperation("生成班级二维码")
     @GetMapping("teacherQRCode")
     public UTeacher teacherQRCode(Long teacherId){
-        return this.uTeacherService.teacherQRCode(teacherId);
+        return this.uTeacherService.teacherQRCodePress(teacherId);
     }
 
 

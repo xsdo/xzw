@@ -34,6 +34,10 @@ public interface StudentService {
      */
     Page<Student> queryByPage(Student student, PageRequest pageRequest);
 
+    List<String> queryByTeacherId(Long teacherId);
+
+    List<Student>queryByName(Long teacherId,String name);
+
     JSONObject doBinding(Long userId, Long teacherId, String name, String relation, String phoneNumber, int type);
 
     JSONObject conductBingding(Long userId,String name);

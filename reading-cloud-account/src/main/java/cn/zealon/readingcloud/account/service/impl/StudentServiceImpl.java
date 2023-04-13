@@ -15,10 +15,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 学生表(Student)表服务实现类
@@ -63,6 +60,30 @@ public class StudentServiceImpl implements StudentService {
     public Page<Student> queryByPage(Student student, PageRequest pageRequest) {
         long total = this.studentDao.count(student);
         return new PageImpl<>(this.studentDao.queryAllByLimit(student, pageRequest), pageRequest, total);
+    }
+
+    @Override
+    public List<String> queryByTeacherId(Long teacherId){
+        List<String>studentList=new ArrayList<>();
+        Student student = new Student();
+        student.setTeacherId(teacherId);
+        List<Student>students=this.queryAll(student);
+        if (students.size() > 0) {
+            for (Student ss:students) {
+                if (!studentList.contains(ss.getName())){
+                    studentList.add(ss.getName());
+                }
+            }
+        }
+        return studentList;
+    }
+
+    @Override
+    public List<Student>queryByName(Long teacherId,String name){
+        Student student=new Student();
+        student.setTeacherId(teacherId);
+        student.setName(name);
+        return this.queryAll(student);
     }
 
     @Override

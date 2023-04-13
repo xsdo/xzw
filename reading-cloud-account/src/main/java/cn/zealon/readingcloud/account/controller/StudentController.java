@@ -40,6 +40,16 @@ public class StudentController {
         return ResponseEntity.ok(this.studentService.queryByPage(student, pageRequest));
     }
 
+    @GetMapping("queryByName")
+    public List<Student>queryByName(Long teacherId,String name){
+        return this.studentService.queryByName(teacherId, name);
+    }
+
+    @GetMapping("queryByTeacherId")
+    public List<String>queryByTeacherId(Long teacherId){
+        return this.studentService.queryByTeacherId(teacherId);
+    }
+
     @GetMapping("doBanding")
     public JSONObject doBinding(Long userId, Long teacherId, String name, String relation, String phoneNumber, int type) {
         return this.studentService.doBinding(userId, teacherId, name, relation, phoneNumber, type);

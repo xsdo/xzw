@@ -1,0 +1,164 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.account.dao.StudentDao">
+
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwusers.Student" id="StudentMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="teacherId" column="teacher_id" jdbcType="INTEGER"/>
+        <result property="relation" column="relation" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="phonenumber" column="phoneNumber" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="StudentMap">
+        select id,
+               name,
+               teacher_id,
+               relation,
+               user_id,
+               phoneNumber
+        from student
+        where id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="StudentMap">
+        select
+        id, name, teacher_id, relation, user_id, phoneNumber
+        from student
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="teacherId != null">
+                and teacher_id = #{teacherId}
+            </if>
+            <if test="relation != null and relation != ''">
+                and relation = #{relation}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="phonenumber != null and phonenumber != ''">
+                and phoneNumber = #{phonenumber}
+            </if>
+        </where>
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="StudentMap">
+        select
+        id, name, teacher_id, relation, user_id, phoneNumber
+        from student
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="teacherId != null">
+                and teacher_id = #{teacherId}
+            </if>
+            <if test="relation != null and relation != ''">
+                and relation = #{relation}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="phonenumber != null and phonenumber != ''">
+                and phoneNumber = #{phonenumber}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from student
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="teacherId != null">
+                and teacher_id = #{teacherId}
+            </if>
+            <if test="relation != null and relation != ''">
+                and relation = #{relation}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="phonenumber != null and phonenumber != ''">
+                and phoneNumber = #{phonenumber}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into student(name, teacher_id, relation, user_id, phoneNumber)
+        values (#{name}, #{teacherId}, #{relation}, #{userId}, #{phonenumber})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into student(name, teacher_id, relation, user_id, phoneNumber)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.teacherId}, #{entity.relation}, #{entity.userId}, #{entity.phonenumber})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into student(name, teacher_id, relation, user_id, phoneNumber)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.name}, #{entity.teacherId}, #{entity.relation}, #{entity.userId}, #{entity.phonenumber})
+        </foreach>
+        on duplicate key update
+        name = values(name),
+        teacher_id = values(teacher_id),
+        relation = values(relation),
+        user_id = values(user_id),
+        phoneNumber = values(phoneNumber)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update student
+        <set>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="teacherId != null">
+                teacher_id = #{teacherId},
+            </if>
+            <if test="relation != null and relation != ''">
+                relation = #{relation},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="phonenumber != null and phonenumber != ''">
+                phoneNumber = #{phonenumber},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from student
+        where id = #{id}
+    </delete>
+
+</mapper>
+

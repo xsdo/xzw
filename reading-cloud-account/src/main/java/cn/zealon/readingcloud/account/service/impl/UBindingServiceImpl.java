@@ -1,5 +1,6 @@
 package cn.zealon.readingcloud.account.service.impl;
 
+import cn.zealon.readingcloud.account.service.StudentService;
 import cn.zealon.readingcloud.account.service.UAttributeService;
 import cn.zealon.readingcloud.account.service.UTeacherService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
@@ -32,6 +33,9 @@ public class UBindingServiceImpl implements UBindingService {
 
     @Resource
     private UTeacherService uTeacherService;
+
+    @Resource
+    private StudentService studentService;
     /**
      * 通过ID查询单条数据
      *

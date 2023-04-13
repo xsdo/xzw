@@ -9,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,16 @@ public class DepartmentController {
 
     @GetMapping("queryByDepartment")
     public List<Department>queryByDepartment(String dGrade,String dUnitarea) {
+        Calendar calendar = Calendar.getInstance();
+        int month = calendar.get(Calendar.MONTH) + 1;
+        String term="";
+        if (month >= 9) {
+            term = "上学期";
+        } else {
+            term = "下学期";
+        }
         Department department=new Department();
+        department.setDTerm(term);
         department.setDGrade(dGrade);
         department.setDUnitarea(dUnitarea);
         return this.departmentService.queryAll(department);

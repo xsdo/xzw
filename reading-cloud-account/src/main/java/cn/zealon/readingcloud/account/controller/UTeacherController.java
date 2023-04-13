@@ -54,6 +54,13 @@ public class UTeacherController {
     public List<UTeacher>queryAll(UTeacher uTeacher){
         return this.uTeacherService.queryAll(uTeacher);
     }
+
+    @GetMapping("getAllTeacher")
+    public List<UTeacher>getAllTeacher(){
+        UTeacher teacher = new UTeacher();
+        teacher.setIsused(0);
+        return this.uTeacherService.queryAll(teacher);
+    }
     @GetMapping("queryByUserId")
     public UTeacher queryByUserId(Long userId){
         UTeacher teacher=new UTeacher();

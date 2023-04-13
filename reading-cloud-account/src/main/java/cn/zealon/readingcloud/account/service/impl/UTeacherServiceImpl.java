@@ -3,14 +3,13 @@ package cn.zealon.readingcloud.account.service.impl;
 import cn.zealon.readingcloud.account.common.utils.QRCodeUtil;
 import cn.zealon.readingcloud.account.common.utils.QRCodeUtils;
 import cn.zealon.readingcloud.account.dao.UTeacherDao;
+import cn.zealon.readingcloud.account.service.StudentService;
 import cn.zealon.readingcloud.account.service.UAttributeService;
+import cn.zealon.readingcloud.account.service.UBindingService;
 import cn.zealon.readingcloud.account.service.UTeacherService;
 import cn.zealon.readingcloud.common.config.FileProperties;
 import cn.zealon.readingcloud.common.exception.BadRequestException;
-import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
-import cn.zealon.readingcloud.common.pojo.xzwusers.UBinding;
-import cn.zealon.readingcloud.common.pojo.xzwusers.USchool;
-import cn.zealon.readingcloud.common.pojo.xzwusers.UTeacher;
+import cn.zealon.readingcloud.common.pojo.xzwusers.*;
 import cn.zealon.readingcloud.common.utils.FileUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.stereotype.Service;
@@ -46,6 +45,11 @@ public class UTeacherServiceImpl implements UTeacherService {
     @Resource
     private UAttributeService uAttributeService;
 
+    @Resource
+    private UBindingService uBindingService;
+
+    @Resource
+    private StudentService studentService;
     /**
      * 通过ID查询单条数据
      *
@@ -180,12 +184,19 @@ public class UTeacherServiceImpl implements UTeacherService {
             UTeacher teacher = new UTeacher();
             teacher.setIsused(0);
             teacher.setTeacherId(userId);
-            teacher.setTSchoolid(schoolId);
             List<UTeacher>teacherList=this.uTeacherDao.queryAll(teacher);
-            if (teacherList.size() > 0){
-                result.put("sign", 00);
-                data.put("data", "您已经创建过班级了");
-            }else {
+            Student ss =new Student();
+            ss.setUserId(userId);
+            List<Student>studentList=this.studentService.queryAll(ss);
+//            UBinding ub = new UBinding();
+//            ub.setUserId(userId);
+//            List<UBinding>uBindingList=this.uBindingService.queryAll(ub);
+            UAttribute ua =this.uAttributeService.queryById(userId);
+            if (teacherList.size() > 0||ua.getTeacherid() > 0||studentList.size() > 0 ){
+                result.put("sign", -1);
+                data.put("data", "您已经创建或加入过班级了");
+            } else {
+                teacher.setTSchoolid(schoolId);
                 teacher.setCreateTime(new Date());
                 teacher.setUpdateTime(new Date());
                 teacher.setTName(grade+term);

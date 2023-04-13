@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.TeacherCollectDao">
+
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.TeacherCollect" id="TeacherCollectMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="title" column="title" jdbcType="VARCHAR"/>
+        <result property="image" column="image" jdbcType="VARCHAR"/>
+        <result property="type" column="type" jdbcType="INTEGER"/>
+        <result property="compositionId" column="composition_id" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="TeacherCollectMap">
+        select id,
+               isUsed,
+               create_time,
+               update_time,
+               remarks,
+               user_id,
+               title,
+               image,
+               type,
+               composition_id
+        from teacher_collect
+        where id = #{id}
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAll" resultMap="TeacherCollectMap">
+        select
+        id, isUsed, create_time, update_time, remarks, user_id, title, image, type, composition_id
+        from teacher_collect
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+        </where>
+        order by create_time desc
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="TeacherCollectMap">
+        select
+        id, isUsed, create_time, update_time, remarks, user_id, title, image, type, composition_id
+        from teacher_collect
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from teacher_collect
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="title != null and title != ''">
+                and title = #{title}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
+            </if>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+            <if test="compositionId != null">
+                and composition_id = #{compositionId}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into teacher_collect(isUsed, create_time, update_time, remarks, user_id, title, image, type,
+                                    composition_id)
+        values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{userId}, #{title}, #{image}, #{type},
+                #{compositionId})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into teacher_collect(isUsed, create_time, update_time, remarks, user_id, title, image, type,
+        composition_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.userId},
+            #{entity.title}, #{entity.image}, #{entity.type}, #{entity.compositionId})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into teacher_collect(isUsed, create_time, update_time, remarks, user_id, title, image, type,
+        composition_id)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.userId},
+            #{entity.title}, #{entity.image}, #{entity.type}, #{entity.compositionId})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        user_id = values(user_id),
+        title = values(title),
+        image = values(image),
+        type = values(type),
+        composition_id = values(composition_id)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update teacher_collect
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="title != null and title != ''">
+                title = #{title},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="type != null">
+                type = #{type},
+            </if>
+            <if test="compositionId != null">
+                composition_id = #{compositionId},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from teacher_collect
+        where id = #{id}
+    </delete>
+
+</mapper>
+

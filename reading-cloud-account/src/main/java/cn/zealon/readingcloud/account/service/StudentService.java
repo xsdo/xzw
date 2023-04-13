@@ -6,6 +6,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 学生表(Student)表服务接口
@@ -35,6 +36,8 @@ public interface StudentService {
     Page<Student> queryByPage(Student student, PageRequest pageRequest);
 
     List<String> queryByTeacherId(Long teacherId);
+
+    Map<String,String> queryHeadByTeacherId(Long teacherId);
 
     List<Student>queryByName(Long teacherId,String name);
 

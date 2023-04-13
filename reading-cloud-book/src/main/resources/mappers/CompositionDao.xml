@@ -115,7 +115,7 @@
                 and c_readtimes = #{cReadtimes}
             </if>
         </where>
-        order by id desc
+        order by create_time desc
     </select>
 
     <!--查询指定行数据-->

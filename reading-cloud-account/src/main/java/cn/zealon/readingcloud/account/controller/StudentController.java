@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 学生表(Student)表控制层
@@ -50,6 +51,10 @@ public class StudentController {
         return this.studentService.queryByTeacherId(teacherId);
     }
 
+    @GetMapping("queryHeadByTeacherId")
+    public Map<String,String> queryHeadByTeacherId(Long teacherId){
+        return this.studentService.queryHeadByTeacherId(teacherId);
+    }
     @GetMapping("doBanding")
     public JSONObject doBinding(Long userId, Long teacherId, String name, String relation, String phoneNumber, int type) {
         return this.studentService.doBinding(userId, teacherId, name, relation, phoneNumber, type);

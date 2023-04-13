@@ -95,7 +95,14 @@ public class TeacherTasksController {
      */
     @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
-        return ResponseEntity.ok(this.teacherTasksService.deleteById(id));
+        TeacherTasks teacherTasks=this.teacherTasksService.queryById(id);
+        //判断如果任务已经发布，不可删除
+        if (teacherTasks != null) {
+            if (teacherTasks.getStatus() != 1) {
+                return ResponseEntity.ok(this.teacherTasksService.deleteById(id));
+            }
+        }
+        return ResponseEntity.ok(false);
     }
 
 }

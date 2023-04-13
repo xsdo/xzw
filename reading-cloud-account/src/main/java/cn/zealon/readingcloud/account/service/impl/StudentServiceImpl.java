@@ -1,9 +1,11 @@
 package cn.zealon.readingcloud.account.service.impl;
 
+import cn.zealon.readingcloud.account.common.utils.HeadImageUtil;
 import cn.zealon.readingcloud.account.dao.StudentDao;
 import cn.zealon.readingcloud.account.service.StudentService;
 import cn.zealon.readingcloud.account.service.UAttributeService;
 import cn.zealon.readingcloud.account.service.UTeacherService;
+import cn.zealon.readingcloud.common.config.FileProperties;
 import cn.zealon.readingcloud.common.pojo.xzwusers.Student;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UBinding;
@@ -34,6 +36,8 @@ public class StudentServiceImpl implements StudentService {
     @Resource
     private UTeacherService uTeacherService;
 
+    @Resource
+    private FileProperties properties;
     /**
      * 通过ID查询单条数据
      *
@@ -76,6 +80,23 @@ public class StudentServiceImpl implements StudentService {
             }
         }
         return studentList;
+    }
+    @Override
+    public Map<String,String> queryHeadByTeacherId(Long teacherId){
+        Map<String, String>map = new HashMap<>();
+        Student student = new Student();
+        student.setTeacherId(teacherId);
+        List<Student>students=this.queryAll(student);
+        if (students.size() > 0) {
+            for (Student ss:students) {
+                    try {
+                        map.put(ss.getName(), HeadImageUtil.generateImg(ss.getName(),properties.getPath().getAvatar(),ss.getName(),30));
+                    }catch (Exception e) {
+                        map.put(ss.getName(), new String());
+                    }
+            }
+        }
+        return map;
     }
 
     @Override

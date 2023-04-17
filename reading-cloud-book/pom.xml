@@ -14,6 +14,12 @@
     <name>reading-cloud-book</name>
 
     <dependencies>
+        <!--        oss上传-->
+        <dependency>
+            <groupId>com.aliyun.oss</groupId>
+            <artifactId>aliyun-sdk-oss</artifactId>
+            <version>3.15.1</version>
+        </dependency>
         <!-- 添加 google 提供的二维码依赖 -->
         <dependency>
             <groupId>com.google.zxing</groupId>

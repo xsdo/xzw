@@ -23,8 +23,15 @@
         select
             id, imageB, imageS, type
         from images
+        <where>
+            <if test="type != null">
+                and type = #{type}
+            </if>
+        </where>
         ORDER BY RAND() LIMIT #{size}
     </select>
+
+
 
     <!--查询指定行数据-->
     <select id="queryAllByLimit" resultMap="ImagesMap">

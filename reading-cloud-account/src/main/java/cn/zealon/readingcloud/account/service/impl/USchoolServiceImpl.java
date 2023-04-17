@@ -1,5 +1,7 @@
 package cn.zealon.readingcloud.account.service.impl;
 
+import cn.zealon.readingcloud.account.common.config.OssProperties;
+import cn.zealon.readingcloud.account.common.utils.OssUtil;
 import cn.zealon.readingcloud.account.common.utils.QRCodeUtil;
 import cn.zealon.readingcloud.account.common.utils.QRCodeUtils;
 import cn.zealon.readingcloud.common.config.FileProperties;
@@ -12,10 +14,13 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 用户学校表(USchool)表服务实现类
@@ -30,6 +35,9 @@ public class USchoolServiceImpl implements USchoolService {
 
     @Resource
     private FileProperties properties;
+
+    @Resource
+    private OssProperties ossProperties;
     /**
      * 通过ID查询单条数据
      *
@@ -71,6 +79,14 @@ public class USchoolServiceImpl implements USchoolService {
     }
     @Override
     public USchool schoolQRCodePress(Long schoolId) {
+        /**
+         * 获取oss的属性
+         */
+        String endpoint = ossProperties.getEndpoint();
+        String accessKeyId = ossProperties.getKeyId();
+        String accessKeySecret = ossProperties.getKeySecret();
+        String bucketName = ossProperties.getBucketName();
+
         USchool uSchool=this.queryById(schoolId);
         if (uSchool != null) {
             try{
@@ -90,6 +106,15 @@ public class USchoolServiceImpl implements USchoolService {
 
                 //生成二维码
 //                QRCodeUtil.encode(text, null, destPath, true);
+                //上传oss
+                File file = new File(name + ".jpg");
+                ImageIO.write(image, "jpg",file);
+                Map<String, String> map = new HashMap<>();
+                map= OssUtil.uploadOssFile(endpoint, accessKeyId ,accessKeySecret,bucketName,file,"Resource/News/",name + ".jpg");
+                String fileUrlOss=map.get("fileUrl");
+                System.out.println(fileUrlOss);
+                file.delete();
+                //上传服务器
                 QRCodeUtils.writeToLocalByPath(image, "jpg", destPath);
                 // 解析二维码 部分二维码错误 略去解析步骤
 //                String str = QRCodeUtil.decode(destPath);

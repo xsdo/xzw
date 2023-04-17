@@ -50,6 +50,11 @@ public class TeacherTasksController {
         this.teacherTasksService.pushTask();
     }
 
+    @GetMapping("pushTaskNow")
+    public void pushTaskNow(Long teacherId){
+        this.teacherTasksService.pushTaskNow(teacherId);
+    }
+
     @GetMapping("queryTask")
     public List<TeacherTasks> queryTask(Long userId, String taskTime) {
         return this.teacherTasksService.queryTask(userId, taskTime);

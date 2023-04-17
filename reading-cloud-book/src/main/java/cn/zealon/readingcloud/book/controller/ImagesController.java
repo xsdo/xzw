@@ -40,15 +40,23 @@ public class ImagesController {
         return ResponseEntity.ok(this.imagesService.queryByPage(images, pageRequest));
     }
 
+    @PostMapping("updateImageTwo")
+    public Map<String, String> updateImageTwo(MultipartFile big, MultipartFile small ){
+        return imagesService.updateImageTwo(big,small);
+    }
     @PostMapping("updateImage")
-    public Map<String, String> updateImage(MultipartFile big, MultipartFile small ){
-        return imagesService.updateImage(big,small);
+    public Map<String, String> updateImage(MultipartFile big){
+        return imagesService.updateImage(big);
     }
     @GetMapping("queryRand")
     public Images queryRand(){
         return this.imagesService.queryRand();
     }
 
+    @GetMapping("queryRandTwo")
+    public Images queryRandTwo(){
+        return this.imagesService.queryRandTwo();
+    }
     /**
      * 通过主键查询单条数据
      *

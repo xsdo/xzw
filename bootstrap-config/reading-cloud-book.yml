@@ -1,6 +1,11 @@
 server:
   port: 8001
-
+aliyun:
+  oss:
+    endpoint: oss-************
+    keyId: *
+    keySecret: *
+    bucketName: com*
 # 文件存储路径
 file:
   mac:

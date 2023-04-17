@@ -1,6 +1,8 @@
 package cn.zealon.readingcloud.book.service.impl;
 
 import cn.hutool.core.util.ObjectUtil;
+import cn.zealon.readingcloud.book.common.config.OssProperties;
+import cn.zealon.readingcloud.book.common.utils.OssUtil;
 import cn.zealon.readingcloud.book.common.utils.QRCodeUtil;
 import cn.zealon.readingcloud.book.common.utils.QRCodeUtils;
 import cn.zealon.readingcloud.common.bean.PageBean;
@@ -17,6 +19,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 
 import javax.annotation.Resource;
+import javax.imageio.ImageIO;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -38,6 +41,10 @@ public class CompositionServiceImpl implements CompositionService {
 
     @Resource
     private FileProperties properties;
+
+    @Resource
+    private OssProperties ossProperties;
+
 
     @Override
     public PageBean<Composition> pageQuery(JSONObject jsonObject) {
@@ -134,6 +141,14 @@ public class CompositionServiceImpl implements CompositionService {
     }
     @Override
     public Composition compositionQRCodePress(Long compositionId) {
+        /**
+         * 获取oss的属性
+         */
+        String endpoint = ossProperties.getEndpoint();
+        String accessKeyId = ossProperties.getKeyId();
+        String accessKeySecret = ossProperties.getKeySecret();
+        String bucketName = ossProperties.getBucketName();
+
         Composition composition=this.queryById(compositionId);
         if (!ObjectUtil.isEmpty(composition)) {
             try{
@@ -153,6 +168,15 @@ public class CompositionServiceImpl implements CompositionService {
                 System.out.println(destPath);
                 //生成二维码
 //                QRCodeUtil.encode(text, null, destPath, true);
+                //上传oss
+                File file = new File(name + ".jpg");
+                ImageIO.write(image, "jpg",file);
+                Map<String, String> map = new HashMap<>();
+                map= OssUtil.uploadOssFile(endpoint, accessKeyId ,accessKeySecret,bucketName,file,"Resource/News/",name + ".jpg");
+                String fileUrlOss=map.get("fileUrl");
+                System.out.println(fileUrlOss);
+                file.delete();
+                //上传服务器
                 QRCodeUtils.writeToLocalByPath(image, "jpg", destPath);
                 // 解析二维码 部分二维码错误 略去解析步骤
 //                String str = QRCodeUtil.decode(destPath);

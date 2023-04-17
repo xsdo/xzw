@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.ReadBookDao">
+
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.ReadBook" id="ReadBookMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+        <result property="image" column="image" jdbcType="VARCHAR"/>
+        <result property="profile" column="profile" jdbcType="VARCHAR"/>
+        <result property="press" column="press" jdbcType="VARCHAR"/>
+        <result property="diagram" column="diagram" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="ReadBookMap">
+        select id,
+               isUsed,
+               create_time,
+               update_time,
+               remarks,
+               name,
+               image,
+               profile,
+               press,
+               diagram
+        from read_book
+        where id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="ReadBookMap">
+        select
+        id, isUsed, create_time, update_time, remarks, name, image, profile, press, diagram
+        from read_book
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
+            </if>
+            <if test="profile != null and profile != ''">
+                and profile = #{profile}
+            </if>
+            <if test="press != null and press != ''">
+                and press = #{press}
+            </if>
+            <if test="diagram != null and diagram != ''">
+                and diagram = #{diagram}
+            </if>
+        </where>
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="ReadBookMap">
+        select
+        id, isUsed, create_time, update_time, remarks, name, image, profile, press, diagram
+        from read_book
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
+            </if>
+            <if test="profile != null and profile != ''">
+                and profile = #{profile}
+            </if>
+            <if test="press != null and press != ''">
+                and press = #{press}
+            </if>
+            <if test="diagram != null and diagram != ''">
+                and diagram = #{diagram}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from read_book
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+            <if test="image != null and image != ''">
+                and image = #{image}
+            </if>
+            <if test="profile != null and profile != ''">
+                and profile = #{profile}
+            </if>
+            <if test="press != null and press != ''">
+                and press = #{press}
+            </if>
+            <if test="diagram != null and diagram != ''">
+                and diagram = #{diagram}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into read_book(isUsed, create_time, update_time, remarks, name, image, profile, press, diagram)
+        values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{name}, #{image}, #{profile}, #{press},
+                #{diagram})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into read_book(isUsed, create_time, update_time, remarks, name, image, profile, press, diagram)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.name},
+            #{entity.image}, #{entity.profile}, #{entity.press}, #{entity.diagram})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into read_book(isUsed, create_time, update_time, remarks, name, image, profile, press, diagram)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.name},
+            #{entity.image}, #{entity.profile}, #{entity.press}, #{entity.diagram})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        name = values(name),
+        image = values(image),
+        profile = values(profile),
+        press = values(press),
+        diagram = values(diagram)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update read_book
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+            <if test="image != null and image != ''">
+                image = #{image},
+            </if>
+            <if test="profile != null and profile != ''">
+                profile = #{profile},
+            </if>
+            <if test="press != null and press != ''">
+                press = #{press},
+            </if>
+            <if test="diagram != null and diagram != ''">
+                diagram = #{diagram},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from read_book
+        where id = #{id}
+    </delete>
+
+</mapper>
+

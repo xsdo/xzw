@@ -4,6 +4,7 @@ import cn.zealon.readingcloud.account.feign.client.TeacherClient;
 import cn.zealon.readingcloud.account.feign.client.UserAttributeClient;
 import cn.zealon.readingcloud.book.service.CompositionService;
 import cn.zealon.readingcloud.book.service.DepartmentService;
+import cn.zealon.readingcloud.book.service.StudentTasksService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Composition;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Department;
 import cn.zealon.readingcloud.common.pojo.xzwresources.TeacherTasks;
@@ -41,6 +42,9 @@ public class TeacherTasksServiceImpl implements TeacherTasksService {
     private UserAttributeClient userAttributeClient;
     @Resource
     private TeacherClient teacherClient;
+
+    @Resource
+    private StudentTasksService studentTaskService;
     /**
      * 通过ID查询单条数据
      *
@@ -95,6 +99,27 @@ public class TeacherTasksServiceImpl implements TeacherTasksService {
             }
         }
 
+    }
+    @Override
+    public void pushTaskNow(Long teacherId){
+        String today = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        String taskTime=today+" 00:00:00";
+        List<TeacherTasks> teacherTasksList = this.queryTaskByTeacherId(teacherId, taskTime);
+        if (teacherTasksList.size() > 0) {
+            System.out.println("教师添加任务班级"+teacherId);
+            for (TeacherTasks teacherTasks : teacherTasksList) {
+                teacherTasks.setStatus(1);
+                this.update(teacherTasks);
+            }
+        }else {
+            System.out.println("自动推送任务班级"+teacherId);
+            List<Composition>compositionList=this.compositionService.queryRandoms(3);
+            System.out.println(compositionList);
+            for (Composition composition: compositionList) {
+                this.addTask0(teacherId, composition.getId(), 0, taskTime,1);
+            }
+        }
+        this.studentTaskService.puskTask();
     }
     /**
      * 新增数据

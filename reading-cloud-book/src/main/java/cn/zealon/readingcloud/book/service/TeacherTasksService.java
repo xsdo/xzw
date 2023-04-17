@@ -39,6 +39,8 @@ public interface TeacherTasksService {
     List<TeacherTasks> queryTaskByTeacherId(Long teacherId, String taskTime);
 
     void pushTask();
+
+    void pushTaskNow(Long teacherId);
     /**
      * 查询所有数据
      *

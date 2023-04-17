@@ -32,9 +32,11 @@ public interface ImagesService {
      */
     Page<Images> queryByPage(Images images, PageRequest pageRequest);
 
-    Map<String, String> updateImage(MultipartFile multipartFile, MultipartFile multipartFile2 );
+    Map<String, String> updateImageTwo(MultipartFile multipartFile, MultipartFile multipartFile2 );
+    Map<String, String> updateImage(MultipartFile multipartFile);
 
     Images queryRand();
+    Images queryRandTwo();
     /**
      * 新增数据
      *

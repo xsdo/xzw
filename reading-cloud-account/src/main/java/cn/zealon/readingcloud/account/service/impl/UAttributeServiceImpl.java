@@ -1,5 +1,7 @@
 package cn.zealon.readingcloud.account.service.impl;
 
+import cn.zealon.readingcloud.account.common.config.OssProperties;
+import cn.zealon.readingcloud.account.common.utils.OssUtil;
 import cn.zealon.readingcloud.account.dao.UTableDao;
 import cn.zealon.readingcloud.common.config.FileProperties;
 import cn.zealon.readingcloud.common.exception.BadRequestException;
@@ -16,11 +18,10 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.File;
+import java.io.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * 用户属性表(UAttribute)表服务实现类
@@ -39,6 +40,8 @@ public class UAttributeServiceImpl implements UAttributeService {
     @Resource
     private UTableDao uTableDao;
 
+    @Resource
+    private OssProperties ossProperties;
 
 
     /*@Override
@@ -62,6 +65,13 @@ public class UAttributeServiceImpl implements UAttributeService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, String> updateHeadImg(MultipartFile multipartFile) {
+        /**
+         * 获取oss的属性
+         */
+        String endpoint = ossProperties.getEndpoint();
+        String accessKeyId = ossProperties.getKeyId();
+        String accessKeySecret = ossProperties.getKeySecret();
+        String bucketName = ossProperties.getBucketName();
         // 文件大小验证
         FileUtil.checkSize(properties.getAvatarMaxSize(), multipartFile.getSize());
         // 验证文件上传的格式
@@ -71,10 +81,20 @@ public class UAttributeServiceImpl implements UAttributeService {
             throw new BadRequestException("文件格式错误！, 仅支持 " + image +" 格式");
         }
         try {
+            byte [] byteArr=multipartFile.getBytes();
+            InputStream inputStream = new ByteArrayInputStream(byteArr);
+            //上传服务器
             String fileUrl = FileUtil.uploadFile(multipartFile, properties.getPath().getAvatar());
-
+            //上传oss
+            String filename = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+            String path = fileUrl.substring(0, fileUrl.lastIndexOf("/") + 1);
+            Map<String, String> map = new HashMap<>();
+            map= OssUtil.uploadOss(endpoint, accessKeyId ,accessKeySecret,bucketName,inputStream,"Resource/avatar/"+path,filename);
+            String fileUrlOss=map.get("fileUrl");
+            System.out.println(fileUrlOss);
             return new HashMap<String, String>(1) {{
                 put("fileUrl", "/Resource/avatar/"+fileUrl);
+                put("fileUrlOss", fileUrlOss);
             }};
         }catch (Exception e) {
             return null;
@@ -93,6 +113,14 @@ public class UAttributeServiceImpl implements UAttributeService {
     @Override
     @Transactional(rollbackFor = Exception.class)
     public Map<String, String> updateBackGround(MultipartFile multipartFile) {
+        /**
+         * 获取oss的属性
+         */
+        String endpoint = ossProperties.getEndpoint();
+        String accessKeyId = ossProperties.getKeyId();
+        String accessKeySecret = ossProperties.getKeySecret();
+        String bucketName = ossProperties.getBucketName();
+
         // 文件大小验证
         FileUtil.checkSize(properties.getAvatarMaxSize(), multipartFile.getSize());
         // 验证文件上传的格式
@@ -102,10 +130,20 @@ public class UAttributeServiceImpl implements UAttributeService {
             throw new BadRequestException("文件格式错误！, 仅支持 " + image +" 格式");
         }
         try {
+            byte [] byteArr=multipartFile.getBytes();
+            InputStream inputStream = new ByteArrayInputStream(byteArr);
+            //上传服务器
             String fileUrl = FileUtil.uploadFile(multipartFile, properties.getPath().getPath());
-
+            //上传oss
+            String filename = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+            String path = fileUrl.substring(0, fileUrl.lastIndexOf("/") + 1);
+            Map<String, String> map = new HashMap<>();
+            map= OssUtil.uploadOss(endpoint, accessKeyId ,accessKeySecret,bucketName,inputStream,"Resource/News/"+path,filename);
+            String fileUrlOss=map.get("fileUrl");
+            System.out.println(fileUrlOss);
             return new HashMap<String, String>(1) {{
                 put("fileUrl", "/Resource/News/"+fileUrl);
+                put("fileUrlOss", fileUrlOss);
             }};
         }catch (Exception e) {
             return null;

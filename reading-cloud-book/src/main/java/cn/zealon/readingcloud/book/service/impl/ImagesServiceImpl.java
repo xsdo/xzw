@@ -1,5 +1,7 @@
 package cn.zealon.readingcloud.book.service.impl;
 
+import cn.zealon.readingcloud.book.common.config.OssProperties;
+import cn.zealon.readingcloud.book.common.utils.OssUtil;
 import cn.zealon.readingcloud.common.config.FileProperties;
 import cn.zealon.readingcloud.common.exception.BadRequestException;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Images;
@@ -14,6 +16,8 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +35,9 @@ public class ImagesServiceImpl implements ImagesService {
 
     @Resource
     private FileProperties properties;
+
+    @Resource
+    private OssProperties ossProperties;
     /**
      * 通过ID查询单条数据
      *
@@ -57,7 +64,57 @@ public class ImagesServiceImpl implements ImagesService {
 
     @Override
     @Transactional(rollbackFor = Exception.class)
-    public Map<String, String> updateImage(MultipartFile multipartFile,MultipartFile multipartFile2 ) {
+    public Map<String, String> updateImage(MultipartFile multipartFile) {
+        /**
+         * 获取oss的属性
+         */
+        String endpoint = ossProperties.getEndpoint();
+        String accessKeyId = ossProperties.getKeyId();
+        String accessKeySecret = ossProperties.getKeySecret();
+        String bucketName = ossProperties.getBucketName();
+        // 文件大小验证
+        FileUtil.checkSize(properties.getAvatarMaxSize(), multipartFile.getSize());
+        // 验证文件上传的格式
+        String image = "gif jpg png jpeg";
+        String fileType = FileUtil.getExtensionName(multipartFile.getOriginalFilename());
+        if(fileType != null && !image.contains(fileType)){
+            throw new BadRequestException("文件格式错误！, 仅支持 " + image +" 格式");
+        }
+        try {
+            byte [] byteArr=multipartFile.getBytes();
+            InputStream inputStream = new ByteArrayInputStream(byteArr);
+            //上传服务器
+            String fileUrl = FileUtil.uploadFile(multipartFile, properties.getPath().getPath());
+            //上传oss
+            String filename = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+            String path = fileUrl.substring(0, fileUrl.lastIndexOf("/") + 1);
+            Map<String, String> map = new HashMap<>();
+            map= OssUtil.uploadOss(endpoint, accessKeyId ,accessKeySecret,bucketName,inputStream,"Resource/News/"+path,filename);
+            String fileUrlOss=map.get("fileUrl");
+            System.out.println(fileUrlOss);
+            Images images = new Images();
+            images.setImageb("/Resource/News/"+fileUrl);
+            images.setType(2);
+            this.insert(images);
+            return new HashMap<String, String>(1) {{
+                put("fileUrl", "/Resource/News/"+fileUrl);
+                put("fileUrlOss", fileUrlOss);
+            }};
+        }catch (Exception e) {
+            return null;
+        }
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public Map<String, String> updateImageTwo(MultipartFile multipartFile,MultipartFile multipartFile2 ) {
+        /**
+         * 获取oss的属性
+         */
+        String endpoint = ossProperties.getEndpoint();
+        String accessKeyId = ossProperties.getKeyId();
+        String accessKeySecret = ossProperties.getKeySecret();
+        String bucketName = ossProperties.getBucketName();
         // 文件大小验证
         FileUtil.checkSize(properties.getAvatarMaxSize(), multipartFile.getSize());
         FileUtil.checkSize(properties.getAvatarMaxSize(), multipartFile2.getSize());
@@ -72,8 +129,32 @@ public class ImagesServiceImpl implements ImagesService {
             throw new BadRequestException("文件格式错误！, 仅支持 " + image +" 格式");
         }
         try {
+            byte [] byteArr=multipartFile.getBytes();
+            InputStream inputStream = new ByteArrayInputStream(byteArr);
+            //上传服务器
             String fileUrl = FileUtil.uploadFile(multipartFile, properties.getPath().getPath());
+
+            byte [] byteArr2=multipartFile2.getBytes();
+            InputStream inputStream2 = new ByteArrayInputStream(byteArr2);
+            //上传服务器2
             String fileUrl2 = FileUtil.uploadFile(multipartFile2, properties.getPath().getPath());
+
+            //上传oss
+            String filename = fileUrl.substring(fileUrl.lastIndexOf("/") + 1);
+            String path = fileUrl.substring(0, fileUrl.lastIndexOf("/") + 1);
+            Map<String, String> map = new HashMap<>();
+            map= OssUtil.uploadOss(endpoint, accessKeyId ,accessKeySecret,bucketName,inputStream,"Resource/News/"+path,filename);
+            String fileUrlOss=map.get("fileUrl");
+            System.out.println(fileUrlOss);
+
+            //上传oss2
+            String filename2 = fileUrl2.substring(fileUrl2.lastIndexOf("/") + 1);
+            String path2 = fileUrl2.substring(0, fileUrl2.lastIndexOf("/") + 1);
+            Map<String, String> map2 = new HashMap<>();
+            map2= OssUtil.uploadOss(endpoint, accessKeyId ,accessKeySecret,bucketName,inputStream2,"Resource/News/"+path2,filename2);
+            String fileUrlOss2=map2.get("fileUrl");
+            System.out.println(fileUrlOss2);
+
             Images images = new Images();
             images.setImageb("/Resource/News/"+fileUrl);
             images.setImages("/Resource/News/"+fileUrl2);
@@ -82,6 +163,8 @@ public class ImagesServiceImpl implements ImagesService {
             return new HashMap<String, String>(1) {{
                 put("fileUrl", "/Resource/News/"+fileUrl);
                 put("fileUrl2", "/Resource/News/"+fileUrl2);
+                put("fileUrlOss", fileUrlOss);
+                put("fileUrlOss2", fileUrlOss2);
             }};
         }catch (Exception e) {
             return null;
@@ -89,8 +172,18 @@ public class ImagesServiceImpl implements ImagesService {
     }
 
     @Override
+    public Images queryRandTwo(){
+        List<Images> images = this.imagesDao.queryRand(1,1);
+        if (images.size() > 0){
+            return images.get(0);
+        }else {
+            return null;
+        }
+    }
+
+    @Override
     public Images queryRand(){
-        List<Images> images = this.imagesDao.queryRand(1);
+        List<Images> images = this.imagesDao.queryRand(1,2);
         if (images.size() > 0){
             return images.get(0);
         }else {

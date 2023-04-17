@@ -78,6 +78,12 @@ public class StudentController {
     public List<Student> getAllStudent() {
         return this.studentService.queryAll(new Student());
     }
+    @GetMapping("queryByUserId")
+    public List<Student> queryByUserId(Long userId) {
+        Student student = new Student();
+        student.setUserId(userId);
+        return this.studentService.queryAll(student);
+    }
     /**
      * 新增数据
      *

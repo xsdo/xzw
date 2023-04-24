@@ -61,10 +61,12 @@ public class XzwUserController {
         return this.xzwUserService.loginByPhoneNumber(phoneNumber, validateCode);
     }
 
+    @ApiOperation(value = "微信用户绑定手机")
     @GetMapping("bindingPhoneNumber")
     public Result bindingPhoneNumber(Long userId,String phoneNumber,String validateCode){
         return this.xzwUserService.bindingPhoneNumber(userId, phoneNumber, validateCode);
     }
+
 
     /**
      * 微信openID登录

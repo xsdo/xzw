@@ -26,7 +26,7 @@ public class ChatGptDemo {
         HttpResponse response = HttpRequest.post("https://open.aiproxy.xyz/v1/chat/completions")
 //        HttpResponse response = HttpRequest.post("https://api.openai.com/v1/completions")
                 .headerMap(headers, false)
-                .bearerAuth("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")
+                .bearerAuth("sk-")
                 .body(String.valueOf(json))
                 .timeout(5 * 60 * 1000)
                 .execute();

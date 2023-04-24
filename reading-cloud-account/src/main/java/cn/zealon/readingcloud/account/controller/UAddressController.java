@@ -1,5 +1,6 @@
 package cn.zealon.readingcloud.account.controller;
 
+import cn.zealon.readingcloud.account.service.WxService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAddress;
 import cn.zealon.readingcloud.account.service.UAddressService;
 import io.swagger.annotations.Api;
@@ -27,6 +28,9 @@ public class UAddressController {
     @Resource
     private UAddressService uAddressService;
 
+    @Resource
+    private WxService wxService;
+
     /**
      * 分页查询
      *
@@ -52,6 +56,9 @@ public class UAddressController {
 
     @GetMapping("addAddress")
     public UAddress addAddress(Long userId,String name,String phoneNumber,String address){
+        if (wxService.checkText(name)){return null;}
+        if (wxService.checkText(phoneNumber)){return null;}
+        if (wxService.checkText(address)){return null;}
         return this.uAddressService.addAddress(userId, name, phoneNumber, address);
     }
 

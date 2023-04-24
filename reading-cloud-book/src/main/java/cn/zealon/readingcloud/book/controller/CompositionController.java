@@ -6,6 +6,7 @@ import cn.zealon.readingcloud.book.service.CompositionService;
 import cn.zealon.readingcloud.common.result.Result;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +51,7 @@ public class CompositionController {
         return ResponseEntity.ok(this.compositionService.queryByPage(composition, pageRequest));
     }
 
+    @ApiOperation(value = "获取作文数据")
     @GetMapping("queryAll")
     public List<Composition>queryAll(Composition composition){
         List<Composition> list = this.compositionService.queryAll(composition);

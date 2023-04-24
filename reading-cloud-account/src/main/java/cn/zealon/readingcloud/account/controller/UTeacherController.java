@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.account.controller;
 
 import cn.zealon.readingcloud.account.service.UAttributeService;
 import cn.zealon.readingcloud.account.service.UTeacherService;
+import cn.zealon.readingcloud.account.service.WxService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
 import cn.zealon.readingcloud.common.pojo.xzwusers.USchool;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UTeacher;
@@ -37,6 +38,8 @@ public class UTeacherController {
     @Resource
     private UAttributeService uAttributeService;
 
+    @Resource
+    private WxService wxService;
 
     /**
      * 分页查询
@@ -98,6 +101,7 @@ public class UTeacherController {
     @ApiOperation("上传图片")
     @PostMapping("updateImg")
     public Map<String, String> updateImg(MultipartFile avatar){
+        if (wxService.checkImg(avatar)){return null;}
         return this.uTeacherService.updateHeadImg(avatar);
     }
 
@@ -123,12 +127,17 @@ public class UTeacherController {
     @ApiOperation("扫码创建班级")
     @GetMapping("doBindingTeacher")
     public JSONObject doBinding(Long userId, Long schoolId , String grade, String term, int student){
+        if (wxService.checkText(grade)){return null;}
+        if (wxService.checkText(term)){return null;}
         return this.uTeacherService.doBinding(userId, schoolId, grade, term, student);
     }
 
     @ApiOperation("修改班级信息")
     @GetMapping("editTeacher")
     public UTeacher editTeacher(Long id,String grade, String term, int student,int open ,String slogan){
+        if (wxService.checkText(grade)){return null;}
+        if (wxService.checkText(term)){return null;}
+        if (wxService.checkText(slogan)){return null;}
         UTeacher uTeacher =new UTeacher();
         uTeacher.setId(id);
         uTeacher.setTGrade(grade);

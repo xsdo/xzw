@@ -6,6 +6,11 @@ aliyun:
     keyId: *
     keySecret: *
     bucketName: com*
+send:
+  wechatAppId: wx
+  wechatSecret: de
+  smsKey: LT
+  smsSecret: ro
 # 文件存储路径
 file:
   mac:

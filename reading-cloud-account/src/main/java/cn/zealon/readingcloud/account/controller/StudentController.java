@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.account.controller;
 
 import cn.zealon.readingcloud.account.service.StudentService;
+import cn.zealon.readingcloud.account.service.WxService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.Student;
 import com.alibaba.fastjson.JSONObject;
 import io.swagger.annotations.Api;
@@ -28,6 +29,8 @@ public class StudentController {
      */
     @Resource
     private StudentService studentService;
+    @Resource
+    private WxService wxService;
 
     /**
      * 分页查询
@@ -57,6 +60,7 @@ public class StudentController {
     }
     @GetMapping("doBanding")
     public JSONObject doBinding(Long userId, Long teacherId, String name, String relation, String phoneNumber, int type) {
+        if (wxService.checkText(name)){return null;}
         return this.studentService.doBinding(userId, teacherId, name, relation, phoneNumber, type);
     }
     @GetMapping("conductBingding")

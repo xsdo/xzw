@@ -1,14 +1,10 @@
 package cn.zealon.readingcloud.book.service.impl;
 
-import cn.zealon.readingcloud.account.feign.client.BindingClient;
-import cn.zealon.readingcloud.account.feign.client.FollowClient;
-import cn.zealon.readingcloud.account.feign.client.UserAttributeClient;
+import cn.zealon.readingcloud.account.feign.client.*;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Circle;
 import cn.zealon.readingcloud.book.dao.CircleDao;
 import cn.zealon.readingcloud.book.service.CircleService;
-import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
-import cn.zealon.readingcloud.common.pojo.xzwusers.UBinding;
-import cn.zealon.readingcloud.common.pojo.xzwusers.UFollow;
+import cn.zealon.readingcloud.common.pojo.xzwusers.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.data.domain.Page;
@@ -38,7 +34,10 @@ public class CircleServiceImpl implements CircleService {
     private UserAttributeClient userAttributeClient;
 
     @Autowired
-    private BindingClient bindingClient;
+    private StudentClient studentClient;
+
+    @Autowired
+    private TeacherClient teacherClient;
 
     /**
      * 通过ID查询单条数据
@@ -95,11 +94,20 @@ public class CircleServiceImpl implements CircleService {
         }
         UAttribute uAttribute = this.userAttributeClient.queryByUserId(userId);
         if (uAttribute!=null&&uAttribute.getTeacherid()!=-1){
-            List<UBinding>bindingList=this.bindingClient.queryByTeacherId(uAttribute.getTeacherid());
-            if (bindingList!=null&&bindingList.size() > 0){
-                for (UBinding ub:bindingList){
-                    if (ub.getBStatus()==1){
-                        followIds.add(ub.getUserId());
+            List<UTeacher>teacherList=this.teacherClient.getAllTeacher();
+            if (teacherList != null&&teacherList.size() > 0){
+                for (UTeacher teacher: teacherList){
+                    if (teacher.getId().equals(uAttribute.getTeacherid())){
+                        followIds.add(teacher.getTeacherId());
+                    }
+                }
+            }
+
+            List<Student>studentList=this.studentClient.getAllStudent();
+            if (studentList!=null&&studentList.size() > 0){
+                for (Student ss:studentList){
+                    if (ss.getTeacherId().equals(uAttribute.getTeacherid())){
+                        followIds.add(ss.getUserId());
                     }
                 }
             }

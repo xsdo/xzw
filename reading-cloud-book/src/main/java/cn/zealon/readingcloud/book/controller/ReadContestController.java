@@ -3,12 +3,14 @@ package cn.zealon.readingcloud.book.controller;
 import cn.zealon.readingcloud.common.pojo.xzwresources.ReadContest;
 import cn.zealon.readingcloud.book.service.ReadContestService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,10 +63,21 @@ public class ReadContestController {
      * @param readContest 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<ReadContest> add(ReadContest readContest) {
         return ResponseEntity.ok(this.readContestService.insert(readContest));
     }
+    @ApiOperation(value = "新增参赛")
+    @PostMapping
+    public ResponseEntity<ReadContest> insertReadContext(ReadContest readContest) {
+        readContest.setCreateTime(new Date());
+        readContest.setUpdateTime(new Date());
+        readContest.setIsused(0);
+        readContest.setType(0);
+
+        return ResponseEntity.ok(this.readContestService.insert(readContest));
+    }
+
 
     /**
      * 编辑数据

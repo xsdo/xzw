@@ -2,6 +2,7 @@ package cn.zealon.readingcloud.book.controller;
 
 import cn.zealon.readingcloud.account.feign.client.UserAttributeClient;
 import cn.zealon.readingcloud.book.service.CDiscussService;
+import cn.zealon.readingcloud.book.service.WxService;
 import cn.zealon.readingcloud.book.vo.DiscussComVO;
 import cn.zealon.readingcloud.book.vo.DiscussUserVO;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CDiscuss;
@@ -11,6 +12,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -32,6 +34,9 @@ public class CDiscussController {
     private CDiscussService cDiscussService;
     @Resource
     private UserAttributeClient userAttributeClient;
+
+    @Resource
+    private WxService wxService;
     /**
      * 分页查询
      *
@@ -61,6 +66,7 @@ public class CDiscussController {
 
     @GetMapping("doDiscuss")
     public JSONObject doDiscuss(Long userId,String discuss,Long compositionId,Integer type){
+        if (wxService.checkText(discuss)){return null;}
         return this.cDiscussService.doDiscuss(userId, discuss, compositionId,type);
     }
     //type 0文章评论  1随笔评论 2圈子评论

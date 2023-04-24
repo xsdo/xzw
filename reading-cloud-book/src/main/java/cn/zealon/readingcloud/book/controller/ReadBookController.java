@@ -3,12 +3,14 @@ package cn.zealon.readingcloud.book.controller;
 import cn.zealon.readingcloud.common.pojo.xzwresources.ReadBook;
 import cn.zealon.readingcloud.book.service.ReadBookService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,8 +63,23 @@ public class ReadBookController {
      * @param readBook 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<ReadBook> add(ReadBook readBook) {
+        return ResponseEntity.ok(this.readBookService.insert(readBook));
+    }
+
+    @ApiOperation(value = "录入书籍信息（书名，封面，简介，出版社，序图）")
+//    @GetMapping("insertReadBook")
+    public ResponseEntity<ReadBook> insertReadBook(String name,String image,String profile,String press,String diagram) {
+        ReadBook readBook=new ReadBook();
+        readBook.setIsused(0);
+        readBook.setCreateTime(new Date());
+        readBook.setUpdateTime(new Date());
+        readBook.setName(name);
+        readBook.setImage(image);
+        readBook.setPress(profile);
+        readBook.setPress(press);
+        readBook.setDiagram(diagram);
         return ResponseEntity.ok(this.readBookService.insert(readBook));
     }
 
@@ -72,7 +89,7 @@ public class ReadBookController {
      * @param readBook 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<ReadBook> edit(ReadBook readBook) {
         return ResponseEntity.ok(this.readBookService.update(readBook));
     }
@@ -83,7 +100,7 @@ public class ReadBookController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.readBookService.deleteById(id));
     }

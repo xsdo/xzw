@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.book.controller;
 
 import cn.zealon.readingcloud.book.service.CLikesService;
+import cn.zealon.readingcloud.book.service.WxService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CSubmit;
 import cn.zealon.readingcloud.book.service.CSubmitService;
 import io.swagger.annotations.Api;
@@ -31,6 +32,9 @@ public class CSubmitController {
 
     @Resource
     private CLikesService clikesService;
+
+    @Resource
+    private WxService wxService;
     /**
      * 分页查询
      *
@@ -67,6 +71,8 @@ public class CSubmitController {
 
     @GetMapping("addSubmit")
     public ResponseEntity<CSubmit> add(Long userId,String name,String content) {
+        if (wxService.checkText(name)){return null;}
+        if (wxService.checkText(content)){return null;}
         return (this.cSubmitService.add(userId, name, content));
     }
     /**

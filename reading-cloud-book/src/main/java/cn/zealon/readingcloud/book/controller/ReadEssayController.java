@@ -3,12 +3,14 @@ package cn.zealon.readingcloud.book.controller;
 import cn.zealon.readingcloud.common.pojo.xzwresources.ReadEssay;
 import cn.zealon.readingcloud.book.service.ReadEssayService;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -61,8 +63,22 @@ public class ReadEssayController {
      * @param readEssay 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<ReadEssay> add(ReadEssay readEssay) {
+        return ResponseEntity.ok(this.readEssayService.insert(readEssay));
+    }
+
+    @ApiOperation(value = "录入文章内容（所属图书id，标题，内容，编号）")
+//    @GetMapping("insertReadEssay")
+    public ResponseEntity<ReadEssay> insertReadEssay(Long pid ,String title ,String content ,Integer number) {
+        ReadEssay readEssay=new ReadEssay();
+        readEssay.setIsused(0);
+        readEssay.setCreateTime(new Date());
+        readEssay.setUpdateTime(new Date());
+        readEssay.setPid(pid);
+        readEssay.setTitle(title);
+        readEssay.setContent(content);
+        readEssay.setNumber(number);
         return ResponseEntity.ok(this.readEssayService.insert(readEssay));
     }
 
@@ -72,7 +88,7 @@ public class ReadEssayController {
      * @param readEssay 实体
      * @return 编辑结果
      */
-    @PutMapping
+//    @PutMapping
     public ResponseEntity<ReadEssay> edit(ReadEssay readEssay) {
         return ResponseEntity.ok(this.readEssayService.update(readEssay));
     }
@@ -83,7 +99,7 @@ public class ReadEssayController {
      * @param id 主键
      * @return 删除是否成功
      */
-    @DeleteMapping
+//    @DeleteMapping
     public ResponseEntity<Boolean> deleteById(Long id) {
         return ResponseEntity.ok(this.readEssayService.deleteById(id));
     }

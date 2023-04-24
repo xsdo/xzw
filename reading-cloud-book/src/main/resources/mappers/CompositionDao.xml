@@ -97,7 +97,7 @@
                 and c_grade = #{cGrade}
             </if>
             <if test="cGatetype != null and cGatetype != ''">
-                and c_gatetype = #{cGatetype}
+                and c_gatetype like concat('%', #{cGatetype}, '%')
             </if>
             <if test="cWords != null">
                 and c_words = #{cWords}

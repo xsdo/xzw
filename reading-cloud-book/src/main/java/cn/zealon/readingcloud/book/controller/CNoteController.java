@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.book.controller;
 
 import cn.zealon.readingcloud.account.feign.client.UserAttributeClient;
+import cn.zealon.readingcloud.book.service.WxService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.CNote;
 import cn.zealon.readingcloud.book.service.CNoteService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
@@ -34,6 +35,8 @@ public class CNoteController {
     @Resource
     private CNoteService cNoteService;
 
+    @Resource
+    private WxService wxService;
     /**
      * 分页查询
      *
@@ -61,6 +64,7 @@ public class CNoteController {
 
     @PostMapping("doNote")
     public JSONObject doNode(Long userId,String note){
+        if (wxService.checkText(note)){return null;}
         return  this.cNoteService.doNode(userId,note);
     }
     /**

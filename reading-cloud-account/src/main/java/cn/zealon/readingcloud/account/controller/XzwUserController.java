@@ -49,11 +49,13 @@ public class XzwUserController {
      * @param phoneNumber
      * @return
      */
+    @ApiOperation(value = "发送验证码")
     @GetMapping("/send4Login")
     public Result send4Login(String phoneNumber){
         return this.xzwUserService.send4Login(phoneNumber);
     }
 
+    @ApiOperation(value = "手机号加验证码登录")
     @GetMapping("/loginCode")
     public Result loginCode(String phoneNumber,String validateCode){
         return this.xzwUserService.loginByPhoneNumber(phoneNumber, validateCode);
@@ -68,10 +70,12 @@ public class XzwUserController {
      * 微信openID登录
      *
      * **/
+    @ApiOperation(value = "获取openId")
     @PostMapping("/getOpenId")//获取openId
     public String getOpeId(@RequestBody JSONObject js_code) {
         return this.xzwUserService.getOpeId(js_code);
     }
+    @ApiOperation(value = "登录微信")
     @GetMapping("/weChatLogin")
     public Result weChatLogin(String openId,String nickName, String avatarUrl ) {
         return this.xzwUserService.loginByOpenId(openId,nickName,avatarUrl);

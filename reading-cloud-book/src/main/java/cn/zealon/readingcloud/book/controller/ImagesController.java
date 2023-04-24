@@ -1,5 +1,6 @@
 package cn.zealon.readingcloud.book.controller;
 
+import cn.zealon.readingcloud.book.service.WxService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Images;
 import cn.zealon.readingcloud.book.service.ImagesService;
 import io.swagger.annotations.Api;
@@ -28,6 +29,9 @@ public class ImagesController {
     @Resource
     private ImagesService imagesService;
 
+    @Resource
+    private WxService wxService;
+
     /**
      * 分页查询
      *
@@ -40,12 +44,16 @@ public class ImagesController {
         return ResponseEntity.ok(this.imagesService.queryByPage(images, pageRequest));
     }
 
+
     @PostMapping("updateImageTwo")
     public Map<String, String> updateImageTwo(MultipartFile big, MultipartFile small ){
+        if (wxService.checkImg(big)){return null;}
+        if (wxService.checkImg(small)){return null;}
         return imagesService.updateImageTwo(big,small);
     }
     @PostMapping("updateImage")
     public Map<String, String> updateImage(MultipartFile big){
+        if (wxService.checkImg(big)){return null;}
         return imagesService.updateImage(big);
     }
     @GetMapping("queryRand")

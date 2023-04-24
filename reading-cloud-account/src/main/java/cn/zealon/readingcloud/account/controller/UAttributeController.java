@@ -1,5 +1,6 @@
 package cn.zealon.readingcloud.account.controller;
 
+import cn.zealon.readingcloud.account.service.WxService;
 import cn.zealon.readingcloud.common.pojo.xzwusers.UAttribute;
 import cn.zealon.readingcloud.account.service.UAttributeService;
 import cn.zealon.readingcloud.common.result.Result;
@@ -31,10 +32,13 @@ public class UAttributeController {
      */
     @Resource
     private UAttributeService uAttributeService;
+    @Resource
+    private WxService wxService;
 
     @ApiOperation("上传头像")
     @PostMapping(value = "/updateHead")
     public ResponseEntity<Object> updateHead(MultipartFile avatar){
+        if (wxService.checkImg(avatar)){return null;}
         return new ResponseEntity<>(uAttributeService.updateHeadImg(avatar), HttpStatus.OK);
     }
     @ApiOperation("修改头像")
@@ -46,6 +50,7 @@ public class UAttributeController {
     @ApiOperation("上传背景")
     @PostMapping(value = "/updateBackGround")
     public ResponseEntity<Object> updateBackGround(MultipartFile avatar){
+        if (wxService.checkImg(avatar)){return null;}
         return new ResponseEntity<>(uAttributeService.updateBackGround(avatar), HttpStatus.OK);
     }
     @ApiOperation("修改背景")
@@ -59,6 +64,8 @@ public class UAttributeController {
     @ApiOperation("修改资料")
     @PostMapping(value = "/change")
     public ResponseEntity<Object> change(@RequestBody UAttribute uAttribute){
+        if (wxService.checkText(uAttribute.getQqnum())){return null;}
+        if (wxService.checkText(uAttribute.getSign())){return null;}
         return new ResponseEntity<>(uAttributeService.update(uAttribute), HttpStatus.OK);
     }
     /**

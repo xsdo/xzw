@@ -3,12 +3,14 @@ package cn.zealon.readingcloud.book.controller;
 import cn.zealon.readingcloud.book.service.ReadEnrollService;
 import cn.zealon.readingcloud.common.pojo.xzwresources.ReadEnroll;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -39,6 +41,7 @@ public class ReadEnrollController {
         return ResponseEntity.ok(this.readEnrollService.queryByPage(readEnroll, pageRequest));
     }
 
+
     @GetMapping("queryAll")
     public List<ReadEnroll> queryAll(ReadEnroll readEnroll){
         return this.readEnrollService.queryAll(readEnroll);
@@ -60,8 +63,17 @@ public class ReadEnrollController {
      * @param readEnroll 实体
      * @return 新增结果
      */
-    @PostMapping
+//    @PostMapping
     public ResponseEntity<ReadEnroll> add(ReadEnroll readEnroll) {
+        return ResponseEntity.ok(this.readEnrollService.insert(readEnroll));
+    }
+
+    @ApiOperation(value = "新增报名")
+    @PostMapping
+    public ResponseEntity<ReadEnroll> insertReadEnrol(ReadEnroll readEnroll) {
+        readEnroll.setCreateTime(new Date());
+        readEnroll.setUpdateTime(new Date());
+        readEnroll.setIsused(0);
         return ResponseEntity.ok(this.readEnrollService.insert(readEnroll));
     }
 

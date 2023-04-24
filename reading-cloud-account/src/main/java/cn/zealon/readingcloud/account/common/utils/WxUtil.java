@@ -102,7 +102,7 @@ public class WxUtil {
         }
     }
     public static void main(String[] args) {
-        String access_token="36_jocRV09Bx3lck-xxyYWvQWdv-5otrobLiwil3i-cvELcwnfnl-dUT2O2fiMyQbAYhYLBBE5kcPkRERfb079aeuT7POHmWyJPcCVoCJmTvq1J5__cBZl9Ayahmvxv_EDIP18lgYfiNZi7TZKmVTKfAIAECT";
+        String access_token="nfnl";
         String content="特3456书yuuo莞6543李zxcz蒜7782法fgnv级 完2347全dfji试3726测asad感3847知qwez到";
 
         checkMsg(content, access_token);

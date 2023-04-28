@@ -67,7 +67,7 @@
                 and remarks = #{remarks}
             </if>
             <if test="cTitle != null and cTitle != ''">
-                and c_title = #{cTitle}
+                and c_title  like concat('%', #{cTitle}, '%')
             </if>
             <if test="cAuthorid != null">
                 and c_authorId = #{cAuthorid}

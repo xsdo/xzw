@@ -1,5 +1,7 @@
 package cn.zealon.readingcloud.book.controller;
 
+import cn.zealon.readingcloud.book.service.HotWordsService;
+import cn.zealon.readingcloud.book.service.WxService;
 import cn.zealon.readingcloud.common.bean.PageBean;
 import cn.zealon.readingcloud.common.pojo.xzwresources.Composition;
 import cn.zealon.readingcloud.book.service.CompositionService;
@@ -32,6 +34,12 @@ public class CompositionController {
     @Resource
     private CompositionService compositionService;
 
+    @Resource
+    private HotWordsService hotWordsService;
+
+    @Resource
+    private WxService wxService;
+
     @PostMapping("/pageQuery")
     public ResponseEntity<PageBean<Composition>> pageQuery(@RequestBody JSONObject jsonObject) {
 
@@ -54,6 +62,10 @@ public class CompositionController {
     @ApiOperation(value = "获取作文数据")
     @GetMapping("queryAll")
     public List<Composition>queryAll(Composition composition){
+        if (composition != null && composition.getCTitle()!=null) {
+            if (wxService.checkText(composition.getCTitle())){return null;}
+            this.hotWordsService.addHotWords(composition.getCTitle());
+        }
         List<Composition> list = this.compositionService.queryAll(composition);
         for (Composition cc:list){
             if (cc.getCSynopsis()==null){
@@ -62,22 +74,24 @@ public class CompositionController {
         }
         return this.compositionService.queryAll(composition);
     }
-
     //检阅作文数据
 //    @GetMapping("/queryContent")
     public List<Map<String,String>>queryContent(){
         return this.compositionService.queryContent();
     }
 
+    @ApiOperation(value = "获取作文二维码")
     @GetMapping("compositionQRCode")
     public Composition compositionQRCode(Long compositionId){
         return this.compositionService.compositionQRCodePress(compositionId);
     }
+    @ApiOperation(value = "随机获取作文")
     @GetMapping("queryRandoms")
     public List<Composition>queryRandoms(int size){
         return this.compositionService.queryRandoms(size);
     }
 
+    @ApiOperation(value = "获取用户作文")
     @GetMapping("queryByUserId")
     public List<Composition>queryByUserId(Long userId){
         Composition composition =new Composition();

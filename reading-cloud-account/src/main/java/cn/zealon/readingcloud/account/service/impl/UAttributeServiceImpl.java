@@ -229,6 +229,17 @@ public class UAttributeServiceImpl implements UAttributeService {
         return this.queryById(uAttribute.getId());
     }
 
+    @Override
+    public Boolean checkName(Long userId){
+        UAttribute uAttribute=this.queryById(userId);
+        if (uAttribute!=null){
+            if (uAttribute.getQqnum().equals("微信用户")){
+                return true;
+            }
+        }
+        return false;
+    }
+
     /**
      * 通过主键删除数据
      *

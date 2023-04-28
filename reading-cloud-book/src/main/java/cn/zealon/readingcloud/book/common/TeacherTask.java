@@ -1,6 +1,7 @@
 package cn.zealon.readingcloud.book.common;
 
 
+import cn.zealon.readingcloud.book.service.HotWordsService;
 import cn.zealon.readingcloud.book.service.StudentTasksService;
 import cn.zealon.readingcloud.book.service.TeacherTasksService;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -15,8 +16,10 @@ public class TeacherTask {
     private TeacherTasksService teacherTasksService;
     @Resource
     private StudentTasksService studentTasksService;
+    @Resource
+    private HotWordsService hotWordsService;
 
-    @Scheduled(cron = "0 50 17 * * ?")//每天的下午5点50都执行一次
+    @Scheduled(cron = "0 54 17 * * ?")//每天的下午5点50都执行一次
     public void teacherTask(){
         System.out.println("每日推送教师任务启动...");
         this.teacherTasksService.pushTask();
@@ -28,6 +31,13 @@ public class TeacherTask {
         System.out.println("每日推送学生任务启动...");
         this.studentTasksService.puskTask();
         System.out.println("每日推送学生任务完成...");
+    }
+
+    @Scheduled(cron = "0 1 0 ? * MON")//每周一凌晨0点01分执行一次
+    public void hotWordsTask(){
+        System.out.println("每周清空热搜任务启动...");
+        this.hotWordsService.cleanLikes();
+        System.out.println("每周清空热搜任务完成...");
     }
 
 

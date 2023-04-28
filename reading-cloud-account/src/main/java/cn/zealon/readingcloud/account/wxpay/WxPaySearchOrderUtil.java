@@ -87,21 +87,26 @@ public class WxPaySearchOrderUtil {
 
             Gson gson = new Gson();
             if (statusCode == 200) {
-                // 3.如果请求成功则解析成Map对象返回
-                HashMap<String, String> resultMap = gson.fromJson(bodyAsString, HashMap.class);
+                try {
+                    // 3.如果请求成功则解析成Map对象返回
+                    HashMap<String, String> resultMap = gson.fromJson(bodyAsString, HashMap.class);
 
-                // 4.封装成我们需要的数据
-                WxchatCallbackSuccessData callbackData = new WxchatCallbackSuccessData();
-                callbackData.setSuccessTime(String.valueOf(resultMap.get("success_time")));
-                callbackData.setOrderId(String.valueOf(resultMap.get("out_trade_no")));
-                callbackData.setTransactionId(String.valueOf(resultMap.get("transaction_id")));
-                callbackData.setTradestate(String.valueOf(resultMap.get("trade_state")));
-                callbackData.setTradetype(String.valueOf(resultMap.get("trade_type")));
-                String amount = String.valueOf(resultMap.get("amount"));
-                HashMap<String,Object> amountMap = gson.fromJson(amount, HashMap.class);
-                String total = String.valueOf(amountMap.get("total"));
-                callbackData.setTotalMoney(new BigDecimal(total).movePointLeft(2));
-                return callbackData;
+                    // 4.封装成我们需要的数据
+                    WxchatCallbackSuccessData callbackData = new WxchatCallbackSuccessData();
+                    callbackData.setSuccessTime(String.valueOf(resultMap.get("success_time")));
+                    callbackData.setOrderId(String.valueOf(resultMap.get("out_trade_no")));
+                    callbackData.setTransactionId(String.valueOf(resultMap.get("transaction_id")));
+                    callbackData.setTradestate(String.valueOf(resultMap.get("trade_state")));
+                    callbackData.setTradetype(String.valueOf(resultMap.get("trade_type")));
+                    String amount = String.valueOf(resultMap.get("amount"));
+                    HashMap<String,Object> amountMap = gson.fromJson(amount, HashMap.class);
+                    String total = String.valueOf(amountMap.get("total"));
+                    callbackData.setTotalMoney(new BigDecimal(total).movePointLeft(2));
+                    return callbackData;
+                }catch (Exception e) {
+
+                }
+                return null;
             } else {
                 if (StringUtils.isNoneBlank(bodyAsString)) {
                     log.error("微信支付请求失败，提示信息:{}", bodyAsString);

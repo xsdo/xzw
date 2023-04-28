@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.account.dao.UserOrderDao">
+
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwusers.UserOrder" id="UserOrderMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="orderNo" column="order_no" jdbcType="VARCHAR"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="shippingId" column="shipping_id" jdbcType="INTEGER"/>
+        <result property="payment" column="payment" jdbcType="NUMERIC"/>
+        <result property="paymentType" column="payment_type" jdbcType="INTEGER"/>
+        <result property="postage" column="postage" jdbcType="INTEGER"/>
+        <result property="status" column="status" jdbcType="INTEGER"/>
+        <result property="paymentTime" column="payment_time" jdbcType="TIMESTAMP"/>
+        <result property="sendTime" column="send_time" jdbcType="TIMESTAMP"/>
+        <result property="endTime" column="end_time" jdbcType="TIMESTAMP"/>
+        <result property="closeTime" column="close_time" jdbcType="TIMESTAMP"/>
+        <result property="name" column="name" jdbcType="VARCHAR"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="UserOrderMap">
+        select id,
+               isUsed,
+               create_time,
+               update_time,
+               remarks,
+               order_no,
+               user_id,
+               shipping_id,
+               payment,
+               payment_type,
+               postage,
+               status,
+               payment_time,
+               send_time,
+               end_time,
+               close_time,
+               name
+        from user_order
+        where id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="UserOrderMap">
+        select
+        id, isUsed, create_time, update_time, remarks, order_no, user_id, shipping_id, payment, payment_type, postage,
+        status, payment_time, send_time, end_time, close_time, name
+        from user_order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                and order_no = #{orderNo}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="shippingId != null">
+                and shipping_id = #{shippingId}
+            </if>
+            <if test="payment != null">
+                and payment = #{payment}
+            </if>
+            <if test="paymentType != null">
+                and payment_type = #{paymentType}
+            </if>
+            <if test="postage != null">
+                and postage = #{postage}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="paymentTime != null">
+                and payment_time = #{paymentTime}
+            </if>
+            <if test="sendTime != null">
+                and send_time = #{sendTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="closeTime != null">
+                and close_time = #{closeTime}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="UserOrderMap">
+        select
+        id, isUsed, create_time, update_time, remarks, order_no, user_id, shipping_id, payment, payment_type, postage,
+        status, payment_time, send_time, end_time, close_time, name
+        from user_order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                and order_no = #{orderNo}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="shippingId != null">
+                and shipping_id = #{shippingId}
+            </if>
+            <if test="payment != null">
+                and payment = #{payment}
+            </if>
+            <if test="paymentType != null">
+                and payment_type = #{paymentType}
+            </if>
+            <if test="postage != null">
+                and postage = #{postage}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="paymentTime != null">
+                and payment_time = #{paymentTime}
+            </if>
+            <if test="sendTime != null">
+                and send_time = #{sendTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="closeTime != null">
+                and close_time = #{closeTime}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from user_order
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                and order_no = #{orderNo}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="shippingId != null">
+                and shipping_id = #{shippingId}
+            </if>
+            <if test="payment != null">
+                and payment = #{payment}
+            </if>
+            <if test="paymentType != null">
+                and payment_type = #{paymentType}
+            </if>
+            <if test="postage != null">
+                and postage = #{postage}
+            </if>
+            <if test="status != null">
+                and status = #{status}
+            </if>
+            <if test="paymentTime != null">
+                and payment_time = #{paymentTime}
+            </if>
+            <if test="sendTime != null">
+                and send_time = #{sendTime}
+            </if>
+            <if test="endTime != null">
+                and end_time = #{endTime}
+            </if>
+            <if test="closeTime != null">
+                and close_time = #{closeTime}
+            </if>
+            <if test="name != null and name != ''">
+                and name = #{name}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into user_order(isUsed, create_time, update_time, remarks, order_no, user_id, shipping_id, payment,
+                               payment_type, postage, status, payment_time, send_time, end_time, close_time, name)
+        values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{orderNo}, #{userId}, #{shippingId}, #{payment},
+                #{paymentType}, #{postage}, #{status}, #{paymentTime}, #{sendTime}, #{endTime}, #{closeTime}, #{name})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into user_order(isUsed, create_time, update_time, remarks, order_no, user_id, shipping_id, payment,
+        payment_type, postage, status, payment_time, send_time, end_time, close_time, name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.orderNo},
+            #{entity.userId}, #{entity.shippingId}, #{entity.payment}, #{entity.paymentType}, #{entity.postage},
+            #{entity.status}, #{entity.paymentTime}, #{entity.sendTime}, #{entity.endTime}, #{entity.closeTime},
+            #{entity.name})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into user_order(isUsed, create_time, update_time, remarks, order_no, user_id, shipping_id, payment,
+        payment_type, postage, status, payment_time, send_time, end_time, close_time, name)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.orderNo},
+            #{entity.userId}, #{entity.shippingId}, #{entity.payment}, #{entity.paymentType}, #{entity.postage},
+            #{entity.status}, #{entity.paymentTime}, #{entity.sendTime}, #{entity.endTime}, #{entity.closeTime},
+            #{entity.name})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        order_no = values(order_no),
+        user_id = values(user_id),
+        shipping_id = values(shipping_id),
+        payment = values(payment),
+        payment_type = values(payment_type),
+        postage = values(postage),
+        status = values(status),
+        payment_time = values(payment_time),
+        send_time = values(send_time),
+        end_time = values(end_time),
+        close_time = values(close_time),
+        name = values(name)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update user_order
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="orderNo != null and orderNo != ''">
+                order_no = #{orderNo},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="shippingId != null">
+                shipping_id = #{shippingId},
+            </if>
+            <if test="payment != null">
+                payment = #{payment},
+            </if>
+            <if test="paymentType != null">
+                payment_type = #{paymentType},
+            </if>
+            <if test="postage != null">
+                postage = #{postage},
+            </if>
+            <if test="status != null">
+                status = #{status},
+            </if>
+            <if test="paymentTime != null">
+                payment_time = #{paymentTime},
+            </if>
+            <if test="sendTime != null">
+                send_time = #{sendTime},
+            </if>
+            <if test="endTime != null">
+                end_time = #{endTime},
+            </if>
+            <if test="closeTime != null">
+                close_time = #{closeTime},
+            </if>
+            <if test="name != null and name != ''">
+                name = #{name},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from user_order
+        where id = #{id}
+    </delete>
+
+</mapper>
+

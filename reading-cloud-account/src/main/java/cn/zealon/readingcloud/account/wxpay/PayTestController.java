@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
-@RestController
+//@RestController
 @RequestMapping("/account/api/v1/pay/test")
 public class PayTestController {
     @Autowired

@@ -68,6 +68,27 @@ public class UAttributeController {
         if (wxService.checkText(uAttribute.getSign())){return null;}
         return new ResponseEntity<>(uAttributeService.update(uAttribute), HttpStatus.OK);
     }
+
+    @ApiOperation("查询用户是否原始昵称")
+    @GetMapping(value = "/checkNickName")
+    public Boolean checkNickName(Long userId){
+        return this.uAttributeService.checkName(userId);
+    }
+
+
+    @ApiOperation("修改昵称")
+    @GetMapping(value = "/changeNickName")
+    public ResponseEntity<Object> changeNickName(String nickName,Long userId){
+        if (wxService.checkText(nickName)){return null;}
+        UAttribute uAttribute = new UAttribute();
+        uAttribute.setId(userId);
+        uAttribute.setQqnum(nickName);
+        return new ResponseEntity<>(uAttributeService.update(uAttribute), HttpStatus.OK);
+    }
+
+
+
+
     /**
      * 分页查询
      *

@@ -83,7 +83,7 @@ public class WxPayCommon {
         // 4.解析response对象
         HashMap<String, String> resultMap = resolverResponse(response);
         if (resultMap != null) {
-            // native请求返回的是二维码链接，前端将链接转换成二维码即可
+            System.out.println(resultMap.toString());
             return resultMap.get("prepay_id");
         }
         return null;

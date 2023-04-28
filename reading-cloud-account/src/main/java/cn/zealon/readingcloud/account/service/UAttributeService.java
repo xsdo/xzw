@@ -62,6 +62,7 @@ public interface UAttributeService {
      */
     UAttribute update(UAttribute uAttribute);
 
+    Boolean checkName(Long userId);
     /**
      * 通过主键删除数据
      *

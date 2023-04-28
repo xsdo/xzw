@@ -14,6 +14,14 @@
     <name>reading-cloud-book</name>
 
     <dependencies>
+        <!-- 外部jar包导入  mp3压缩-->
+        <dependency>
+            <groupId>it.sauronsoftware</groupId>
+            <artifactId>jave-lib</artifactId>
+            <version>1.0.2</version>
+            <scope>system</scope>
+            <systemPath>${project.basedir}/src/main/resources/jar/jave-1.0.2.jar</systemPath>
+        </dependency>
         <!--        oss上传-->
         <dependency>
             <groupId>com.aliyun.oss</groupId>
@@ -113,6 +121,9 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <includeSystemScope>true</includeSystemScope>
+                </configuration>
             </plugin>
             <!-- 编译插件，指定JDK版本 -->
             <plugin>

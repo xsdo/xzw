@@ -1,0 +1,196 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.zealon.readingcloud.book.dao.StudentShareDataDao">
+
+    <resultMap type="cn.zealon.readingcloud.common.pojo.xzwresources.StudentShareData" id="StudentShareDataMap">
+        <result property="id" column="id" jdbcType="INTEGER"/>
+        <result property="isused" column="isUsed" jdbcType="INTEGER"/>
+        <result property="createTime" column="create_time" jdbcType="TIMESTAMP"/>
+        <result property="updateTime" column="update_time" jdbcType="TIMESTAMP"/>
+        <result property="remarks" column="remarks" jdbcType="VARCHAR"/>
+        <result property="chatNumber" column="chat_number" jdbcType="INTEGER"/>
+        <result property="userId" column="user_id" jdbcType="INTEGER"/>
+        <result property="newcomerNumber" column="newcomer_number" jdbcType="INTEGER"/>
+    </resultMap>
+
+    <!--查询单个-->
+    <select id="queryById" resultMap="StudentShareDataMap">
+        select id,
+               isUsed,
+               create_time,
+               update_time,
+               remarks,
+               chat_number,
+               user_id,
+               newcomer_number
+        from student_share_data
+        where id = #{id}
+    </select>
+
+    <select id="queryAll" resultMap="StudentShareDataMap">
+        select
+        id, isUsed, create_time, update_time, remarks, chat_number, user_id, newcomer_number
+        from student_share_data
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="chatNumber != null">
+                and chat_number = #{chatNumber}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="newcomerNumber != null">
+                and newcomer_number = #{newcomerNumber}
+            </if>
+        </where>
+    </select>
+    <!--查询指定行数据-->
+    <select id="queryAllByLimit" resultMap="StudentShareDataMap">
+        select
+        id, isUsed, create_time, update_time, remarks, chat_number, user_id, newcomer_number
+        from student_share_data
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="chatNumber != null">
+                and chat_number = #{chatNumber}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="newcomerNumber != null">
+                and newcomer_number = #{newcomerNumber}
+            </if>
+        </where>
+        limit #{pageable.offset}, #{pageable.pageSize}
+    </select>
+
+    <!--统计总行数-->
+    <select id="count" resultType="java.lang.Long">
+        select count(1)
+        from student_share_data
+        <where>
+            <if test="id != null">
+                and id = #{id}
+            </if>
+            <if test="isused != null">
+                and isUsed = #{isused}
+            </if>
+            <if test="createTime != null">
+                and create_time = #{createTime}
+            </if>
+            <if test="updateTime != null">
+                and update_time = #{updateTime}
+            </if>
+            <if test="remarks != null and remarks != ''">
+                and remarks = #{remarks}
+            </if>
+            <if test="chatNumber != null">
+                and chat_number = #{chatNumber}
+            </if>
+            <if test="userId != null">
+                and user_id = #{userId}
+            </if>
+            <if test="newcomerNumber != null">
+                and newcomer_number = #{newcomerNumber}
+            </if>
+        </where>
+    </select>
+
+    <!--新增所有列-->
+    <insert id="insert" keyProperty="id" useGeneratedKeys="true">
+        insert into student_share_data(isUsed, create_time, update_time, remarks, chat_number, user_id, newcomer_number)
+        values (#{isused}, #{createTime}, #{updateTime}, #{remarks}, #{chatNumber}, #{userId}, #{newcomerNumber})
+    </insert>
+
+    <insert id="insertBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into student_share_data(isUsed, create_time, update_time, remarks, chat_number, user_id, newcomer_number)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.chatNumber},
+            #{entity.userId}, #{entity.newcomerNumber})
+        </foreach>
+    </insert>
+
+    <insert id="insertOrUpdateBatch" keyProperty="id" useGeneratedKeys="true">
+        insert into student_share_data(isUsed, create_time, update_time, remarks, chat_number, user_id, newcomer_number)
+        values
+        <foreach collection="entities" item="entity" separator=",">
+            (#{entity.isused}, #{entity.createTime}, #{entity.updateTime}, #{entity.remarks}, #{entity.chatNumber},
+            #{entity.userId}, #{entity.newcomerNumber})
+        </foreach>
+        on duplicate key update
+        isUsed = values(isUsed),
+        create_time = values(create_time),
+        update_time = values(update_time),
+        remarks = values(remarks),
+        chat_number = values(chat_number),
+        user_id = values(user_id),
+        newcomer_number = values(newcomer_number)
+    </insert>
+
+    <!--通过主键修改数据-->
+    <update id="update">
+        update student_share_data
+        <set>
+            <if test="isused != null">
+                isUsed = #{isused},
+            </if>
+            <if test="createTime != null">
+                create_time = #{createTime},
+            </if>
+            <if test="updateTime != null">
+                update_time = #{updateTime},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                remarks = #{remarks},
+            </if>
+            <if test="chatNumber != null">
+                chat_number = #{chatNumber},
+            </if>
+            <if test="userId != null">
+                user_id = #{userId},
+            </if>
+            <if test="newcomerNumber != null">
+                newcomer_number = #{newcomerNumber},
+            </if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <!--通过主键删除-->
+    <delete id="deleteById">
+        delete
+        from student_share_data
+        where id = #{id}
+    </delete>
+
+</mapper>
+

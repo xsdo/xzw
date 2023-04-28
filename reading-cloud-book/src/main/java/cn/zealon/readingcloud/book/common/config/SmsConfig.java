@@ -22,5 +22,11 @@ public  class SmsConfig {
     private String smsKey;
     /** 短信密钥 */
     private String smsSecret;
+    /** chatUrl */
+    private String chatUrl;
+    /** chat密钥 */
+    private String chatPassword;
+
+
 
 }

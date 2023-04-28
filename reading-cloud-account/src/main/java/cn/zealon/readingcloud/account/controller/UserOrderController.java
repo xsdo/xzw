@@ -1,0 +1,93 @@
+package cn.zealon.readingcloud.account.controller;
+
+import cn.zealon.readingcloud.common.pojo.xzwusers.UserOrder;
+import cn.zealon.readingcloud.account.service.UserOrderService;
+import com.alibaba.fastjson.JSONObject;
+import io.swagger.annotations.Api;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.annotation.Resource;
+
+/**
+ * 订单表(UserOrder)表控制层
+ *
+ * @author makejava
+ * @since 2023-04-26 17:38:03
+ */
+@Api(description = "订单接口")
+@RestController
+@RequestMapping("account/userOrder")
+public class UserOrderController {
+    /**
+     * 服务对象
+     */
+    @Resource
+    private UserOrderService userOrderService;
+
+    /**
+     * 分页查询
+     *
+     * @param userOrder   筛选条件
+     * @param pageRequest 分页对象
+     * @return 查询结果
+     */
+//    @GetMapping
+    public ResponseEntity<Page<UserOrder>> queryByPage(UserOrder userOrder, PageRequest pageRequest) {
+        return ResponseEntity.ok(this.userOrderService.queryByPage(userOrder, pageRequest));
+    }
+
+    @GetMapping("createOrder")
+    public JSONObject createOrder(Long userId , Long productId){
+        return this.userOrderService.createOrder(userId, productId);
+    }
+
+
+    /**
+     * 通过主键查询单条数据
+     *
+     * @param id 主键
+     * @return 单条数据
+     */
+    @GetMapping("{id}")
+    public ResponseEntity<UserOrder> queryById(@PathVariable("id") Long id) {
+        return ResponseEntity.ok(this.userOrderService.queryById(id));
+    }
+
+    /**
+     * 新增数据
+     *
+     * @param userOrder 实体
+     * @return 新增结果
+     */
+//    @PostMapping
+    public ResponseEntity<UserOrder> add(UserOrder userOrder) {
+        return ResponseEntity.ok(this.userOrderService.insert(userOrder));
+    }
+
+    /**
+     * 编辑数据
+     *
+     * @param userOrder 实体
+     * @return 编辑结果
+     */
+//    @PutMapping
+    public ResponseEntity<UserOrder> edit(UserOrder userOrder) {
+        return ResponseEntity.ok(this.userOrderService.update(userOrder));
+    }
+
+    /**
+     * 删除数据
+     *
+     * @param id 主键
+     * @return 删除是否成功
+     */
+//    @DeleteMapping
+    public ResponseEntity<Boolean> deleteById(Long id) {
+        return ResponseEntity.ok(this.userOrderService.deleteById(id));
+    }
+
+}
+
